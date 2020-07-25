@@ -1,3 +1,4 @@
 /build/
 /WebContent/WEB-INF/lib/
 /WebContent/jquery-*.js
+/WebContent/bootstrap-*
