@@ -2,3 +2,4 @@
 /WebContent/WEB-INF/lib/
 /WebContent/jquery-*.js
 /WebContent/bootstrap-*
+/WebContent/popper*.js
