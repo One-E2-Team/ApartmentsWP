@@ -16,6 +16,28 @@ public class Reservation {
 	private Guest guest;
 	private ReservationStatus status;
 	
+	public Reservation() {
+		super();
+		id = 0;
+		apartment = null;
+		startDate = new Date();
+		totalCost = 0;
+		message = "";
+		guest = null;
+		status = ReservationStatus.CREATED;
+	}
+	public Reservation(int id, Apartment apartment, Date startDate, int stayNights, double totalCost, String message,
+			Guest guest, ReservationStatus status) {
+		super();
+		this.id = id;
+		this.apartment = apartment;
+		this.startDate = startDate;
+		this.stayNights = stayNights;
+		this.totalCost = totalCost;
+		this.message = message;
+		this.guest = guest;
+		this.status = status;
+	}
 	public int getId() {
 		return id;
 	}

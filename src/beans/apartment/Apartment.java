@@ -9,7 +9,7 @@ import beans.user.Host;
 public class Apartment {
 
 	private int id;
-	private Status status = Status.INACTIVE;
+	private ApartmentStatus status = ApartmentStatus.INACTIVE;
 	private boolean deleted = false;
 	private ApartmentType type;
 	private int guestNum, roomNum;
@@ -25,16 +25,58 @@ public class Apartment {
 	private ArrayList<Date> rentableDates;
 	private ArrayList<Date> availableDates;
 	
+	public Apartment() {
+		super();
+		this.id = 0;
+		this.type = ApartmentType.APARTMENT;
+		this.guestNum = 0;
+		this.roomNum = 1;
+		this.location = new Location();
+		this.host = null;
+		this.comments = new ArrayList<Comment>();
+		this.nightStayPrice = 0;
+		this.amenities = new ArrayList<Amenity>();
+		this.reservations = new ArrayList<Reservation>();
+		this.picturePaths = new ArrayList<String>();
+		this.rentableDates = new ArrayList<Date>();
+		this.availableDates = new ArrayList<Date>();
+	}
+	public Apartment(int id, ApartmentStatus status, boolean deleted, ApartmentType type, int guestNum, int roomNum,
+			Location location, Host host, ArrayList<Comment> comments, double nightStayPrice, int checkIn, int checkOut,
+			Meridiem checkInMeridiem, Meridiem checkOutMeridiem, ArrayList<Amenity> amenities,
+			ArrayList<Reservation> reservations, ArrayList<String> picturePaths, ArrayList<Date> rentableDates,
+			ArrayList<Date> availableDates) {
+		super();
+		this.id = id;
+		this.status = status;
+		this.deleted = deleted;
+		this.type = type;
+		this.guestNum = guestNum;
+		this.roomNum = roomNum;
+		this.location = location;
+		this.host = host;
+		this.comments = comments;
+		this.nightStayPrice = nightStayPrice;
+		this.checkIn = checkIn;
+		this.checkOut = checkOut;
+		this.checkInMeridiem = checkInMeridiem;
+		this.checkOutMeridiem = checkOutMeridiem;
+		this.amenities = amenities;
+		this.reservations = reservations;
+		this.picturePaths = picturePaths;
+		this.rentableDates = rentableDates;
+		this.availableDates = availableDates;
+	}
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Status getStatus() {
+	public ApartmentStatus getStatus() {
 		return status;
 	}
-	public void setStatus(Status status) {
+	public void setStatus(ApartmentStatus status) {
 		this.status = status;
 	}
 	public boolean isDeleted() {

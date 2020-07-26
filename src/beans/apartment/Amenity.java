@@ -6,6 +6,17 @@ public class Amenity {
 	private String name;
 	private boolean deleted = false;
 	
+	public Amenity() {
+		super();
+		id = 0;
+		name = "";
+	}
+	public Amenity(int id, String name, boolean deleted) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.deleted = deleted;
+	}
 	public int getId() {
 		return id;
 	}

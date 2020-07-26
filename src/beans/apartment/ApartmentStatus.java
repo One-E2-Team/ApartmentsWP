@@ -1,6 +1,6 @@
 package beans.apartment;
 
-public enum Status {
+public enum ApartmentStatus {
 	ACTIVE,
 	INACTIVE
 }

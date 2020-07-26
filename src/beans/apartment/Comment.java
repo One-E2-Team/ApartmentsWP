@@ -9,6 +9,20 @@ public class Comment {
 	private int mark;
 	private String text;
 	
+	public Comment() {
+		super();
+		guest = null;
+		apartmentId = 0;
+		mark = 0;
+		text = "";
+	}
+	public Comment(Guest guest, int apartmentId, int mark, String text) {
+		super();
+		this.guest = guest;
+		this.apartmentId = apartmentId;
+		this.mark = mark;
+		this.text = text;
+	}
 	public Guest getGuest() {
 		return guest;
 	}

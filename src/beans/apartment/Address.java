@@ -5,6 +5,20 @@ public class Address {
 	private String street, city;
 	private int number, zipcode;
 	
+	public Address() {
+		super();
+		street = "";
+		city = "";
+		number = 0;
+		zipcode = 0;
+	}
+	public Address(String street, String city, int number, int zipcode) {
+		super();
+		this.street = street;
+		this.city = city;
+		this.number = number;
+		this.zipcode = zipcode;
+	}
 	public String getStreet() {
 		return street;
 	}
