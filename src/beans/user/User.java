@@ -6,6 +6,7 @@ public abstract class User {
 	private String hashedPassword;
 	private String name, surname, sex;
 	private Role role;
+	private boolean blocked = false;
 	
 	public String getUsername() {
 		return username;
@@ -42,5 +43,11 @@ public abstract class User {
 	}
 	public void setRole(Role role) {
 		this.role = role;
+	}
+	public boolean isBlocked() {
+		return blocked;
+	}
+	public void setBlocked(boolean blocked) {
+		this.blocked = blocked;
 	}
 }
