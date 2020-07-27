@@ -3,3 +3,5 @@
 /WebContent/jquery-*.js
 /WebContent/bootstrap-*
 /WebContent/popper*.js
+/WebContent/db
+/src/persistence/Test.java
