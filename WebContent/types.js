@@ -36,11 +36,12 @@ function Amenity(id, name, deleted) {
     this.deleted = deleted;
 }
 
-function Comment(guest, apartmentId, mark, text) {
+function Comment(guest, apartmentId, mark, text, status) {
     this.guest = guest;
     this.apartmentId = apartmentId;
     this.mark = mark;
-    this.text = text
+    this.text = text;
+    this.status = status;
 }
 
 function Location(latitude, longitude, address) {

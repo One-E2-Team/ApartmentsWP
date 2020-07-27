@@ -8,6 +8,7 @@ public class Comment {
 	private int apartmentId;
 	private int mark;
 	private String text;
+	private CommentStatus status = CommentStatus.WAIT;
 	
 	public Comment() {
 		super();
@@ -16,12 +17,13 @@ public class Comment {
 		mark = 0;
 		text = "";
 	}
-	public Comment(Guest guest, int apartmentId, int mark, String text) {
+	public Comment(Guest guest, int apartmentId, int mark, String text, CommentStatus status) {
 		super();
 		this.guest = guest;
 		this.apartmentId = apartmentId;
 		this.mark = mark;
 		this.text = text;
+		this.status = status;
 	}
 	public Guest getGuest() {
 		return guest;
@@ -46,6 +48,12 @@ public class Comment {
 	}
 	public void setApartmentId(int apartmentId) {
 		this.apartmentId = apartmentId;
+	}
+	public CommentStatus getStatus() {
+		return status;
+	}
+	public void setStatus(CommentStatus status) {
+		this.status = status;
 	}
 	
 	
