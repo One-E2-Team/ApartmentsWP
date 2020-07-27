@@ -2,28 +2,26 @@ package beans.user;
 
 import java.util.ArrayList;
 
-import beans.apartment.Apartment;
-
 public class Host extends User {
 
-	private ArrayList<Apartment> rentableApartments;
+	private ArrayList<Integer> rentableApartmentIds;
 
 	public Host() {
 		super();
-		this.rentableApartments = new ArrayList<Apartment>();
+		this.rentableApartmentIds = new ArrayList<Integer>();
 	}
 
 	public Host(String username, String hashedPassword, String name, String surname, Sex sex, Role role,
-			boolean blocked, ArrayList<Apartment> rentableApartments) {
+			boolean blocked, ArrayList<Integer> rentableApartmentIds) {
 		super(username, hashedPassword, name, surname, sex, role, blocked);
-		this.rentableApartments = rentableApartments;
+		this.rentableApartmentIds = rentableApartmentIds;
 	}
 
-	public ArrayList<Apartment> getRentableApartments() {
-		return rentableApartments;
+	public ArrayList<Integer> getRentableApartmentIds() {
+		return rentableApartmentIds;
 	}
 
-	public void setRentableApartments(ArrayList<Apartment> rentableApartments) {
-		this.rentableApartments = rentableApartments;
+	public void setRentableApartmentIds(ArrayList<Integer> rentableApartmentIds) {
+		this.rentableApartmentIds = rentableApartmentIds;
 	}
 }

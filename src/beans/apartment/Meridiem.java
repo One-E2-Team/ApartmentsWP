@@ -1,6 +1,5 @@
 package beans.apartment;
 
 public enum Meridiem {
-	AM,
-	PM
+	AM, PM
 }

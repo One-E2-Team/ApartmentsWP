@@ -1,7 +1,5 @@
 package beans.user;
 
 public enum Sex {
-	MALE,
-	FEMALE,
-	POTATO
+	MALE, FEMALE, POTATO
 }

@@ -12,15 +12,15 @@ function Administrator(username, hashedPassword, name, surname, sex, role, block
     User.call(this, username, hashedPassword, name, surname, sex, role, blocked)
 }
 
-function Host(username, hashedPassword, name, surname, sex, role, blocked, rentableApartments) {
+function Host(username, hashedPassword, name, surname, sex, role, blocked, rentableApartmentIds) {
     User.call(this, username, hashedPassword, name, surname, sex, role, blocked)
-    this.rentableApartments = rentableApartments;
+    this.rentableApartmentIds = rentableApartmentIds;
 }
 
-function Guest(username, hashedPassword, name, surname, sex, role, blocked, rentedApartments, reservations) {
+function Guest(username, hashedPassword, name, surname, sex, role, blocked, rentedApartmentIds, reservationIds) {
     User.call(this, username, hashedPassword, name, surname, sex, role, blocked)
-    this.rentedApartments = rentedApartments;
-    this.reservations = reservations;
+    this.rentedApartmentIds = rentedApartmentIds;
+    this.reservationIds = reservationIds;
 }
 
 function Address(street, city, number, zipcode) {
@@ -36,8 +36,8 @@ function Amenity(id, name, deleted) {
     this.deleted = deleted;
 }
 
-function Comment(guest, apartmentId, mark, text, status) {
-    this.guest = guest;
+function Comment(guestId, apartmentId, mark, text, status) {
+    this.guestId = guestId;
     this.apartmentId = apartmentId;
     this.mark = mark;
     this.text = text;
@@ -50,8 +50,8 @@ function Location(latitude, longitude, address) {
     this.address = address;
 }
 
-function Apartment(id, status, deleted, type, guestNum, roomNum, location, host, comments, nightStayPrice, 
-    checkIn, checkOut, checkInMeridiem, checkOutMeridiem, amenities, reservations, picturePaths, rentableDates, availableDates) {
+function Apartment(id, status, deleted, type, guestNum, roomNum, location, hostId, comments, nightStayPrice, 
+    checkIn, checkOut, checkInMeridiem, checkOutMeridiem, amenityIds, reservationIds, picturePaths, rentableDates, availableDates) {
         this.id = id;
         this.status = status;
         this.deleted = deleted;
@@ -59,27 +59,27 @@ function Apartment(id, status, deleted, type, guestNum, roomNum, location, host,
         this.guestNum = guestNum;
         this.roomNum = roomNum;
         this.location = location;
-        this.host = host;
+        this.hostId = hostId;
         this.comments = comments;
         this.nightStayPrice = nightStayPrice;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
         this.checkInMeridiem = checkInMeridiem;
         this.checkOutMeridiem = checkOutMeridiem;
-        this.amenities = amenities;
-        this.reservations = reservations;
+        this.amenityIds = amenityIds;
+        this.reservationIds = reservationIds;
         this.picturePaths = picturePaths;
         this.rentableDates = rentableDates;
         this.availableDates = availableDates;
 }
 
-function Reservation(id, apartment, startDate, stayNights, totalCost, message, guest, status) {
+function Reservation(id, apartmentId, startDate, stayNights, totalCost, message, guestId, status) {
     this.id = id;
-    this.apartment = apartment;
+    this.apartmentId = apartmentId;
     this.startDate = startDate;
     this.stayNights = stayNights;
     this.totalCost = totalCost;
     this.message = message;
-    this.guest = guest;
+    this.guestId = guestId;
     this.status = status;
 }

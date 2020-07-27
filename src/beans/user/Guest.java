@@ -2,35 +2,37 @@ package beans.user;
 
 import java.util.ArrayList;
 
-import beans.Reservation;
-import beans.apartment.Apartment;
-
 public class Guest extends User {
 
-	private ArrayList<Apartment> rentedApartments;
-	private ArrayList<Reservation> reservations;
-	
+	private ArrayList<Integer> rentedApartmentIds;
+	private ArrayList<Integer> reservationIds;
+
 	public Guest() {
 		super();
-		rentedApartments = new ArrayList<Apartment>();
-		reservations = new ArrayList<Reservation>();
+		rentedApartmentIds = new ArrayList<Integer>();
+		reservationIds = new ArrayList<Integer>();
 	}
+
 	public Guest(String username, String hashedPassword, String name, String surname, Sex sex, Role role,
-			boolean blocked, ArrayList<Apartment> rentedApartments, ArrayList<Reservation> reservations) {
+			boolean blocked, ArrayList<Integer> rentedApartmentIds, ArrayList<Integer> reservationIds) {
 		super(username, hashedPassword, name, surname, sex, role, blocked);
-		this.rentedApartments = rentedApartments;
-		this.reservations = reservations;
+		this.rentedApartmentIds = rentedApartmentIds;
+		this.reservationIds = reservationIds;
 	}
-	public ArrayList<Apartment> getRentedApartments() {
-		return rentedApartments;
+
+	public ArrayList<Integer> getRentedApartmentIds() {
+		return rentedApartmentIds;
 	}
-	public void setRentedApartments(ArrayList<Apartment> rentedApartments) {
-		this.rentedApartments = rentedApartments;
+
+	public void setRentedApartmentIds(ArrayList<Integer> rentedApartmentIds) {
+		this.rentedApartmentIds = rentedApartmentIds;
 	}
-	public ArrayList<Reservation> getReservations() {
-		return reservations;
+
+	public ArrayList<Integer> getReservationIds() {
+		return reservationIds;
 	}
-	public void setReservations(ArrayList<Reservation> reservations) {
-		this.reservations = reservations;
+
+	public void setReservationIds(ArrayList<Integer> reservationIds) {
+		this.reservationIds = reservationIds;
 	}
 }

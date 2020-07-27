@@ -1,7 +1,5 @@
 package beans.user;
 
 public enum Role {
-	ADMINISTRATOR,
-	HOST,
-	GUEST
+	ADMINISTRATOR, HOST, GUEST
 }
