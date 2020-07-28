@@ -4,4 +4,4 @@
 /WebContent/bootstrap-*
 /WebContent/popper*.js
 /WebContent/db
-/src/persistence/Test.java
+/src/repository/persistence/Test.java
