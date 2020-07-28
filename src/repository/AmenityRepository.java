@@ -1,24 +1,71 @@
 package repository;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedList;
 
 import beans.apartment.Amenity;
 import repository.persistence.Persistence;
 
 public class AmenityRepository {
-	private HashMap<Integer, Amenity> amenities = new HashMap<Integer, Amenity>();
+	private static AmenityRepository instance = null;
 	private String path = "WebContent/db/amenities.json";
+	private LinkedList<Amenity> amenities = new LinkedList<Amenity>();
+	private Persistence<Amenity> persistance = new Persistence<Amenity>();
 	
-	public AmenityRepository() {
-		LinkedList<Amenity> allAmenities = (new Persistence<Amenity>()).read(path);
+	private AmenityRepository() {
+		amenities = (LinkedList<Amenity>) findAll();
+	}
+	
+	public static AmenityRepository getInstance() {
+		if(instance == null)	instance = new AmenityRepository();
+		return instance;
+	}
+	
+	public synchronized Collection<Amenity> findAll(){
+		LinkedList<Amenity> available = new LinkedList<Amenity>();
+		LinkedList<Amenity> allAmenities = persistance.read(path);
 		for (Amenity amenity : allAmenities) {
-			amenities.put(amenity.getId(), amenity);
+			if(!amenity.isDeleted())	available.add(amenity);
+		}
+		return available;
+	}
+	
+	public synchronized Amenity findById(int id){
+		for (Amenity amenity : amenities) {
+			if(amenity.getId() == id)	return amenity;
+		}
+		return null;
+	}
+	
+	public synchronized Amenity create(Amenity amenity) {
+		amenity.setId(getAvailableId());
+		amenities.add(amenity);
+		persistance.save(amenities, path);
+		return amenity;
+	}
+	
+	public synchronized void update(Amenity amenity) {
+		Amenity old = findById(amenity.getId());
+		if(old != null) {
+			amenities.set(amenities.indexOf(old), amenity);
+			persistance.save(amenities, path);
 		}
 	}
 	
-	public Collection<Amenity> findAll(){
-		return amenities.values();
+	public synchronized void delete(int id) {
+		Amenity deleting = findById(id);
+		if(deleting != null) {
+			ApartmentRepository.getInstance().deleteAmenityInApartments(deleting);
+			deleting.setDeleted(true);
+			update(deleting);
+		}
+	}
+	
+	private int getAvailableId() {
+		int id = (amenities.size() != 0) ? (amenities.get(0).getId()) : 1;
+		for (Amenity amenity : amenities) {
+			if(amenity.getId() > id)	id = amenity.getId();
+		}
+		return id +1;
 	}
 }
