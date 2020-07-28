@@ -65,7 +65,7 @@ public class ApartmentRepository {
 			if (apartment.getAmenityIds().contains(amenity.getId())) {
 				changed = true;
 				ArrayList<Integer> newList = apartment.getAmenityIds();
-				newList.remove(newList.indexOf(amenity.getId()));
+				newList.remove((Integer)amenity.getId());
 				apartment.setAmenityIds(newList);
 				apartments.set(i, apartment);
 			}
