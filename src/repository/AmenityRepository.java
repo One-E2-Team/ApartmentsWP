@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import beans.apartment.Amenity;
-import repository.persistence.Persistence;
 
 public class AmenityRepository {
 	private static AmenityRepository instance = null;

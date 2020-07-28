@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import beans.Reservation;
-import repository.persistence.Persistence;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class ReservationRepository {
@@ -30,9 +29,8 @@ public class ReservationRepository {
 	}
 
 	public synchronized Reservation create(Reservation reservation) {
-		for (Reservation r : list)
-			if (r.getId() == reservation.getId())
-				return null;
+		reservation.setId(list.size()+1);
+		assert(read(reservation.getId())==null);
 		list.add(reservation);
 		persistence.save(list, path);
 		return reservation;

@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import beans.user.User;
-import repository.persistence.Persistence;
 
 public class UserRepository {
 

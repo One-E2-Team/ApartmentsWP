@@ -1,4 +1,4 @@
-package repository.persistence;
+package repository;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,7 +22,7 @@ public class Persistence<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public LinkedList<T> read(String path) {
+	LinkedList<T> read(String path) {
 		LinkedList<T> ret = null;
 		try {
 			ret = mapper.readValue(new String(Files.readAllBytes(Paths.get(path))), (new LinkedList<T>()).getClass());
@@ -35,7 +35,7 @@ public class Persistence<T> {
 		return ret;
 	}
 
-	public void save(LinkedList<T> list, String path) {
+	void save(LinkedList<T> list, String path) {
 		try (PrintWriter out = new PrintWriter(path)) {
 			out.println(mapper.writeValueAsString(list));
 		} catch (FileNotFoundException e) {
