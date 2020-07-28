@@ -11,11 +11,10 @@ public class ApartmentRepository {
 	private static ApartmentRepository instance = null;
 	private String path = "WebContent/db/apartments.json";
 	private LinkedList<Apartment> apartments = new LinkedList<Apartment>();
-	private Persistence<Apartment> persistance = null;
+	private Persistence<Apartment> persistence = new Persistence<Apartment>();
 
 	private ApartmentRepository() {
-		persistance = new Persistence<Apartment>();
-		apartments = persistance.read(path);
+		apartments = (LinkedList<Apartment>) findAll();
 	}
 
 	public static ApartmentRepository getInstance() {
@@ -25,7 +24,7 @@ public class ApartmentRepository {
 	}
 
 	public synchronized Collection<Apartment> findAll() {
-		return apartments;
+		return persistence.read(path);
 	}
 
 	public synchronized Apartment findById(int id) {
@@ -39,7 +38,7 @@ public class ApartmentRepository {
 	public synchronized Apartment create(Apartment apartment) {
 		apartment.setId(getAvailableId());
 		apartments.add(apartment);
-		persistance.save(apartments, path);
+		persistence.save(apartments, path);
 		return apartment;
 	}
 
@@ -47,8 +46,7 @@ public class ApartmentRepository {
 		Apartment old = findById(apartment.getId());
 		if (old != null) {
 			apartments.set(apartments.indexOf(old), apartment);
-			System.out.println(apartments.indexOf(apartment) + " " + apartments.get(0).getAmenityIds().size());
-			persistance.save(apartments, path);
+			persistence.save(apartments, path);
 		}
 	}
 
@@ -61,14 +59,19 @@ public class ApartmentRepository {
 	}
 
 	public synchronized void deleteAmenityInApartments(Amenity amenity) {
-		for (Apartment apartment : apartments) {
+		boolean changed = false;
+		for (int i = 0; i < apartments.size(); i++) {
+			Apartment apartment = apartments.get(i);
 			if (apartment.getAmenityIds().contains(amenity.getId())) {
+				changed = true;
 				ArrayList<Integer> newList = apartment.getAmenityIds();
-				newList.remove(amenity.getId());
+				newList.remove(newList.indexOf(amenity.getId()));
 				apartment.setAmenityIds(newList);
-				update(apartment);
+				apartments.set(i, apartment);
 			}
 		}
+		if (changed)
+			persistence.save(apartments, path);
 	}
 
 	private synchronized int getAvailableId() {

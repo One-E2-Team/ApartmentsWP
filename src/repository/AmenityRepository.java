@@ -9,7 +9,7 @@ public class AmenityRepository {
 	private static AmenityRepository instance = null;
 	private String path = "WebContent/db/amenities.json";
 	private LinkedList<Amenity> amenities = new LinkedList<Amenity>();
-	private Persistence<Amenity> persistance = new Persistence<Amenity>();
+	private Persistence<Amenity> persistence = new Persistence<Amenity>();
 
 	private AmenityRepository() {
 		amenities = (LinkedList<Amenity>) findAll();
@@ -22,13 +22,7 @@ public class AmenityRepository {
 	}
 
 	public synchronized Collection<Amenity> findAll() {
-		LinkedList<Amenity> available = new LinkedList<Amenity>();
-		LinkedList<Amenity> allAmenities = persistance.read(path);
-		for (Amenity amenity : allAmenities) {
-			if (!amenity.isDeleted())
-				available.add(amenity);
-		}
-		return available;
+		return persistence.read(path);
 	}
 
 	public synchronized Amenity findById(int id) {
@@ -42,7 +36,7 @@ public class AmenityRepository {
 	public synchronized Amenity create(Amenity amenity) {
 		amenity.setId(getAvailableId());
 		amenities.add(amenity);
-		persistance.save(amenities, path);
+		persistence.save(amenities, path);
 		return amenity;
 	}
 
@@ -50,7 +44,7 @@ public class AmenityRepository {
 		Amenity old = findById(amenity.getId());
 		if (old != null) {
 			amenities.set(amenities.indexOf(old), amenity);
-			persistance.save(amenities, path);
+			persistence.save(amenities, path);
 		}
 	}
 
