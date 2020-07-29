@@ -97,7 +97,9 @@ public class UserRepository {
 	}
 
 	public synchronized void delete(String username) {
-		read(username).setBlocked(true);
+		for (User user : list)
+			if (user.getUsername().equals(username))
+				user.setBlocked(true);
 		persistence.save(list, path);
 	}
 }
