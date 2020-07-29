@@ -98,8 +98,10 @@ public class UserRepository {
 
 	public synchronized void delete(String username) {
 		for (User user : list)
-			if (user.getUsername().equals(username))
+			if (user.getUsername().equals(username)) {
 				user.setBlocked(true);
+				break;
+			}
 		persistence.save(list, path);
 	}
 }
