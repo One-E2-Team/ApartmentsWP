@@ -87,11 +87,12 @@ public class ApartmentRepository {
 	}
 
 	public synchronized void update(Apartment apartment) {
-		Apartment old = read(apartment.getId());
-		if (old != null) {
-			apartments.set(apartments.indexOf(old), apartment);
-			persistence.save(apartments, path);
-		}
+		for (int i = 0; i < apartments.size(); i++)
+			if (apartments.get(i).getId() == apartment.getId()) {
+				apartments.set(i, apartment);
+				persistence.save(apartments, path);
+				return;
+			}
 	}
 
 	public synchronized void delete(int id) {

@@ -85,11 +85,12 @@ public class AmenityRepository {
 	}
 
 	public synchronized void update(Amenity amenity) {
-		Amenity old = read(amenity.getId());
-		if (old != null) {
-			amenities.set(amenities.indexOf(old), amenity);
-			persistence.save(amenities, path);
-		}
+		for (int i = 0; i < amenities.size(); i++)
+			if (amenities.get(i).getId() == amenity.getId()) {
+				amenities.set(i, amenity);
+				persistence.save(amenities, path);
+				return;
+			}
 	}
 
 	public synchronized void delete(int id) {
