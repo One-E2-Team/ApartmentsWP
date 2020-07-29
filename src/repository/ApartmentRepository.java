@@ -1,8 +1,13 @@
 package repository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 import beans.apartment.Amenity;
 import beans.apartment.Apartment;
@@ -14,7 +19,7 @@ public class ApartmentRepository {
 	private Persistence<Apartment> persistence = new Persistence<Apartment>();
 
 	private ApartmentRepository() {
-		apartments = (LinkedList<Apartment>) findAll();
+		apartments = persistence.read(path);
 	}
 
 	public static ApartmentRepository getInstance() {
@@ -23,27 +28,66 @@ public class ApartmentRepository {
 		return instance;
 	}
 
-	public synchronized Collection<Apartment> findAll() {
+	@SuppressWarnings("unchecked")
+	public synchronized Collection<Apartment> getAll() {
+		try {
+			return Persistence.repositoryMapper.readValue(Persistence.repositoryMapper.writeValueAsString(apartments),
+					apartments.getClass());
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return persistence.read(path);
 	}
 
-	public synchronized Apartment findById(int id) {
+	public synchronized Apartment read(int id) {
 		for (Apartment apartment : apartments) {
 			if (apartment.getId() == id)
-				return apartment;
+				try {
+					return Persistence.repositoryMapper.readValue(
+							Persistence.repositoryMapper.writeValueAsString(apartment), apartment.getClass());
+				} catch (JsonParseException e) {
+					e.printStackTrace();
+					break;
+				} catch (JsonMappingException e) {
+					e.printStackTrace();
+					break;
+				} catch (JsonProcessingException e) {
+					e.printStackTrace();
+					break;
+				} catch (IOException e) {
+					e.printStackTrace();
+					break;
+				}
 		}
 		return null;
 	}
 
 	public synchronized Apartment create(Apartment apartment) {
 		apartment.setId(getAvailableId());
-		apartments.add(apartment);
+		try {
+			apartments.add(Persistence.repositoryMapper
+					.readValue(Persistence.repositoryMapper.writeValueAsString(apartment), apartment.getClass()));
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		persistence.save(apartments, path);
 		return apartment;
 	}
 
 	public synchronized void update(Apartment apartment) {
-		Apartment old = findById(apartment.getId());
+		Apartment old = read(apartment.getId());
 		if (old != null) {
 			apartments.set(apartments.indexOf(old), apartment);
 			persistence.save(apartments, path);
@@ -51,21 +95,21 @@ public class ApartmentRepository {
 	}
 
 	public synchronized void delete(int id) {
-		Apartment deleting = findById(id);
+		Apartment deleting = read(id);
 		if (deleting != null) {
 			deleting.setDeleted(true);
 			update(deleting);
 		}
 	}
 
-	public synchronized void deleteAmenityInApartments(Amenity amenity) {
+	synchronized void deleteAmenityInApartments(Amenity amenity) {
 		boolean changed = false;
 		for (int i = 0; i < apartments.size(); i++) {
 			Apartment apartment = apartments.get(i);
 			if (apartment.getAmenityIds().contains(amenity.getId())) {
 				changed = true;
 				ArrayList<Integer> newList = apartment.getAmenityIds();
-				newList.remove((Integer)amenity.getId());
+				newList.remove((Integer) amenity.getId());
 				apartment.setAmenityIds(newList);
 				apartments.set(i, apartment);
 			}
