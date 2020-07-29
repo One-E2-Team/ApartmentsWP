@@ -16,9 +16,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Persistence<T> {
 
 	private static ObjectMapper mapper = new ObjectMapper();
+	static ObjectMapper repositoryMapper = null;
 
 	static {
 		mapper.enableDefaultTyping();
+		repositoryMapper = mapper.copy();
+	}
+
+	public static ObjectMapper getMapperCopy() {
+		return mapper.copy();
 	}
 
 	@SuppressWarnings("unchecked")
