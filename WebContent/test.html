@@ -1,0 +1,49 @@
+<html>
+
+<head>
+    <title>ApartmentsWP</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+    <script src="jquery-3.3.1.min.js" type='text/javascript'></script>
+    <script src="popper.min.js" type='text/javascript'></script>
+    <link rel="stylesheet" href="bootstrap-4.5.0-dist/css/bootstrap.min.css" type='text/css' />
+    <script src="bootstrap-4.5.0-dist/js/bootstrap.min.js" type='text/javascript'></script>
+    <link href='bootstrap-datepicker-1.9.0/bootstrap-datepicker.min.css' rel='stylesheet' type='text/css' />
+    <script src='bootstrap-datepicker-1.9.0/bootstrap-datepicker.min.js' type='text/javascript'></script>
+    <script src="types.js" type='text/javascript'></script>
+</head>
+
+<body>
+    <h1>Hotel? Trivago.</h1>
+    <div class="card" style="width: 18rem;">
+        <img src="https://www.google.rs/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
+            class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Google</h5>
+            <p class="card-text">This fucker does some goolgeing.</p>
+            <a href="https://www.google.rs/" class="btn btn-primary">Go to Google</a>
+        </div>
+    </div>
+    <br>
+    <div class='container' style='margin-top: 100px;'>
+        <input type='text' class="form-control" id='datepicker' style='width: 300px;'> <br>
+        <input type='text' class="form-control" data-provide="datepicker" style='width: 300px;'>
+    </div>
+
+    <div class="input-group input-daterange">
+        <input type="text" class="form-control" value="2012-04-05">
+        <div class="input-group-addon">to</div>
+        <input type="text" class="form-control" value="2012-04-19">
+    </div>
+
+    <!-- Script -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datepicker').datepicker();
+        });
+        $('.input-daterange input').each(function () {
+            $(this).datepicker('clearDates');
+        });
+    </script>
+</body>
+
+</html>
