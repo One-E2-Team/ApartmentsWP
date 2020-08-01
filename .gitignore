@@ -5,3 +5,6 @@
 /WebContent/popper*.js
 /WebContent/db
 /src/repository/Test.java
+/openlayersmaps/node_modules/
+/openlayersmaps/dist/
+/openlayersmaps/.cache

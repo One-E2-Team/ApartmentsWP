@@ -1,0 +1,19 @@
+{
+  "name": "openlayersmaps",
+  "version": "1.0.0",
+  "description": "map support for ApartmentsWP",
+  "main": "map.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel index.html",
+    "build": "parcel build --public-url . index.html"
+  },
+  "author": "One-E2-Team",
+  "license": "ISC",
+  "dependencies": {
+    "ol": "^6.4.2"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  }
+}
