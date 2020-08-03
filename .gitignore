@@ -4,6 +4,8 @@
 /WebContent/bootstrap-*
 /WebContent/popper*.js
 /WebContent/db
+/WebContent/openlayersmap/*
+!/WebContent/openlayersmap/util/
 /src/repository/Test.java
 /openlayersmaps/node_modules/
 /openlayersmaps/dist/
