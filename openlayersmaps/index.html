@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <title>Geographic Coordinates</title>
+    <meta charset="utf-8">
     <!-- Pointer events polyfill for old browsers, see https://caniuse.com/#feat=pointer -->
     <script src="https://unpkg.com/elm-pep"></script>
     <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
@@ -26,6 +27,9 @@
     <div id="mapResults" class="map">
       <div id="popup"></div>
     </div>
-    <script type="text/javascript">initSearchMap(undefined);initResultsMap(true, undefined);addAllApartmentPointsResultMap([[0,0],[40,20]]);</script>
+    <script type="text/javascript">
+    /*initSearchMap(undefined);initResultsMap(true, undefined);addAllApartmentPointsResultMap([[0,0],[40,20]]);*/
+    initSearchMap(undefined);initResultsMap(true, undefined);/*enablePopupResultMap(function(a,b){return 'boik'+a+' '+b;});*/addAllApartmentPointsResultMap([[0,0],[40,20]]);//removeAllApartmentPointsResultMap();
+    </script>
   </body>
 </html>

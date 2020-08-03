@@ -17,7 +17,7 @@ var popup = null;
 
 // definition for search map
 
-function initSearchMap(func){
+window.initSearchMap = function initSearchMap(func){
   mapSearch = new Map({
     target: 'mapSearch',
     view: new View({
@@ -59,7 +59,7 @@ function initSearchMap(func){
 
 //definition for search results map
 
-function initResultsMap(popupEnabled, func){
+window.initResultsMap = function initResultsMap(popupEnabled, func){
   mapResults = new Map({
     target: 'mapResults',
     view: new View({
@@ -121,7 +121,7 @@ function initResultsMap(popupEnabled, func){
 
 
 
-function addAllApartmentPointsResultMap(latLongList){
+window.addAllApartmentPointsResultMap = function addAllApartmentPointsResultMap(latLongList){
   $(element).popover('dispose');
   var featureList = [];
   latLongList.forEach(function(item){
@@ -140,7 +140,7 @@ function addAllApartmentPointsResultMap(latLongList){
   }));
 }
 
-function removeAllApartmentPointsResultMap(){
+window.removeAllApartmentPointsResultMap = function removeAllApartmentPointsResultMap(){
   $(element).popover('dispose');
   mapResults.getLayers().forEach(function(layer){
     if(layer instanceof VectorLayer){
@@ -148,4 +148,3 @@ function removeAllApartmentPointsResultMap(){
     }
   });
 }
-//initSearchMap(undefined);initResultsMap(true, undefined);/*enablePopupResultMap(function(a,b){return 'boik'+a+' '+b;});*/addAllApartmentPointsResultMap([[0,0],[40,20]]);//removeAllApartmentPointsResultMap();
