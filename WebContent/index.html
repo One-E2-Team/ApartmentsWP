@@ -34,7 +34,11 @@
 
 
     <script src="types.js" type='text/javascript'></script>
+
     <script src="user.js" type="text/javascript"></script>
+
+    <script src="services.js" type='text/javascript'></script>
+
 </head>
 
 <body>
@@ -69,8 +73,8 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto ml-4">
-                <li class="nav-item"></li>
-                <a class="nav-link" href="profile.html">Nalog</a>
+                <li class="nav-item">
+                	<a class="nav-link" href="profile.html">Nalog</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="index.html">Log Out</a>
@@ -137,31 +141,37 @@
         <div class="row">
             <div class="col"></div>
             <div class="col-auto">
-                <table class="table">
-                    <tr>
-                        <td>Ime:</td>
-                        <td><input /></td>
-                        <td>Korisničko ime:</td>
-                        <td><input /></td>
-                    </tr>
-                    <tr>
-                        <td>Prezime:</td>
-                        <td><input /></td>
-                        <td>Lozinka:</td>
-                        <td><input /></td>
-                    </tr>
-                    <tr>
-                        <td>Pol:</td>
-                        <td><input /></td>
-                        <td>Ponovite lozinku:</td>
-                        <td><input /></td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" class="text-center align-middle">
-                            <button type="submit" class="btn btn-primary">Registracija</button>
-                        </td>
-                    </tr>
-                </table>
+            	<form id="registrationForm">
+	                <table class="table">
+	                    <tr>
+	                        <td>Ime:</td>
+	                        <td><input id="registerName"/></td>
+	                        <td>Korisničko ime:</td>
+	                        <td><input id="registerUsername"></td>
+	                    </tr>
+	                    <tr>
+	                        <td>Prezime:</td>
+	                        <td><input id="registerSurname"/></td>
+	                        <td>Lozinka:</td>
+	                        <td><input type="password" id="registerPassword"/></td>
+	                    </tr>
+	                    <tr>
+	                        <td>Pol:</td>
+	                        <td><select id="registerSex">
+                        		<option value="M">M</option>
+                        		<option value="Ž">Ž</option>
+                        		<option value="POTATO">POTATO</option>
+                			</select> </td>
+	                        <td>Ponovite lozinku:</td>
+	                        <td><input type="password" id="registerRepeatedPassword"/></td>
+	                    </tr>
+	                    <tr>
+	                        <td colspan="4" class="text-center align-middle">
+	                            <button type="submit" class="btn btn-primary" onclick="register()">Registracija</button>
+	                        </td>
+	                    </tr>
+	                </table>
+                </form>
             </div>
             <div class="col"></div>
         </div>
