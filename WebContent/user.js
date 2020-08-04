@@ -26,11 +26,13 @@ $(document).ready(function () {
     let surname = document.getElementById("registerSurname").value;
     let username = document.getElementById("registerUsername").value;
     let password = document.getElementById("registerPassword").value;
-    let repeatedPassword = document.getElementById("registerRepeatedPassword")
-      .value;
-    if (password != repeatedPassword) return; //TODO: error message
-    if (!name || !surname || !username || !password || !repeatedPassword)
-      return; //TODO: error message
+    let repeatedPassword = document.getElementById("registerRepeatedPassword").value;
+    if (!name)  $("#registerNameError").text(" Ime nije uneto");
+    if (!surname)  $("#registerSurnameError").text(" Prezime nije uneto");
+    if (!username)  $("#registerUsernameError").text(" Korisničko ime nije uneto");
+    if (!password)  $("#registerPasswordError").text(" Lozinka nije uneta");
+    if (!repeatedPassword)  $("#registerRepeatedPasswordError").text(" Ponovljena lozinka nije uneta");
+    else if(password != repeatedPassword) $("#registerRepeatedPasswordError").text(" Ponovljena lozinka se ne poklapa");
     let sexVal = document.getElementById("registerSex").value;
     let sex = "MALE";
     if (sexVal == "Ž") sex = "FEMALE";
@@ -54,10 +56,7 @@ $(document).ready(function () {
       data: json,
       contentType: "application/json",
       dataType: "json",
-      complete: function (data) {
-        alert(69);
-        $("#result").html(data.responseText);
-      },
+      complete: function (data) {},
     });
   });
 });

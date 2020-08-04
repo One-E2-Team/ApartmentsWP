@@ -149,7 +149,7 @@
                 <hr />
             </div>
             <div class="col-auto">
-                <b>Ili, registrujte se</b>
+                <b class="h4">Ili, registrujte se</b>
             </div>
             <div class="col">
                 <hr>
@@ -162,15 +162,15 @@
 	                <table class="table">
 	                    <tr>
 	                        <td>Ime:</td>
-	                        <td><input id="registerName"/></td>
+	                        <td><input id="registerName"/><span id="registerNameError"></span></td>
 	                        <td>Korisničko ime:</td>
-	                        <td><input id="registerUsername"></td>
+	                        <td><input id="registerUsername"><span id="registerUsernameError"></span></td>
 	                    </tr>
 	                    <tr>
 	                        <td>Prezime:</td>
-	                        <td><input id="registerSurname"/></td>
+	                        <td><input id="registerSurname"/><span id="registerSurnameError"></span></td>
 	                        <td>Lozinka:</td>
-	                        <td><input type="password" id="registerPassword"/></td>
+	                        <td><input type="password" id="registerPassword"/><span id="registerPasswordError"></span></td>
 	                    </tr>
 	                    <tr>
 	                        <td>Pol:</td>
@@ -180,7 +180,7 @@
                         		<option value="POTATO">POTATO</option>
                 			</select> </td>
 	                        <td>Ponovite lozinku:</td>
-	                        <td><input type="password" id="registerRepeatedPassword"/></td>
+	                        <td><input type="password" id="registerRepeatedPassword"/><span id="registerRepeatedPasswordError"></span></td>
 	                    </tr>
 	                    <tr>
 	                        <td colspan="4" class="text-center align-middle">
