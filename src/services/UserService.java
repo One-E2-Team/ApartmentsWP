@@ -61,7 +61,6 @@ public class UserService {
 		User existing = UserRepository.getInstance().create(newUser);
 		if (existing != null)
 			return null;
-		newUser.setRole(Role.GUEST);
 		newUser.setRentedApartmentIds(new ArrayList<Integer>());
 		newUser.setReservationIds(new ArrayList<Integer>());
 		User ret = UserRepository.getInstance().create(newUser);
