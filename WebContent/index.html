@@ -73,23 +73,43 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto ml-4">
-                <li class="nav-item">
+                <li class="nav-item d-none" id="profileElement">
                 	<a class="nav-link" href="profile.html">Nalog</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Log Out</a>
+                <li class="nav-item" id="logoutElement">
+                    <a class="nav-link" id="logout" href="#">Log Out</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item d-none" id="reservationElement">
                     <a class="nav-link" href="reservations.html">Rezervacije</a>
                 </li>
-                <li class="nav-item d-none">
+                <li class="nav-item d-none" id="addApartmentElement">
                     <a class="nav-link" href="addApartment.html">Dodaj Apartman</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item d-none" id="usersElement">
                     <a class="nav-link" href="users.html">Korisnici</a>
                 </li>
             </ul>
         </div>
+
+        <!--Modal for logout fail-->
+        <div class="modal fade" id="ModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Logout</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Logout nije uspio. Pokušajte ponovo.
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+                </div>
+              </div>
+            </div>
+          </div>
 
         <form id="login">
             <table>
