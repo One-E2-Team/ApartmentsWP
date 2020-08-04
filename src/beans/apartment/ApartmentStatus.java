@@ -1,5 +1,10 @@
 package beans.apartment;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum ApartmentStatus {
-	ACTIVE, INACTIVE
+	@JsonProperty("ACTIVE")
+	ACTIVE, 
+	@JsonProperty("INACTIVE")
+	INACTIVE
 }
