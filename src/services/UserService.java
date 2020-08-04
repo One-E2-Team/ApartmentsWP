@@ -1,4 +1,4 @@
-package restapp.services;
+package services;
 
 import java.util.ArrayList;
 
