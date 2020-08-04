@@ -20,5 +20,9 @@ function register() {
 		data: json,
 		contentType:"application/json",
         dataType:"json",
+        complete: function (data) {
+            alert(1);
+          $("#result").html(data.responseText);
+        },
     });
 }
