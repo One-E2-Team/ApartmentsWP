@@ -11,6 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.user.Administrator;
 import beans.user.Guest;
 import beans.user.Role;
 import beans.user.User;
@@ -23,7 +24,7 @@ public class UserService {
 	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public User login(@Context HttpServletRequest request, User userReq) {
+	public User login(@Context HttpServletRequest request, Administrator userReq) {
 		if ((User) request.getSession().getAttribute("user") != null)
 			request.getSession().invalidate();
 		User ret = UserRepository.getInstance().read(userReq.getUsername());

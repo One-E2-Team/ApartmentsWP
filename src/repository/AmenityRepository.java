@@ -12,7 +12,7 @@ import beans.apartment.Amenity;
 
 public class AmenityRepository {
 	private static AmenityRepository instance = null;
-	private String path = "WebContent/db/amenities.json";
+	private String path = "C:/WebContent/db/amenities.json";
 	private LinkedList<Amenity> amenities = new LinkedList<Amenity>();
 	private Persistence<Amenity> persistence = new Persistence<Amenity>();
 

@@ -14,7 +14,7 @@ import beans.apartment.Apartment;
 
 public class ApartmentRepository {
 	private static ApartmentRepository instance = null;
-	private String path = "WebContent/db/apartments.json";
+	private String path = "C:/WebContent/db/apartments.json";
 	private LinkedList<Apartment> apartments = new LinkedList<Apartment>();
 	private Persistence<Apartment> persistence = new Persistence<Apartment>();
 

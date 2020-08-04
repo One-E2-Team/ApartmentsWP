@@ -1,5 +1,10 @@
 package beans.apartment;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum ApartmentType {
-	APARTMENT, ROOM
+	@JsonProperty("APARTMENT")
+	APARTMENT, 
+	@JsonProperty("ROOM")
+	ROOM
 }

@@ -1,5 +1,10 @@
 package beans.apartment;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum Meridiem {
-	AM, PM
+	@JsonProperty("AM")
+	AM, 
+	@JsonProperty("PM")
+	PM
 }

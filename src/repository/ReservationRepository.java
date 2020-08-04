@@ -14,7 +14,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class ReservationRepository {
 
 	private static ReservationRepository instance = null;
-	private String path = "WebContent/db/reservations.json";
+	private String path = "C:/WebContent/db/reservations.json";
 	private LinkedList<Reservation> list = null;
 	private Persistence<Reservation> persistence = null;
 

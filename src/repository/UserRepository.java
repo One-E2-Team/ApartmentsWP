@@ -13,7 +13,7 @@ import beans.user.User;
 public class UserRepository {
 
 	private static UserRepository instance = null;
-	private String path = "WebContent/db/users.json";
+	private String path = "C:/WebContent/db/users.json";
 	private LinkedList<User> list = null;
 	private Persistence<User> persistence = null;
 

@@ -1,5 +1,12 @@
 package beans.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum Role {
-	ADMINISTRATOR, HOST, GUEST
+	@JsonProperty("ADMINISTRATOR")
+	ADMINISTRATOR, 
+	@JsonProperty("HOST")
+	HOST, 
+	@JsonProperty("GUEST")
+	GUEST
 }
