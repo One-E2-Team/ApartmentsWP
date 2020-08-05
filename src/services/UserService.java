@@ -13,7 +13,6 @@ import javax.ws.rs.core.MediaType;
 
 import beans.user.Administrator;
 import beans.user.Guest;
-import beans.user.Role;
 import beans.user.User;
 import repository.UserRepository;
 
@@ -28,8 +27,9 @@ public class UserService {
 		if ((User) request.getSession().getAttribute("user") != null)
 			request.getSession().invalidate();
 		User ret = UserRepository.getInstance().read(userReq.getUsername());
-		if (ret != null)
+		if (ret != null && ret.getHashedPassword().equals(userReq.getHashedPassword()))
 			request.getSession(true).setAttribute("user", ret);
+		else ret = null;
 		return ret;
 	}
 
@@ -45,10 +45,10 @@ public class UserService {
 	}
 	
 	@GET
-	@Path("/test")
+	@Path("/me")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String test() {
-		return "odjebi";
+	public User getMe(@Context HttpServletRequest request) {
+		return (User) request.getSession().getAttribute("user");
 	}
 
 	@POST
