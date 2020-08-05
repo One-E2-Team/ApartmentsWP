@@ -104,9 +104,10 @@
         </div>
     </header>
 
-    <div class="container mt-3 mb-4">
-        <div class="row align-items-center" style="height: 400px;">
-            <div class="col-8 d-flex col-auto">
+    <div class="row align-items-center" style="height: 400px;">
+        <div class="col-8 d-flex col-auto">
+            <div class="col"></div>
+            <div class="col-auto">
                 <form id="addApartmentForm">
                     <table class="table">
                         <tr>
@@ -115,32 +116,32 @@
                                     <option value="APARTMAN">APARTMAN</option>
                                     <option value="SOBA">SOBA</option>
                                 </select> </td>
-                            <td>Cena noćenja u dinarima:</td>
-                            <td><input type="number" min="0" id="pricePerNight"/></td>
+                            <td>Cena noćenja (RSD):</td>
+                            <td><input type="number" min="0" id="pricePerNight" /></td>
                         </tr>
                         <tr>
                             <td>Zipcode:</td>
-                            <td><input type="number" min="0" id="zipcode"/></td>
+                            <td><input type="number" min="0" id="zipcode" /></td>
                             <td>Grad:</td>
-                            <td><input id="city"/></td>
+                            <td><input id="city" /></td>
                         </tr>
                         <tr>
                             <td>Geografska dužina:</td>
-                            <td><input id="latitude"/></td>
+                            <td><input id="latitude" /></td>
                             <td>Geografska širina:</td>
-                            <td><input id="longitude"/></td>
+                            <td><input id="longitude" /></td>
                         </tr>
                         <tr>
                             <td>Broj soba:</td>
-                            <td><input type="number" min="0" id="roomNum"/></td>
+                            <td><input type="number" min="0" id="roomNum" /></td>
                             <td>Broj gostiju:</td>
-                            <td><input type="number" min="0" id="guestNum"/></td>
+                            <td><input type="number" min="0" id="guestNum" /></td>
                         </tr>
                         <tr>
                             <td>Ulica:</td>
-                            <td><input id="street"/></td>
+                            <td><input id="street" /></td>
                             <td>Broj:</td>
-                            <td><input type="number" min="0" id="streetNum"/></td>
+                            <td><input type="number" min="0" id="streetNum" /></td>
                         </tr>
                         <tr>
                             <td colspan="2">Oprema:</td>
@@ -149,13 +150,17 @@
                         <tr>
                             <td colspan="4" class="text-center align-middle">
                                 <button type="submit" class="btn btn-primary">Napravi apartman</button>
+                                <span class="alert alert-danger d-none ml-2" role="alert" id="addApartmentError">Nisu
+                                    uneti ispravni podaci!
+                                </span>
                             </td>
                         </tr>
                     </table>
                 </form>
             </div>
-            <div id="mapSearch" style="width: 33%;"></div>
+            <div class="col"></div>
         </div>
+        <div id="mapSearch" style="width: 33%;"></div>
     </div>
 </body>
 
