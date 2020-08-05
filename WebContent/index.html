@@ -71,7 +71,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto ml-4">
                 <li class="nav-item d-none" id="profileElement">
-                	<a class="nav-link" href="profile.html">Nalog</a>
+                    <a class="nav-link" href="profile.html">Nalog</a>
                 </li>
                 <li class="nav-item" id="logoutElement">
                     <a class="nav-link" id="logout" href="#">Log Out</a>
@@ -89,24 +89,25 @@
         </div>
 
         <!--Modal for logout fail-->
-        <div class="modal fade" id="ModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="ModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">Logout</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Logout</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Logout nije uspio. Pokušajte ponovo.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                  Logout nije uspio. Pokušajte ponovo.
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
 
         <form id="login">
             <table>
@@ -139,7 +140,7 @@
                     </form>
                 </div>
             </div>
-            <div class="col-s4"id="mapSearch" style="width: 33%;"></div>
+            <div class="col-s4" id="mapSearch" style="width: 33%;"></div>
         </div>
     </div>
 
@@ -158,36 +159,43 @@
         <div class="row">
             <div class="col"></div>
             <div class="col-auto">
-            	<form id="registrationForm">
-	                <table class="table">
-	                    <tr>
-	                        <td>Ime:</td>
-	                        <td><input id="registerName"/><span id="registerNameError"></span></td>
-	                        <td>Korisničko ime:</td>
-	                        <td><input id="registerUsername"><span id="registerUsernameError"></span></td>
-	                    </tr>
-	                    <tr>
-	                        <td>Prezime:</td>
-	                        <td><input id="registerSurname"/><span id="registerSurnameError"></span></td>
-	                        <td>Lozinka:</td>
-	                        <td><input type="password" id="registerPassword"/><span id="registerPasswordError"></span></td>
-	                    </tr>
-	                    <tr>
-	                        <td>Pol:</td>
-	                        <td><select id="registerSex">
-                        		<option value="M">M</option>
-                        		<option value="Ž">Ž</option>
-                        		<option value="POTATO">POTATO</option>
-                			</select> </td>
-	                        <td>Ponovite lozinku:</td>
-	                        <td><input type="password" id="registerRepeatedPassword"/><span id="registerRepeatedPasswordError"></span></td>
-	                    </tr>
-	                    <tr>
-	                        <td colspan="4" class="text-center align-middle">
-	                            <button type="submit" class="btn btn-primary">Registracija</button>
-	                        </td>
-	                    </tr>
-	                </table>
+                <form id="registrationForm">
+                    <table class="table">
+                        <tr>
+                            <td>Ime:</td>
+                            <td><input id="registerName" /><span class="alert alert-danger d-none ml-2" role="alert"
+                                    id="registerNameError">Ime nije uneto</span></td>
+                            <td>Korisničko ime:</td>
+                            <td><input id="registerUsername"><span class="alert alert-danger d-none ml-2" role="alert"
+                                    id="registerUsernameError">Korisničko ime nije uneto</span></td>
+                        </tr>
+                        <tr>
+                            <td>Prezime:</td>
+                            <td><input id="registerSurname" /><span class="alert alert-danger d-none ml-2" role="alert"
+                                    id="registerSurnameError">Prezime nije uneto</span></td>
+                            <td>Lozinka:</td>
+                            <td><input type="password" id="registerPassword" /><span
+                                    class="alert alert-danger d-none ml-2" role="alert"
+                                    id="registerPasswordError">Lozinka nije uneta</span></td>
+                        </tr>
+                        <tr>
+                            <td>Pol:</td>
+                            <td><select id="registerSex">
+                                    <option value="M">M</option>
+                                    <option value="Ž">Ž</option>
+                                    <option value="POTATO">POTATO</option>
+                                </select> </td>
+                            <td>Ponovite lozinku:</td>
+                            <td><input type="password" id="registerRepeatedPassword" /><span
+                                    class="alert alert-danger d-none ml-2" role="alert"
+                                    id="registerRepeatedPasswordError"></span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="text-center align-middle">
+                                <button type="submit" class="btn btn-primary">Registracija</button>
+                            </td>
+                        </tr>
+                    </table>
                 </form>
             </div>
             <div class="col"></div>

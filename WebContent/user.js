@@ -22,33 +22,23 @@ $(document).ready(function () {
 $(document).ready(function () {
   $("#registrationForm").submit(function (event) {
     event.preventDefault();
+    addHiddenClass();
     let name = document.getElementById("registerName").value;
     let surname = document.getElementById("registerSurname").value;
     let username = document.getElementById("registerUsername").value;
     let password = document.getElementById("registerPassword").value;
     let repeatedPassword = document.getElementById("registerRepeatedPassword").value;
-    if (!name)  $("#registerNameError").text(" Ime nije uneto");
-    if (!surname)  $("#registerSurnameError").text(" Prezime nije uneto");
-    if (!username)  $("#registerUsernameError").text(" Korisničko ime nije uneto");
-    if (!password)  $("#registerPasswordError").text(" Lozinka nije uneta");
-    if (!repeatedPassword)  $("#registerRepeatedPasswordError").text(" Ponovljena lozinka nije uneta");
-    else if(password != repeatedPassword) $("#registerRepeatedPasswordError").text(" Ponovljena lozinka se ne poklapa");
+    if (!name)  $("#registerNameError").removeClass("d-none");
+    if (!surname)  $("#registerSurnameError").removeClass("d-none")
+    if (!username)  $("#registerUsernameError").removeClass("d-none");
+    if (!password)  $("#registerPasswordError").removeClass("d-none");
+    if (!repeatedPassword)  $("#registerRepeatedPasswordError").removeClass("d-none").text(" Ponovljena lozinka nije uneta");
+    else if(password != repeatedPassword) $("#registerRepeatedPasswordError").removeClass("d-none").text(" Ponovljena lozinka se ne poklapa");
     let sexVal = document.getElementById("registerSex").value;
     let sex = "MALE";
     if (sexVal == "Ž") sex = "FEMALE";
     else if (sexVal == "POTATO") sex = "POTATO";
-    let guest = new Guest(
-      username,
-      password,
-      name,
-      surname,
-      sex,
-      "GUEST",
-      false,
-      null,
-      null
-    );
-    let json = JSON.stringify(guest);
+    let json = JSON.stringify(new Guest(username, password, name, surname, sex, "GUEST", false, null, null));
 
     $.ajax({
       url: "rest/user/register",
@@ -80,3 +70,12 @@ $(document).ready(function () {
     });
   });
 });
+
+function addHiddenClass(){
+  $("#registerNameError").addClass("d-none");
+  $("#registerSurnameError").addClass("d-none")
+  $("#registerUsernameError").addClass("d-none");
+  $("#registerPasswordError").addClass("d-none");
+  $("#registerRepeatedPasswordError").addClass("d-none")
+  $("#registerRepeatedPasswordError").addClass("d-none")
+}
