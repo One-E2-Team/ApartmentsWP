@@ -32,20 +32,11 @@ $(document).ready(function () {
     let surname = document.getElementById("registerSurname").value;
     let username = document.getElementById("registerUsername").value;
     let password = document.getElementById("registerPassword").value;
-    let repeatedPassword = document.getElementById("registerRepeatedPassword")
-      .value;
-    if (!name) $("#registerNameError").removeClass("d-none");
-    if (!surname) $("#registerSurnameError").removeClass("d-none");
-    if (!username) $("#registerUsernameError").removeClass("d-none");
-    if (!password) $("#registerPasswordError").removeClass("d-none");
-    if (!repeatedPassword)
-      $("#registerRepeatedPasswordError")
-        .removeClass("d-none")
-        .text(" Ponovljena lozinka nije uneta");
-    else if (password != repeatedPassword)
-      $("#registerRepeatedPasswordError")
-        .removeClass("d-none")
-        .text(" Ponovljena lozinka se ne poklapa");
+    let repeatedPassword = document.getElementById("registerRepeatedPassword").value;
+    if(registerErrorExist(name, surname, username, password, repeatedPassword)){
+      reportRegisterError(name, surname, username, password, repeatedPassword);
+      return;
+    }
     let sexVal = document.getElementById("registerSex").value;
     let sex = "MALE";
     if (sexVal == "Ž") sex = "FEMALE";
@@ -70,7 +61,11 @@ $(document).ready(function () {
       data: json,
       contentType: "application/json",
       dataType: "json",
-      complete: function (data) {},
+      complete: function (data, status) {
+        if(status=="success"){
+          validSession(JSON.parse(data.responseText))
+        }
+      },
     });
   });
 });
@@ -95,7 +90,28 @@ $(document).ready(function () {
   });
 });
 
-function addHiddenClass() {
+function registerErrorExist(name, surname, username, password, repeatedPassword){
+  if (!name || !surname || !username || !password || !repeatedPassword || password != repeatedPassword)
+    return true;
+  return false;
+}
+
+function reportRegisterError(name, surname, username, password, repeatedPassword){
+  if (!name)
+    $("#registerNameError").removeClass("d-none");
+  if (!surname)
+    $("#registerSurnameError").removeClass("d-none");
+  if (!username)
+    $("#registerUsernameError").removeClass("d-none");
+  if (!password)
+    $("#registerPasswordError").removeClass("d-none");
+  if (!repeatedPassword)
+    $("#registerRepeatedPasswordError").removeClass("d-none").text("Ponovljena lozinka nije uneta");
+  else if(password != repeatedPassword)
+    $("#registerRepeatedPasswordError").removeClass("d-none").text("Ponovljena lozinka se ne poklapa");
+}
+
+function addHiddenClass(){
   $("#registerNameError").addClass("d-none");
   $("#registerSurnameError").addClass("d-none");
   $("#registerUsernameError").addClass("d-none");

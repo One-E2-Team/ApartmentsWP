@@ -43,7 +43,7 @@ public class UserService {
 			request.getSession().invalidate();
 		return true;
 	}
-	
+
 	@GET
 	@Path("/me")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -58,14 +58,13 @@ public class UserService {
 	public User register(@Context HttpServletRequest request, Guest newUser) {
 		if ((User) request.getSession().getAttribute("user") != null)
 			request.getSession().invalidate();
-		User existing = UserRepository.getInstance().create(newUser);
-		if (existing != null)
-			return null;
 		newUser.setRentedApartmentIds(new ArrayList<Integer>());
 		newUser.setReservationIds(new ArrayList<Integer>());
-		User ret = UserRepository.getInstance().create(newUser);
-		request.getSession(true).setAttribute("user", ret);
-		return ret;
+		User existing = UserRepository.getInstance().create(newUser);
+		if (existing == null)
+			return null; // TODO: proper error message
+		request.getSession(true).setAttribute("user", newUser);
+		return newUser;
 	}
 
 }
