@@ -28,12 +28,10 @@ $(document).ready(function () {
     let username = document.getElementById("registerUsername").value;
     let password = document.getElementById("registerPassword").value;
     let repeatedPassword = document.getElementById("registerRepeatedPassword").value;
-    if (!name)  $("#registerNameError").removeClass("d-none");
-    if (!surname)  $("#registerSurnameError").removeClass("d-none")
-    if (!username)  $("#registerUsernameError").removeClass("d-none");
-    if (!password)  $("#registerPasswordError").removeClass("d-none");
-    if (!repeatedPassword)  $("#registerRepeatedPasswordError").removeClass("d-none").text(" Ponovljena lozinka nije uneta");
-    else if(password != repeatedPassword) $("#registerRepeatedPasswordError").removeClass("d-none").text(" Ponovljena lozinka se ne poklapa");
+    if(registerErrorExist(name, surname, username, password, repeatedPassword)){
+      reportRegisterError(name, surname, username, password, repeatedPassword);
+      return;
+    }
     let sexVal = document.getElementById("registerSex").value;
     let sex = "MALE";
     if (sexVal == "Ž") sex = "FEMALE";
@@ -70,6 +68,27 @@ $(document).ready(function () {
     });
   });
 });
+
+function registerErrorExist(name, surname, username, password, repeatedPassword){
+  if (!name || !surname || !username || !password || !repeatedPassword || password != repeatedPassword)
+    return true;
+  return false;
+}
+
+function reportRegisterError(name, surname, username, password, repeatedPassword){
+  if (!name)
+    $("#registerNameError").removeClass("d-none");
+  if (!surname)
+    $("#registerSurnameError").removeClass("d-none");
+  if (!username)
+    $("#registerUsernameError").removeClass("d-none");
+  if (!password)
+    $("#registerPasswordError").removeClass("d-none");
+  if (!repeatedPassword)
+    $("#registerRepeatedPasswordError").removeClass("d-none").text("Ponovljena lozinka nije uneta");
+  else if(password != repeatedPassword)
+    $("#registerRepeatedPasswordError").removeClass("d-none").text("Ponovljena lozinka se ne poklapa");
+}
 
 function addHiddenClass(){
   $("#registerNameError").addClass("d-none");

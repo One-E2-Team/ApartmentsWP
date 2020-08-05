@@ -13,7 +13,6 @@ import javax.ws.rs.core.MediaType;
 
 import beans.user.Administrator;
 import beans.user.Guest;
-import beans.user.Role;
 import beans.user.User;
 import repository.UserRepository;
 
@@ -59,13 +58,12 @@ public class UserService {
 		if ((User) request.getSession().getAttribute("user") != null)
 			request.getSession().invalidate();
 		User existing = UserRepository.getInstance().create(newUser);
-		if (existing != null)
-			return null;
+		if (existing == null)
+			return null; //TODO: proper error message
 		newUser.setRentedApartmentIds(new ArrayList<Integer>());
 		newUser.setReservationIds(new ArrayList<Integer>());
-		User ret = UserRepository.getInstance().create(newUser);
-		request.getSession(true).setAttribute("user", ret);
-		return ret;
+		request.getSession(true).setAttribute("user", newUser);
+		return newUser;
 	}
 
 }
