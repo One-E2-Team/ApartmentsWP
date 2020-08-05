@@ -33,7 +33,9 @@
     <!---->
 
 
-    <script src="types.js" type='text/javascript'></script>
+    <script src="types.js" type="text/javascript"></script>
+    <script src="user.js" type="text/javascript"></script>
+    <script src="search.js" type="text/javascript"></script>
     <script src="apartments.js" type='text/javascript'></script>
 </head>
 
@@ -130,9 +132,9 @@
                         </tr>
                         <tr>
                             <td>Geografska dužina:</td>
-                            <td><input /></td>
+                            <td><input id="latitude" /></td>
                             <td>Geografska širina:</td>
-                            <td><input /></td>
+                            <td><input id="longitude" /></td>
                         </tr>
                         <tr>
                             <td>Broj soba:</td>
@@ -157,7 +159,6 @@
             <div id="mapSearch" style="width: 33%;"></div>
         </div>
     </div>
-    <script type="text/javascript">initSearchMap(undefined);</script>
 </body>
 
 </html>
