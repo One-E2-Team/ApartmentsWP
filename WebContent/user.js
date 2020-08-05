@@ -47,7 +47,11 @@ $(document).ready(function () {
       data: json,
       contentType: "application/json",
       dataType: "json",
-      complete: function (data) {},
+      complete: function (data, status) {
+        if(status=="success"){
+          validSession(JSON.parse(data.responseText))
+        }
+      },
     });
   });
 });
