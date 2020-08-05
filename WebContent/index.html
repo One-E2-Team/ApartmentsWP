@@ -136,8 +136,48 @@
         <div class="row align-items-center" style="height: 400px;">
             <div class="col-8 d-flex align-items-center text-center" style="width: 66%;">
                 <div class="container">
-                    <form>
-                        nesto
+                    <form method="GET" class="align-items-center" action="apartments.html">
+                        <table class="table align-items-center align-middle text-center">
+                            <tr>
+                                <td class="align-middle">Datumi (odlazak i dolazak):</td>
+                                <td colspan="3" class="align-middle">
+                                    <div class="input-group input-daterange align-items-center">
+                                        <input name="dateFrom" type="text" class="form-control" data-provide="datepicker">
+                                        <div class="input-group-addon mr-3 ml-3 align-middle"> - </div>
+                                        <input name="dateTo" type="text" class="form-control" data-provide="datepicker">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">Grad ili država (ili lokacija na mapi):</td>
+                                <td colspan="3"><input name="location" class="form-control"></td>
+                                <td class="d-none"><input name="latitude" id="latitude"></td>
+                                <td class="d-none"><input name="longitude" id="longitude"></td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">Cijena (RSD):</td>
+                                <td><input name="priceFrom" class="form-control"></td>
+                                <td class="align-middle"> - </td>
+                                <td><input name="priceTo" class="form-control"></td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">Broj soba:</td>
+                                <td><input name="roomsFrom" class="form-control"></td>
+                                <td class="align-middle"> - </td>
+                                <td><input name="roomsTo" class="form-control"></td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">Broj osoba:</td>
+                                <td><input name="personsFrom" class="form-control"></td>
+                                <td class="align-middle"> - </td>
+                                <td><input name="personsTo" class="form-control"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-center align-middle">
+                                    <button type="submit" class="btn btn-primary">Pretraga</button>
+                                </td>
+                            </tr>
+                        </table>
                     </form>
                 </div>
             </div>

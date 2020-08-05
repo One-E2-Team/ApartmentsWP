@@ -16,7 +16,9 @@ $(document).ready(function () {
         if (status == "success") {
           validSession(JSON.parse(data.responseText));
         }else{
-          $("#loginErrMessage").append('<td></td><td colspan="3"><div class="alert alert-danger" role="alert">Unijeli ste pogrešno korisničko ime ili šifru.</div></td>');
+          if(document.getElementById("loginErrMessage").innerHTML==""){
+            $("#loginErrMessage").append('<td></td><td colspan="3"><div class="alert alert-danger" role="alert">Unijeli ste pogrešno korisničko ime ili šifru.</div></td>');
+          }
         }
       },
     });
