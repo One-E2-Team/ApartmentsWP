@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.ws.rs.GET;
@@ -17,7 +18,12 @@ public class ApartmentService {
 	@Path("/getAllAmenities")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Amenity> getAllAmenities() {
-		return AmenityRepository.getInstance().getAll();
+		Collection<Amenity> ret = new ArrayList<Amenity>();
+		for (Amenity amenity : AmenityRepository.getInstance().getAll()) {
+			if (!amenity.isDeleted())
+				ret.add(amenity);
+		}
+		return ret;
 	}
 
 }

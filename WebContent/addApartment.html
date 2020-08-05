@@ -121,32 +121,36 @@
                                     <option value="APARTMAN">APARTMAN</option>
                                     <option value="SOBA">SOBA</option>
                                 </select> </td>
-                            <td>Grad:</td>
-                            <td><input /></td>
+                            <td>Cena noćenja u dinarima:</td>
+                            <td><input type="number" min="0" id="pricePerNight"/></td>
                         </tr>
                         <tr>
                             <td>Zipcode:</td>
-                            <td><input /></td>
-                            <td>Ulica i broj:</td>
-                            <td><input /></td>
+                            <td><input type="number" min="0" id="zipcode"/></td>
+                            <td>Grad:</td>
+                            <td><input id="city"/></td>
                         </tr>
                         <tr>
                             <td>Geografska dužina:</td>
-                            <td><input id="latitude" /></td>
+                            <td><input id="latitude"/></td>
                             <td>Geografska širina:</td>
-                            <td><input id="longitude" /></td>
+                            <td><input id="longitude"/></td>
                         </tr>
                         <tr>
                             <td>Broj soba:</td>
-                            <td><input /></td>
+                            <td><input type="number" min="0" id="roomNum"/></td>
                             <td>Broj gostiju:</td>
-                            <td><input /></td>
+                            <td><input type="number" min="0" id="guestNum"/></td>
                         </tr>
                         <tr>
-                            <td>Cena noćenja u dinarima:</td>
-                            <td><input /></td>
-                            <td>Oprema:</td>
-                            <td><select id="amenities"></select></td>
+                            <td>Ulica:</td>
+                            <td><input id="street"/></td>
+                            <td>Broj:</td>
+                            <td><input type="number" min="0" id="streetNum"/></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Oprema:</td>
+                            <td colspan="2"><select id="amenities" multiple></select></td>
                         </tr>
                         <tr>
                             <td colspan="4" class="text-center align-middle">
