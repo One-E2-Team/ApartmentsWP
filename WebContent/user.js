@@ -11,8 +11,11 @@ $(document).ready(function () {
       data: userjson,
       contentType: "application/json",
       dataType: "json",
-      complete: function (data) {
+      complete: function (data, status) {
         console.log(data.responseText);
+        if(status=="success"){
+          validSession(JSON.parse(data.responseText))
+        }
       },
     });
     event.preventDefault();
@@ -97,4 +100,17 @@ function addHiddenClass(){
   $("#registerPasswordError").addClass("d-none");
   $("#registerRepeatedPasswordError").addClass("d-none")
   $("#registerRepeatedPasswordError").addClass("d-none")
+}
+
+
+function validSession(user){
+  $("#login").addClass("d-none");
+  $("#registration").addClass("d-none");
+  $("#profileElement").removeClass("d-none");
+  $("#logoutElement").removeClass("d-none");
+  $("#reservationElement").removeClass("d-none");
+  var elements = document.getElementsByClassName(user.role);
+  for(var element of elements) {
+    element.classList.remove("d-none");
+  }
 }
