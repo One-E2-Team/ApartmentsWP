@@ -14,6 +14,10 @@ function populateProfileData(userResponse) {
 $(document).ready(function () {
   $("#editProfileForm").submit(function (event) {
     event.preventDefault();
+    if (user == null) {
+      alert("Niste ulogovani!");
+      return;
+    }
     addHiddenClassForEditProfile();
     let name = $("#profileName").val();
     let surname = $("#profileSurname").val();
@@ -44,8 +48,29 @@ $(document).ready(function () {
     if (sexVal == "Ž") sex = "FEMALE";
     else if (sexVal == "POTATO") sex = "POTATO";
     let json = JSON.stringify(
-      getProperUserType(name, surname, sex, newPassword)
+      new Administrator(
+        user.username,
+        newPassword,
+        name,
+        surname,
+        sex,
+        user.role,
+        user.blocked
+      )
     );
+
+    $.ajax({
+      url: "rest/user/editProfile",
+      type: "PUT",
+      data: json,
+      contentType: "application/json",
+      dataType: "json",
+      complete: function (data, status) {
+        if (status == "success") {
+          populateProfileData(JSON.parse(data.responseText));
+        }
+      },
+    });
   });
 });
 
@@ -108,41 +133,4 @@ function addHiddenClassForEditProfile() {
   $("#profileOldPasswordError").addClass("d-none");
   $("#profileNewPasswordError").addClass("d-none");
   $("#profileRepeatedNewPasswordError").addClass("d-none");
-}
-
-function getProperUserType(name, surname, sex, newPassword) {
-  if (user.role == "GUEST") {
-    return new Guest(
-      user.username,
-      newPassword,
-      name,
-      surname,
-      sex,
-      user.role,
-      user.blocked,
-      user.rentedApartmentIds,
-      user.reservationIds
-    );
-  } else if (user.role == "HOST") {
-    return new Host(
-      user.username,
-      newPassword,
-      name,
-      surname,
-      sex,
-      user.role,
-      user.blocked,
-      user.rentableApartmentIds
-    );
-  } else if (user.role == "ADMINISTRATOR") {
-    return new Administrator(
-      user.username,
-      newPassword,
-      name,
-      surname,
-      sex,
-      user.role,
-      user.blocked
-    );
-  } else return null;
 }
