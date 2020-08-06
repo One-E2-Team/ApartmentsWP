@@ -15,9 +15,11 @@ $(document).ready(function () {
         console.log(data.responseText);
         if (status == "success") {
           validSession(JSON.parse(data.responseText));
-        }else{
-          if(document.getElementById("loginErrMessage").innerHTML==""){
-            $("#loginErrMessage").append('<td></td><td colspan="3"><div class="alert alert-danger" role="alert">Unijeli ste pogrešno korisničko ime ili šifru.</div></td>');
+        } else {
+          if (document.getElementById("loginErrMessage").innerHTML == "") {
+            $("#loginErrMessage").append(
+              '<td></td><td colspan="3"><div class="alert alert-danger" role="alert">Unijeli ste pogrešno korisničko ime ili šifru.</div></td>'
+            );
           }
         }
       },
@@ -29,13 +31,16 @@ $(document).ready(function () {
 $(document).ready(function () {
   $("#registrationForm").submit(function (event) {
     event.preventDefault();
-    addHiddenClass();
+    addHiddenClassForRegistration();
     let name = document.getElementById("registerName").value;
     let surname = document.getElementById("registerSurname").value;
     let username = document.getElementById("registerUsername").value;
     let password = document.getElementById("registerPassword").value;
-    let repeatedPassword = document.getElementById("registerRepeatedPassword").value;
-    if(registerErrorExist(name, surname, username, password, repeatedPassword)){
+    let repeatedPassword = document.getElementById("registerRepeatedPassword")
+      .value;
+    if (
+      registerErrorExist(name, surname, username, password, repeatedPassword)
+    ) {
       reportRegisterError(name, surname, username, password, repeatedPassword);
       return;
     }
@@ -64,8 +69,8 @@ $(document).ready(function () {
       contentType: "application/json",
       dataType: "json",
       complete: function (data, status) {
-        if(status=="success"){
-          validSession(JSON.parse(data.responseText))
+        if (status == "success") {
+          validSession(JSON.parse(data.responseText));
         }
       },
     });
@@ -92,28 +97,47 @@ $(document).ready(function () {
   });
 });
 
-function registerErrorExist(name, surname, username, password, repeatedPassword){
-  if (!name || !surname || !username || !password || !repeatedPassword || password != repeatedPassword)
+function registerErrorExist(
+  name,
+  surname,
+  username,
+  password,
+  repeatedPassword
+) {
+  if (
+    !name ||
+    !surname ||
+    !username ||
+    !password ||
+    !repeatedPassword ||
+    password != repeatedPassword
+  )
     return true;
   return false;
 }
 
-function reportRegisterError(name, surname, username, password, repeatedPassword){
-  if (!name)
-    $("#registerNameError").removeClass("d-none");
-  if (!surname)
-    $("#registerSurnameError").removeClass("d-none");
-  if (!username)
-    $("#registerUsernameError").removeClass("d-none");
-  if (!password)
-    $("#registerPasswordError").removeClass("d-none");
+function reportRegisterError(
+  name,
+  surname,
+  username,
+  password,
+  repeatedPassword
+) {
+  if (!name) $("#registerNameError").removeClass("d-none");
+  if (!surname) $("#registerSurnameError").removeClass("d-none");
+  if (!username) $("#registerUsernameError").removeClass("d-none");
+  if (!password) $("#registerPasswordError").removeClass("d-none");
   if (!repeatedPassword)
-    $("#registerRepeatedPasswordError").removeClass("d-none").text("Ponovljena lozinka nije uneta");
-  else if(password != repeatedPassword)
-    $("#registerRepeatedPasswordError").removeClass("d-none").text("Ponovljena lozinka se ne poklapa");
+    $("#registerRepeatedPasswordError")
+      .removeClass("d-none")
+      .text("Ponovljena lozinka nije uneta");
+  else if (password != repeatedPassword)
+    $("#registerRepeatedPasswordError")
+      .removeClass("d-none")
+      .text("Ponovljena lozinka se ne poklapa");
 }
 
-function addHiddenClass(){
+function addHiddenClassForRegistration() {
   $("#registerNameError").addClass("d-none");
   $("#registerSurnameError").addClass("d-none");
   $("#registerUsernameError").addClass("d-none");
@@ -135,16 +159,23 @@ function validSession(user) {
 }
 
 $(document).ready(function () {
-    $.ajax({
-      url: "rest/user/me",
-      type: "GET",
-      data: "",
-      contentType: "application/json",
-      dataType: "json",
-      complete: function (data, status) {
-        if (status == "success") {
-          validSession(JSON.parse(data.responseText));
-        }
-      },
-    });
+  $.ajax({
+    url: "rest/user/me",
+    type: "GET",
+    data: "",
+    contentType: "application/json",
+    dataType: "json",
+    complete: function (data, status) {
+      if (status == "success") {
+        validSession(JSON.parse(data.responseText));
+        if (getHTMLFilmeName() == "profile.html")
+          populateProfileData(JSON.parse(data.responseText));
+      }
+    },
+  });
 });
+
+function getHTMLFilmeName() {
+  let path = window.location.pathname;
+  return path.split("/").pop();
+}
