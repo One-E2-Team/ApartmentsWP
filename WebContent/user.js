@@ -32,19 +32,19 @@ $(document).ready(function () {
   $("#registrationForm").submit(function (event) {
     event.preventDefault();
     addHiddenClassForRegistration();
-    let name = document.getElementById("registerName").value;
-    let surname = document.getElementById("registerSurname").value;
-    let username = document.getElementById("registerUsername").value;
-    let password = document.getElementById("registerPassword").value;
-    let repeatedPassword = document.getElementById("registerRepeatedPassword")
-      .value;
+    let name = $("#registerName").val();
+    let surname = $("#registerSurname").val();
+    let username = $("#registerUsername").val();
+    let password = $("#registerPassword").val();
+    let repeatedPassword = $("#registerRepeatedPassword").val();
     if (
       registerErrorExist(name, surname, username, password, repeatedPassword)
     ) {
       reportRegisterError(name, surname, username, password, repeatedPassword);
       return;
     }
-    let sexVal = document.getElementById("registerSex").value;
+    
+    let sexVal = $("#registerSex").val();
     let sex = "MALE";
     if (sexVal == "Ž") sex = "FEMALE";
     else if (sexVal == "POTATO") sex = "POTATO";
@@ -147,6 +147,7 @@ function addHiddenClassForRegistration() {
 }
 
 function validSession(user) {
+  alert(69);
   $("#login").addClass("d-none");
   $("#registration").addClass("d-none");
   $("#profileElement").removeClass("d-none");
