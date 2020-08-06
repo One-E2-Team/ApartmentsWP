@@ -1,20 +1,23 @@
+var amenities = null;
+
 $(document).ready(function () {
   $.ajax({
-    url: "rest/apartment/getAllAmenities",
+    url: "rest/apartment/getAllVisibleAmenities",
     type: "GET",
     data: "",
     contentType: "application/json",
     dataType: "json",
     complete: function (data, status) {
       if (status == "success") {
-        populateAmenities(JSON.parse(data.responseText));
+        amenities = JSON.parse(data.responseText);
+        populateAmenities();
         $("#addApartmentElement").addClass("d-none");
       }
     },
   });
 });
 
-function populateAmenities(amenities) {
+function populateAmenities() {
   let amenitySelection = document.getElementById("amenities");
   for (let amenity of amenities) {
     let option = document.createElement("option");
@@ -71,7 +74,7 @@ $(document).ready(function () {
       10,
       "PM",
       "AM",
-      null, //TODO: get selected amenities
+      getSelectedAmenityIds(),
       null,
       null,
       null,
@@ -86,7 +89,7 @@ $(document).ready(function () {
       contentType: "application/json",
       dataType: "json",
       complete: function (data, status) {
-        if(status=="success"){
+        if (status == "success") {
           alert(69);
         }
       },
@@ -120,4 +123,14 @@ function addApartmentErrorExist(
   )
     return true;
   return false;
+}
+
+function getSelectedAmenityIds() {
+  let amenitySelection = document.getElementById("amenities");
+  let selectedAmenityIds = [];
+  for (let i = 0; i < amenitySelection.length; i++) {
+    if (amenitySelection.options[i].selected)
+      selectedAmenityIds.push(amenities[i].id);
+  }
+  return selectedAmenityIds;
 }

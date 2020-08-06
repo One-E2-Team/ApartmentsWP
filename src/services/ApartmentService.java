@@ -25,7 +25,7 @@ import repository.ApartmentRepository;
 public class ApartmentService {
 
 	@GET
-	@Path("/getAllAmenities")
+	@Path("/getAllVisibleAmenities")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Amenity> getAllAmenities(@Context HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
@@ -49,7 +49,6 @@ public class ApartmentService {
 			return null;
 		apartment.setHostId(user.getUsername());
 		apartment.setComments(new ArrayList<Comment>());
-		apartment.setAmenityIds(new ArrayList<Integer>());
 		apartment.setReservationIds(new ArrayList<Integer>());
 		apartment.setPicturePaths(new ArrayList<String>());
 		apartment.setRentableDates(new ArrayList<Date>());
