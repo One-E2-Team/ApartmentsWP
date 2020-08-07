@@ -1,13 +1,13 @@
 var amenities = null;
 
-$(document).ready(function () {
+$(document).ready(function() {
   $.ajax({
     url: "rest/apartment/getAllVisibleAmenities",
     type: "GET",
     data: "",
     contentType: "application/json",
     dataType: "json",
-    complete: function (data, status) {
+    complete: function(data, status) {
       if (status == "success") {
         amenities = JSON.parse(data.responseText);
         populateAmenities();
@@ -27,8 +27,8 @@ function populateAmenities() {
   }
 }
 
-$(document).ready(function () {
-  $("#addApartmentForm").submit(function (event) {
+$(document).ready(function() {
+  $("#addApartmentForm").submit(function(event) {
     event.preventDefault();
     $("#addApartmentError").addClass("d-none");
     let price = $("#pricePerNight").val();
@@ -40,19 +40,7 @@ $(document).ready(function () {
     let guestNum = $("#guestNum").val();
     let street = $("#street").val();
     let streetNum = $("#streetNum").val();
-    if (
-      addApartmentErrorExist(
-        price,
-        zipcode,
-        city,
-        latitude,
-        longitude,
-        roomNum,
-        guestNum,
-        street,
-        streetNum
-      )
-    ) {
+    if (addApartmentErrorExist(price, zipcode, city, latitude, longitude, roomNum, guestNum, street, streetNum)) {
       $("#addApartmentError").removeClass("d-none");
       return;
     }
@@ -60,27 +48,8 @@ $(document).ready(function () {
     let location = new Location(latitude, longitude, address);
     let type = "APARTMENT";
     if ($("#apartmentType").val() == "SOBA") type = "ROOM";
-    let apartment = new Apartment(
-      0,
-      "INACTIVE",
-      false,
-      type,
-      parseInt(guestNum, 10),
-      parseInt(roomNum, 10),
-      location,
-      "username",
-      null,
-      price,
-      2,
-      10,
-      "PM",
-      "AM",
-      getSelectedAmenityIds(),
-      null,
-      null,
-      null,
-      null
-    );
+    let apartment = new Apartment(0, "INACTIVE", false, type, parseInt(guestNum, 10), parseInt(roomNum, 10), location, "username", null, price, 2, 10, "PM", "AM",
+      getSelectedAmenityIds(), null, null, null, null);
     let json = JSON.stringify(apartment);
 
     $.ajax({
@@ -89,10 +58,9 @@ $(document).ready(function () {
       data: json,
       contentType: "application/json",
       dataType: "json",
-      complete: function (data, status) {
+      complete: function(data, status) {
         if (status == "success") {
-          alert("Apartman je uspešno dodat!");
-          clearAddApartmentForm();
+          document.location.href = "apartment.html?id=" + data.responseJSON.id;
         } else if (status == "nocontent")
           alert("Nemate prava da dodajete apartman!");
       },
@@ -100,30 +68,9 @@ $(document).ready(function () {
   });
 });
 
-function addApartmentErrorExist(
-  price,
-  zipcode,
-  city,
-  latitude,
-  longitude,
-  roomNum,
-  guestNum,
-  street,
-  streetNum
-) {
-  if (
-    !price ||
-    !zipcode ||
-    !city ||
-    !latitude ||
-    !longitude ||
-    !roomNum ||
-    !guestNum ||
-    !street ||
-    !streetNum ||
-    parseFloat(latitude) != latitude ||
-    parseFloat(longitude) != longitude
-  )
+function addApartmentErrorExist(price, zipcode, city, latitude, longitude, roomNum, guestNum, street, streetNum) {
+  if (!price || !zipcode || !city || !latitude || !longitude || !roomNum || !guestNum || !street || !streetNum ||
+    parseFloat(latitude) != latitude || parseFloat(longitude) != longitude)
     return true;
   return false;
 }
@@ -136,17 +83,4 @@ function getSelectedAmenityIds() {
     if (amenityOption.selected) selectedAmenityIds.push(amenityOption.value);
   }
   return selectedAmenityIds;
-}
-
-function clearAddApartmentForm(){
-  $("#apartmentType").val("APARTMAN");
-  $("#pricePerNight").val("");
-  $("#zipcode").val("");
-  $("#city").val("");
-  $("#latitude").val("");
-  $("#longitude").val("");
-  $("#roomNum").val("");
-  $("#guestNum").val("");
-  $("#street").val("");
-  $("#streetNum").val("");
 }
