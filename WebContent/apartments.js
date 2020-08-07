@@ -67,7 +67,7 @@ function addDeal(imageExists, imgsrc, appartmentIndex, nightCost, dealAvailable,
   card.append(links);
   element.append(card);
 }
-
+/*
 $(document).ready(function() {
   initResults();
   addDeal(true, "https://www.google.rs/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png", 1, 930, true, 100300, 7);
@@ -79,7 +79,7 @@ $(document).ready(function() {
   addDeal(false, "https://www.google.rs/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png", 3, 930, false, 100300, 9);
 
 });
-
+*/
 function GETReqToJSObject() {
   var search = location.search.substring(1);
   return JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
@@ -87,13 +87,13 @@ function GETReqToJSObject() {
 
 var searchResult = null;
 
+if (location.search)
+  $.ajax({
+    type: "GET",
+    url: "rest/search/apartments" + location.search,
+    data: "",
+    dataType: "",
+    success: function(response) {
 
-$.ajax({
-  type: "GET",
-  url: "rest/search/apartments" + location.search,
-  data: "",
-  dataType: "",
-  success: function(response) {
-
-  }
-});
+    }
+  });
