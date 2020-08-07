@@ -1,5 +1,5 @@
-$(document).ready(function () {
-  $("#login").submit(function (event) {
+$(document).ready(function() {
+  $("#login").submit(function(event) {
     var username = $("input[name=loginUsername]").val();
     var password = $("input[name=loginPassword]").val();
     var userjson = JSON.stringify(
@@ -11,7 +11,7 @@ $(document).ready(function () {
       data: userjson,
       contentType: "application/json",
       dataType: "json",
-      complete: function (data, status) {
+      complete: function(data, status) {
         console.log(data.responseText);
         if (status == "success") {
           validSession(JSON.parse(data.responseText));
@@ -28,8 +28,8 @@ $(document).ready(function () {
   });
 });
 
-$(document).ready(function () {
-  $("#registrationForm").submit(function (event) {
+$(document).ready(function() {
+  $("#registrationForm").submit(function(event) {
     event.preventDefault();
     addHiddenClassForRegistration();
     let name = $("#registerName").val();
@@ -37,27 +37,13 @@ $(document).ready(function () {
     let username = $("#registerUsername").val();
     let password = $("#registerPassword").val();
     let repeatedPassword = $("#registerRepeatedPassword").val();
-    if (
-      registerErrorExist(name, surname, username, password, repeatedPassword)
-    ) {
+    if (registerErrorExist(name, surname, username, password, repeatedPassword)) {
       reportRegisterError(name, surname, username, password, repeatedPassword);
       return;
     }
 
     let sex = getSexType($("#registerSex").val());
-    let json = JSON.stringify(
-      new Guest(
-        username,
-        password,
-        name,
-        surname,
-        sex,
-        "GUEST",
-        false,
-        null,
-        null
-      )
-    );
+    let json = JSON.stringify(new Guest(username, password, name, surname, sex, "GUEST", false, null, null));
 
     $.ajax({
       url: "rest/user/register",
@@ -65,22 +51,18 @@ $(document).ready(function () {
       data: json,
       contentType: "application/json",
       dataType: "json",
-      complete: function (data, status) {
+      complete: function(data, status) {
         if (status == "success") {
           validSession(JSON.parse(data.responseText));
         } else if (status == "nocontent")
-          alert(
-            "Korisnik sa korisničkim imenom '" +
-              username +
-              "' već postoji u sistemu!"
-          );
+          alert("Korisnik sa korisničkim imenom '" + username + "' već postoji u sistemu!");
       },
     });
   });
 });
 
-$(document).ready(function () {
-  $("#logout").click(function (event) {
+$(document).ready(function() {
+  $("#logout").click(function(event) {
     event.preventDefault();
     $.ajax({
       url: "rest/user/logout",
@@ -88,7 +70,7 @@ $(document).ready(function () {
       data: "",
       contentType: "application/json",
       dataType: "json",
-      complete: function (data, status) {
+      complete: function(data, status) {
         if (data.responseText != "true" || status != "success") {
           $("#ModalCenter").modal();
         } else {
@@ -99,44 +81,21 @@ $(document).ready(function () {
   });
 });
 
-function registerErrorExist(
-  name,
-  surname,
-  username,
-  password,
-  repeatedPassword
-) {
-  if (
-    !name ||
-    !surname ||
-    !username ||
-    !password ||
-    !repeatedPassword ||
-    password != repeatedPassword
-  )
+function registerErrorExist(name, surname, username, password, repeatedPassword) {
+  if (!name || !surname || !username || !password || !repeatedPassword || password != repeatedPassword)
     return true;
   return false;
 }
 
-function reportRegisterError(
-  name,
-  surname,
-  username,
-  password,
-  repeatedPassword
-) {
+function reportRegisterError(name, surname, username, password, repeatedPassword) {
   if (!name) $("#registerNameError").removeClass("d-none");
   if (!surname) $("#registerSurnameError").removeClass("d-none");
   if (!username) $("#registerUsernameError").removeClass("d-none");
   if (!password) $("#registerPasswordError").removeClass("d-none");
   if (!repeatedPassword)
-    $("#registerRepeatedPasswordError")
-      .removeClass("d-none")
-      .text("Ponovljena lozinka nije uneta");
+    $("#registerRepeatedPasswordError").removeClass("d-none").text("Ponovljena lozinka nije uneta");
   else if (password != repeatedPassword)
-    $("#registerRepeatedPasswordError")
-      .removeClass("d-none")
-      .text("Ponovljena lozinka se ne poklapa");
+    $("#registerRepeatedPasswordError").removeClass("d-none").text("Ponovljena lozinka se ne poklapa");
 }
 
 function addHiddenClassForRegistration() {
@@ -160,14 +119,14 @@ function validSession(user) {
   }
 }
 
-$(document).ready(function () {
+$(document).ready(function() {
   $.ajax({
     url: "rest/user/me",
     type: "GET",
     data: "",
     contentType: "application/json",
     dataType: "json",
-    complete: function (data, status) {
+    complete: function(data, status) {
       if (status == "success") {
         validSession(JSON.parse(data.responseText));
         if (getHTMLFilmeName() == "profile.html")
