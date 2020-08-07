@@ -22,6 +22,7 @@ function populateAmenities() {
   for (let amenity of amenities) {
     let option = document.createElement("option");
     option.text = amenity.name;
+    option.value = amenity.id;
     amenitySelection.add(option);
   }
 }
@@ -58,7 +59,7 @@ $(document).ready(function () {
     let address = new Address(street, city, streetNum, zipcode);
     let location = new Location(latitude, longitude, address);
     let type = "APARTMENT";
-    if (document.getElementById("apartmentType").value == "SOBA") type = "ROOM";
+    if ($("#apartmentType").val() == "SOBA") type = "ROOM";
     let apartment = new Apartment(
       0,
       "INACTIVE",
@@ -129,8 +130,8 @@ function getSelectedAmenityIds() {
   let amenitySelection = document.getElementById("amenities");
   let selectedAmenityIds = [];
   for (let i = 0; i < amenitySelection.length; i++) {
-    if (amenitySelection.options[i].selected)
-      selectedAmenityIds.push(amenities[i].id);
+    let amenityOption = amenitySelection.options[i];
+    if (amenityOption.selected) selectedAmenityIds.push(amenityOption.value);
   }
   return selectedAmenityIds;
 }

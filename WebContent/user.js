@@ -43,11 +43,8 @@ $(document).ready(function () {
       reportRegisterError(name, surname, username, password, repeatedPassword);
       return;
     }
-    
-    let sexVal = $("#registerSex").val();
-    let sex = "MALE";
-    if (sexVal == "Ž") sex = "FEMALE";
-    else if (sexVal == "POTATO") sex = "POTATO";
+
+    let sex = getSexType($("#registerSex").val());
     let json = JSON.stringify(
       new Guest(
         username,
@@ -147,7 +144,6 @@ function addHiddenClassForRegistration() {
 }
 
 function validSession(user) {
-  alert(69);
   $("#login").addClass("d-none");
   $("#registration").addClass("d-none");
   $("#profileElement").removeClass("d-none");
@@ -179,4 +175,18 @@ $(document).ready(function () {
 function getHTMLFilmeName() {
   let path = window.location.pathname;
   return path.split("/").pop();
+}
+
+function getSexType(sexSelectionString) {
+  if (sexSelectionString == "M") return "MALE";
+  else if (sexSelectionString == "Ž") return "FEMALE";
+  else if (sexSelectionString == "POTATO") return "POTATO";
+  return null;
+}
+
+function getSexSelectionString(sexType) {
+  if (sexType == "MALE") return "M";
+  else if (sexType == "FEMALE") return "Ž";
+  else if (sexType == "POTATO") return "POTATO";
+  return null;
 }

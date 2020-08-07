@@ -5,10 +5,7 @@ function populateProfileData(userResponse) {
   $("#profileUsername").val(user.username);
   $("#profileName").val(user.name);
   $("#profileSurname").val(user.surname);
-  let sex = user.sex;
-  if (sex == "MALE") $("#profileSex").val("M");
-  if (sex == "FEMALE") $("#profileSex").val("Ž");
-  if (sex == "POTATO") $("#profileSex").val("POTATO");
+  $("#profileSex").val(getSexSelectionString(user.sex));
 }
 
 $(document).ready(function () {
@@ -43,10 +40,7 @@ $(document).ready(function () {
       return;
     }
 
-    let sexVal = $("#profileSex").val();
-    let sex = "MALE";
-    if (sexVal == "Ž") sex = "FEMALE";
-    else if (sexVal == "POTATO") sex = "POTATO";
+    let sex = getSexType($("#profileSex").val());
     let json = JSON.stringify(
       new Administrator(
         user.username,
