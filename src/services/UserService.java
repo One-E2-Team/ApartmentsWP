@@ -64,7 +64,7 @@ public class UserService {
 		newUser.setReservationIds(new ArrayList<Integer>());
 		User existing = UserRepository.getInstance().create(newUser);
 		if (existing == null)
-			return null; // TODO: proper error message
+			return null;
 		request.getSession(true).setAttribute("user", newUser);
 		return newUser;
 	}

@@ -16,10 +16,12 @@ import javax.ws.rs.core.MediaType;
 import beans.apartment.Amenity;
 import beans.apartment.Apartment;
 import beans.apartment.Comment;
+import beans.user.Host;
 import beans.user.Role;
 import beans.user.User;
 import repository.AmenityRepository;
 import repository.ApartmentRepository;
+import repository.UserRepository;
 
 @Path("/apartment")
 public class ApartmentService {
@@ -53,7 +55,10 @@ public class ApartmentService {
 		apartment.setPicturePaths(new ArrayList<String>());
 		apartment.setRentableDates(new ArrayList<Date>());
 		apartment.setAvailableDates(new ArrayList<Date>());
-		return ApartmentRepository.getInstance().create(apartment);
+		Apartment ret = ApartmentRepository.getInstance().create(apartment);
+		((Host) user).getRentableApartmentIds().add(ret.getId());
+		UserRepository.getInstance().update(user);
+		return ret;
 	}
 
 }

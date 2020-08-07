@@ -91,8 +91,10 @@ $(document).ready(function () {
       dataType: "json",
       complete: function (data, status) {
         if (status == "success") {
-          alert(69);
-        }
+          alert("Apartman je uspešno dodat!");
+          clearAddApartmentForm();
+        } else if (status == "nocontent")
+          alert("Nemate prava da dodajete apartman!");
       },
     });
   });
@@ -134,4 +136,17 @@ function getSelectedAmenityIds() {
     if (amenityOption.selected) selectedAmenityIds.push(amenityOption.value);
   }
   return selectedAmenityIds;
+}
+
+function clearAddApartmentForm(){
+  $("#apartmentType").val("APARTMAN");
+  $("#pricePerNight").val("");
+  $("#zipcode").val("");
+  $("#city").val("");
+  $("#latitude").val("");
+  $("#longitude").val("");
+  $("#roomNum").val("");
+  $("#guestNum").val("");
+  $("#street").val("");
+  $("#streetNum").val("");
 }

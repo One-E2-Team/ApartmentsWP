@@ -68,7 +68,12 @@ $(document).ready(function () {
       complete: function (data, status) {
         if (status == "success") {
           validSession(JSON.parse(data.responseText));
-        }
+        } else if (status == "nocontent")
+          alert(
+            "Korisnik sa korisničkim imenom '" +
+              username +
+              "' već postoji u sistemu!"
+          );
       },
     });
   });
