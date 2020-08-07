@@ -199,26 +199,16 @@
                 <hr>
             </div>
         </div>
-        <div class="row text-center d-none" id="NoResults">
+        <div class="row text-center" id="NoResults">
             <div class="col-12">
                 <label class="h4">Pretraga nije dala nikakve rezultate, pokušajte sa drugačijim parametrima
                     pretrage.</label>
             </div>
         </div>
-        <div class="row mt-3 mb-3" id="ResultsExist">
+        <div class="row mt-3 mb-3 d-none" id="ResultsExist">
             <div class="col-8 d-flex align-items-center">
                 <div class="container-fluid overflow-auto" style="max-height: 600px;">
-                    <div class="row justify-content-center" id="Results">
-                        <div class="card m-4" style="width: 18rem;">
-                            <img src="https://www.google.rs/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
-                                class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Google</h5>
-                                <p class="card-text">This fucker does some goolgeing.</p>
-                                <a href="https://www.google.rs/" class="btn btn-primary">Go to Google</a>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="row justify-content-center" id="Results"></div>
                 </div>
             </div>
             <div class="col-4" id="mapResults" style="width: 33%; height: 600px;"></div>
