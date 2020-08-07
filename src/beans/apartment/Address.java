@@ -2,21 +2,23 @@ package beans.apartment;
 
 public class Address {
 
-	private String street, city;
+	private String street, city, country;
 	private int number, zipcode;
 
 	public Address() {
 		super();
 		street = "";
 		city = "";
+		country = "";
 		number = 0;
 		zipcode = 0;
 	}
 
-	public Address(String street, String city, int number, int zipcode) {
+	public Address(String street, String city, String country, int number, int zipcode) {
 		super();
 		this.street = street;
 		this.city = city;
+		this.country = country;
 		this.number = number;
 		this.zipcode = zipcode;
 	}
@@ -51,6 +53,14 @@ public class Address {
 
 	public void setZipcode(int zipcode) {
 		this.zipcode = zipcode;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
 }
