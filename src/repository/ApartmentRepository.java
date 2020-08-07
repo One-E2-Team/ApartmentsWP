@@ -120,7 +120,7 @@ public class ApartmentRepository {
 	}
 
 	private synchronized int getAvailableId() {
-		int id = (apartments.size() != 0) ? (apartments.get(0).getId()) : 1;
+		int id = (apartments.size() != 0) ? (apartments.get(0).getId()) : 0;
 		for (Apartment apartment : apartments) {
 			if (apartment.getId() > id)
 				id = apartment.getId();

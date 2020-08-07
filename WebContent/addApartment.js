@@ -40,11 +40,12 @@ $(document).ready(function() {
     let guestNum = $("#guestNum").val();
     let street = $("#street").val();
     let streetNum = $("#streetNum").val();
-    if (addApartmentErrorExist(price, zipcode, city, latitude, longitude, roomNum, guestNum, street, streetNum)) {
+    let country = $("#country").val();
+    if (addApartmentErrorExist(price, zipcode, city, latitude, longitude, roomNum, guestNum, street, streetNum, country)) {
       $("#addApartmentError").removeClass("d-none");
       return;
     }
-    let address = new Address(street, city, streetNum, zipcode);
+    let address = new Address(street, city, country, streetNum, zipcode);
     let location = new Location(latitude, longitude, address);
     let type = "APARTMENT";
     if ($("#apartmentType").val() == "SOBA") type = "ROOM";
@@ -68,8 +69,8 @@ $(document).ready(function() {
   });
 });
 
-function addApartmentErrorExist(price, zipcode, city, latitude, longitude, roomNum, guestNum, street, streetNum) {
-  if (!price || !zipcode || !city || !latitude || !longitude || !roomNum || !guestNum || !street || !streetNum ||
+function addApartmentErrorExist(price, zipcode, city, latitude, longitude, roomNum, guestNum, street, streetNum, country) {
+  if (!price || !zipcode || !city || !latitude || !longitude || !roomNum || !guestNum || !street || !streetNum || !country ||
     parseFloat(latitude) != latitude || parseFloat(longitude) != longitude)
     return true;
   return false;

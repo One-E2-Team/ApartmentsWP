@@ -103,7 +103,7 @@ public class AmenityRepository {
 	}
 
 	private synchronized int getAvailableId() {
-		int id = (amenities.size() != 0) ? (amenities.get(0).getId()) : 1;
+		int id = (amenities.size() != 0) ? (amenities.get(0).getId()) : 0;
 		for (Amenity amenity : amenities) {
 			if (amenity.getId() > id)
 				id = amenity.getId();
