@@ -12,7 +12,6 @@ $(document).ready(function() {
       if (status == "success") {
         amenities = JSON.parse(data.responseText);
         populateAmenities();
-        $("#addApartmentElement").addClass("d-none");
       }
     },
   });
