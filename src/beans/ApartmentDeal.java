@@ -3,18 +3,18 @@ package beans;
 import beans.apartment.Apartment;
 
 public class ApartmentDeal {
-	private double deal;
-	private Apartment appartment;
-	public double getDeal() {
+	private Double deal = null;;
+	private Apartment apartment;
+	public Double getDeal() {
 		return deal;
 	}
-	public void setDeal(double deal) {
+	public void setDeal(Double deal) {
 		this.deal = deal;
 	}
-	public Apartment getAppartment() {
-		return appartment;
+	public Apartment getApartment() {
+		return apartment;
 	}
-	public void setAppartment(Apartment appartment) {
-		this.appartment = appartment;
+	public void setApartment(Apartment apartment) {
+		this.apartment = apartment;
 	}
 }
