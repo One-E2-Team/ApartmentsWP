@@ -28,7 +28,7 @@ public class ApartmentService {
 	@GET
 	@Path("/getAllVisibleAmenities")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Amenity> getAllAmenities(@Context HttpServletRequest request) {
+	public Collection<Amenity> getAllVisibleAmenities(@Context HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
 		if (user == null || user.getRole() == Role.GUEST)
 			return null;

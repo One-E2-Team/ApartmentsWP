@@ -129,9 +129,10 @@ $(document).ready(function() {
     dataType: "json",
     complete: function(data, status) {
       if (status == "success") {
-        validSession(JSON.parse(data.responseText));
-        if (getHTMLFileName() == "profile.html")
-          populateProfileData(JSON.parse(data.responseText));
+        let responseJson = JSON.parse(data.responseText);
+        validSession(responseJson);
+        if (getHTMLFileName() == "profile.html") populateProfileData(responseJson);
+        else if (getHTMLFileName() == "reservations.html") getProperReservations(responseJson);
       }
     },
   });
