@@ -43,7 +43,7 @@ $(document).ready(function() {
     }
 
     let sex = getSexType($("#registerSex").val());
-    let json = JSON.stringify(new Guest(username, password, name, surname, sex, "GUEST", false, null, null));
+    let json = JSON.stringify(new Guest(username, password, name, surname, sex, "GUEST", false, [], []));
 
     $.ajax({
       url: "rest/user/register",

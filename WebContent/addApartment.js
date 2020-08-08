@@ -1,4 +1,5 @@
 var amenities = null;
+const maxInt = 2147483647;
 
 $(document).ready(function() {
   $.ajax({
@@ -49,8 +50,8 @@ $(document).ready(function() {
     let location = new Location(latitude, longitude, address);
     let type = "APARTMENT";
     if ($("#apartmentType").val() == "SOBA") type = "ROOM";
-    let apartment = new Apartment(0, "INACTIVE", false, type, parseInt(guestNum, 10), parseInt(roomNum, 10), location, "username", null, price, 2, 10, "PM", "AM",
-      getSelectedAmenityIds(), null, null, null, null);
+    let apartment = new Apartment(0, "INACTIVE", false, type, parseInt(guestNum, 10), parseInt(roomNum, 10), location, "username", [], price, 2, 10, "PM", "AM",
+      getSelectedAmenityIds(), [], [], [], []);
     let json = JSON.stringify(apartment);
 
     $.ajax({
@@ -71,6 +72,7 @@ $(document).ready(function() {
 
 function addApartmentErrorExist(price, zipcode, city, latitude, longitude, roomNum, guestNum, street, streetNum, country) {
   if (!price || !zipcode || !city || !latitude || !longitude || !roomNum || !guestNum || !street || !streetNum || !country ||
+    parseInt(zipcode, 10) > maxInt || parseInt(roomNum, 10) > maxInt || parseInt(guestNum, 10) > maxInt || parseInt(streetNum, 10) > maxInt ||
     parseFloat(latitude) != latitude || parseFloat(longitude) != longitude)
     return true;
   return false;

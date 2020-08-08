@@ -2,7 +2,6 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -15,7 +14,6 @@ import javax.ws.rs.core.MediaType;
 
 import beans.apartment.Amenity;
 import beans.apartment.Apartment;
-import beans.apartment.Comment;
 import beans.user.Host;
 import beans.user.Role;
 import beans.user.User;
@@ -50,11 +48,6 @@ public class ApartmentService {
 		if (user == null || user.getRole() != Role.HOST)
 			return null;
 		apartment.setHostId(user.getUsername());
-		apartment.setComments(new ArrayList<Comment>());
-		apartment.setReservationIds(new ArrayList<Integer>());
-		apartment.setPicturePaths(new ArrayList<String>());
-		apartment.setRentableDates(new ArrayList<Date>());
-		apartment.setAvailableDates(new ArrayList<Date>());
 		Apartment ret = ApartmentRepository.getInstance().create(apartment);
 		((Host) user).getRentableApartmentIds().add(ret.getId());
 		UserRepository.getInstance().update(user);

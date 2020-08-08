@@ -1,7 +1,5 @@
 package services;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -60,8 +58,6 @@ public class UserService {
 	public User register(@Context HttpServletRequest request, Guest newUser) {
 		if ((User) request.getSession().getAttribute("user") != null)
 			request.getSession().invalidate();
-		newUser.setRentedApartmentIds(new ArrayList<Integer>());
-		newUser.setReservationIds(new ArrayList<Integer>());
 		User existing = UserRepository.getInstance().create(newUser);
 		if (existing == null)
 			return null;
@@ -75,7 +71,7 @@ public class UserService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public User editUser(@Context HttpServletRequest request, Administrator editedUser) {
 		User user = (User) request.getSession().getAttribute("user");
-		if (user == null)
+		if (user == null || user.getUsername() != editedUser.getUsername())
 			return null;
 		user.setName(editedUser.getName());
 		user.setSurname(editedUser.getSurname());

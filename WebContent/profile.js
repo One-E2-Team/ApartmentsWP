@@ -38,7 +38,7 @@ $(document).ready(function() {
       complete: function(data, status) {
         if (status == "success") {
           populateProfileData(JSON.parse(data.responseText));
-        }
+        } else if (status == "nocontent") alert("Nemate prava da menjate podatke!");
       },
     });
   });
