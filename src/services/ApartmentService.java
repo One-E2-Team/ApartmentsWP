@@ -9,6 +9,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -52,6 +53,24 @@ public class ApartmentService {
 		((Host) user).getRentableApartmentIds().add(ret.getId());
 		UserRepository.getInstance().update(user);
 		return ret;
+	}
+
+	@GET
+	@Path("/getApartment")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Apartment getApartment(@QueryParam("id") String id) {
+		Integer apartmentId = null;
+		try {
+			apartmentId = Integer.parseInt(id);
+		} catch (Exception e) {
+			return null;
+		}
+		if (apartmentId != null) {
+			Apartment ret = ApartmentRepository.getInstance().read(apartmentId);
+			if (ret != null)
+				return ret;
+		}
+		return null;
 	}
 
 }

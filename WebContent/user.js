@@ -108,6 +108,7 @@ function addHiddenClassForRegistration() {
 }
 
 function validSession(user) {
+  activeUser = user;
   $("#login").addClass("d-none");
   $("#registration").addClass("d-none");
   $("#profileElement").removeClass("d-none");
@@ -129,16 +130,23 @@ $(document).ready(function() {
     complete: function(data, status) {
       if (status == "success") {
         validSession(JSON.parse(data.responseText));
-        if (getHTMLFilmeName() == "profile.html")
+        if (getHTMLFileName() == "profile.html")
           populateProfileData(JSON.parse(data.responseText));
       }
     },
   });
 });
 
-function getHTMLFilmeName() {
+function getHTMLFileName() {
   let path = window.location.pathname;
   return path.split("/").pop();
+}
+
+function getQueryParams() {
+  let fullPath = document.location.href;
+  let params = fullPath.split("?");
+  if (params.length == 1) return "";
+  return params[1];
 }
 
 function getSexType(sexSelectionString) {
