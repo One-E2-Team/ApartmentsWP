@@ -94,8 +94,12 @@ function GETReqToJSObject() {
 var searchResult = null;
 
 function populateHTMLwithResults() {
-  for (var i in searchResult)
+  var latLongList = [];
+  for (var i in searchResult) {
     addDeal(searchResult[i].apartment.picturePaths.length == 0 ? false : true, searchResult[i].apartment.picturePaths.length != 0 ? searchResult[i].apartment.picturePaths[0] : null, i, searchResult[i].apartment.nightStayPrice, searchResult[i].deal, searchResult[i].deal, searchResult[i].apartment.id);
+    latLongList.push([searchResult[i].apartment.location.latitude, searchResult[i].apartment.location.longitude]);
+  }
+  addAllApartmentPointsResultMap(latLongList);
 }
 
 $(document).ready(function() {
