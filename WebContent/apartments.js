@@ -1,7 +1,7 @@
 function initResults() {
   $("#NoResults").addClass("d-none");
+  $("#ResultsOperations").removeClass("d-none");
   $("#ResultsExist").removeClass("d-none");
-  document.ad
   initResultsMap(true, [searchResult[0].apartment.location.latitude, searchResult[0].apartment.location.longitude], function(latitude, longitude) {
     var data = getDealMapSummary(latitude, longitude);
     return '<table><tr><td><a href="' + data[2] + '" style="white-space: nowrap;"><label><b>Ponuda ' + data[0] + '</b></label></a></td></tr><tr><td><label style="white-space: nowrap;">' + data[1] + '</label></td></tr></table>'
@@ -99,4 +99,33 @@ $(document).ready(function() {
         }
       }
     });
+});
+
+function sortResults(asc) {
+  searchResult.sort(function(a, b) {
+    var ret;
+    if (a.deal != null) {
+      ret = a.deal == b.deal ? 0 : a.deal > b.deal ? 1 : -1;
+    } else {
+      ret = a.apartment.nightStayPrice == b.apartment.nightStayPrice ? 0 : a.apartment.nightStayPrice > b.apartment.nightStayPrice ? 1 : -1;
+    }
+    return asc ? ret : -1 * ret;
+  });
+}
+
+$(document).ready(function() {
+  $("#ascending").click(function(e) {
+    e.preventDefault();
+    sortResults(true);
+    removeAllApartmentPointsResultMap();
+    $("#Results").empty();
+    populateHTMLwithResults();
+  });
+  $("#descending").click(function(e) {
+    e.preventDefault();
+    sortResults(false);
+    removeAllApartmentPointsResultMap()
+    $("#Results").empty();
+    populateHTMLwithResults();
+  });
 });
