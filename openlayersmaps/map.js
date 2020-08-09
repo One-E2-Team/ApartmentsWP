@@ -1,5 +1,5 @@
 import 'ol/ol.css';
-import { Circle, Fill, Style } from 'ol/style';
+import { Circle, Fill, Style, Text } from 'ol/style';
 import { Feature, Map, Overlay, View } from 'ol/index';
 import { OSM, Vector as VectorSource } from 'ol/source';
 import { Point } from 'ol/geom';
@@ -14,6 +14,7 @@ var mapSearch = null;
 var mapResults = null;
 var element = null;
 var popup = null;
+
 
 // definition for search map
 
@@ -58,6 +59,7 @@ window.initSearchMap = function initSearchMap(func) {
 }
 
 
+
 //definition for search results map
 
 window.initResultsMap = function initResultsMap(popupEnabled, latLongMapCenter, func) {
@@ -73,7 +75,6 @@ window.initResultsMap = function initResultsMap(popupEnabled, latLongMapCenter, 
       }),
     ],
   });
-
 
   element = document.getElementById('popup');
   popup = new Overlay({
@@ -122,25 +123,26 @@ window.initResultsMap = function initResultsMap(popupEnabled, latLongMapCenter, 
 }
 
 
-
-window.addAllApartmentPointsResultMap = function addAllApartmentPointsResultMap(latLongList) {
+window.addAllApartmentPointsResultMap = function addAllApartmentPointsResultMap(orderedLatLongList, showNumber) {
   $(element).popover('dispose');
-  var featureList = [];
-  latLongList.forEach(function(item) {
-    featureList.push(new Feature(new Point([item[1], item[0]])));
-  });
-  mapResults.addLayer(new VectorLayer({
-    source: new VectorSource({
-      features: featureList,
-    }),
-    style: new Style({
-      image: new Circle({
-        radius: 6,
-        fill: new Fill({ color: 'red' }),
+  for (var i in orderedLatLongList)
+    mapResults.addLayer(new VectorLayer({
+      source: new VectorSource({
+        features: [new Feature(new Point([orderedLatLongList[i][1], orderedLatLongList[i][0]]))],
       }),
-    }),
-  }));
+      style: new Style({
+        image: new Circle({
+          radius: 8,
+          fill: new Fill({ color: 'red' }),
+        }),
+        text: new Text({
+          font: "bold 12px Arial, Verdana, Helvetica, sans-serif",
+          text: showNumber ? (Number(i) + 1).toString() : "",
+        }),
+      }),
+    }));
 }
+
 
 window.removeAllApartmentPointsResultMap = function removeAllApartmentPointsResultMap() {
   $(element).popover('dispose');

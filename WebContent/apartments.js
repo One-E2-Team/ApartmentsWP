@@ -55,6 +55,8 @@ function addDeal(imageExists, imgsrc, apartmentIndex /* index + 1 */ , nightCost
   card.append(list);
   var links = document.createElement('div');
   links.classList.add('card-body');
+  links.classList.add('d-flex');
+  links.classList.add('flex-column');
   var appartemntLink = document.createElement('a');
   appartemntLink.classList.add('btn');
   appartemntLink.classList.add('btn-primary');
@@ -62,33 +64,10 @@ function addDeal(imageExists, imgsrc, apartmentIndex /* index + 1 */ , nightCost
   appartemntLink.href = 'apartment.html?id=' + apartmentId;
   appartemntLink.classList.add('mt-auto');
   links.append(appartemntLink);
-  var mapLink = document.createElement('a');
-  mapLink.innerText = 'Prikaži na karti';
-  mapLink.classList.add('btn');
-  mapLink.classList.add('btn-link');
-  mapLink.classList.add('ml-2');
-  mapLink.classList.add('SHOWONMAPLINK');
-  mapLink.name = apartmentId.toString(10);
-  mapLink.href = 'javascript:void(0)';
-  mapLink.classList.add('mt-auto');
-  links.classList.add('d-flex');
-  links.append(mapLink);
   card.append(links);
   element.append(card);
 }
-/*
-$(document).ready(function() {
-  initResults();
-  addDeal(true, "https://www.google.rs/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png", 1, 930, true, 100300, 7);
-  addDeal(false, "https://www.google.rs/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png", 1, 930, true, 100300, 7);
-  //addDeal(true,"https://www.google.rs/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",2,930,false,100300,8);
-  addDeal(false, "https://www.google.rs/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png", 3, 930, false, 100300, 9);
-  addDeal(true, "https://www.google.rs/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png", 1, 930, true, 100300, 7);
-  //addDeal(true,"https://www.google.rs/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",2,930,false,100300,8);
-  addDeal(false, "https://www.google.rs/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png", 3, 930, false, 100300, 9);
 
-});
-*/
 function GETReqToJSObject() {
   var search = location.search.substring(1);
   return JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
@@ -102,7 +81,7 @@ function populateHTMLwithResults() {
     addDeal(searchResult[i].apartment.picturePaths.length == 0 ? false : true, searchResult[i].apartment.picturePaths.length != 0 ? searchResult[i].apartment.picturePaths[0] : null, Number(i) + 1, searchResult[i].apartment.nightStayPrice, searchResult[i].deal, searchResult[i].deal, searchResult[i].apartment.id);
     latLongList.push([searchResult[i].apartment.location.latitude, searchResult[i].apartment.location.longitude]);
   }
-  addAllApartmentPointsResultMap(latLongList);
+  addAllApartmentPointsResultMap(latLongList, true);
 }
 
 $(document).ready(function() {
