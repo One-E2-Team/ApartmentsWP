@@ -1,23 +1,26 @@
 function initResults() {
   $("#NoResults").addClass("d-none");
   $("#ResultsExist").removeClass("d-none");
-  initResultsMap(true, function(latitude, longitude) {
+  document.ad
+  initResultsMap(true, [searchResult[0].apartment.location.latitude, searchResult[0].apartment.location.longitude], function(latitude, longitude) {
     var data = getDealMapSummary(latitude, longitude);
-    return '<table><tr><a href="' + data[2] + '"<b>Ponuda ' + data[0] + '<b></a></tr><label>' + data[1] + '</label><tr></tr></table>'
+    return '<table><tr><td><a href="' + data[2] + '" style="white-space: nowrap;"><label><b>Ponuda ' + data[0] + '</b></label></a></td></tr><tr><td><label style="white-space: nowrap;">' + data[1] + '</label></td></tr></table>'
   });
 }
 
 function getDealMapSummary(latitude, longitude) {
   var obj = null;
   for (var result in searchResult)
-    if (searchResult[result].location.latitude == latitude && searchResult[result].location.longitude == longitude) {
+    if (searchResult[result].apartment.location.latitude == latitude && searchResult[result].apartment.location.longitude == longitude) {
       obj = result;
       break;
     }
-  return [toString(obj) + 'RSD', searchResult[obj].deal, 'apartment.html?id=' + searchResult[obj].apartment.id];
+  return [(Number(obj) + 1).toString(), (searchResult[obj].deal == null ? searchResult[obj].apartment.nightStayPrice.toString() : searchResult[obj].deal.toString()) +
+    ' RSD', 'apartment.html?id=' + searchResult[obj].apartment.id.toString()
+  ];
 }
 
-function addDeal(imageExists, imgsrc, apartmentIndex, nightCost, dealAvailable, dealPrice, apartmentId) {
+function addDeal(imageExists, imgsrc, apartmentIndex /* index + 1 */ , nightCost, dealAvailable, dealPrice, apartmentId) {
   var element = document.getElementById("Results");
   var card = document.createElement('div');
   card.classList.add('card');
@@ -96,7 +99,7 @@ var searchResult = null;
 function populateHTMLwithResults() {
   var latLongList = [];
   for (var i in searchResult) {
-    addDeal(searchResult[i].apartment.picturePaths.length == 0 ? false : true, searchResult[i].apartment.picturePaths.length != 0 ? searchResult[i].apartment.picturePaths[0] : null, i, searchResult[i].apartment.nightStayPrice, searchResult[i].deal, searchResult[i].deal, searchResult[i].apartment.id);
+    addDeal(searchResult[i].apartment.picturePaths.length == 0 ? false : true, searchResult[i].apartment.picturePaths.length != 0 ? searchResult[i].apartment.picturePaths[0] : null, Number(i) + 1, searchResult[i].apartment.nightStayPrice, searchResult[i].deal, searchResult[i].deal, searchResult[i].apartment.id);
     latLongList.push([searchResult[i].apartment.location.latitude, searchResult[i].apartment.location.longitude]);
   }
   addAllApartmentPointsResultMap(latLongList);

@@ -27,7 +27,7 @@
     <script src="openlayersmap/util/elm-pep.js"></script>
     <!-- polyfill with features: https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,requestAnimationFrame,Element.prototype.classList,URL -->
     <script src="openlayersmap/util/polyfill.min.js"></script>
-    <script src="openlayersmap/map.3edeca68.js"></script>
+    <script src="openlayersmap/map.fb6dec34.js"></script>
     <link rel="stylesheet" href="openlayersmap/map.bb28b584.css">
 
     <!---->
@@ -44,8 +44,7 @@
     <header class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="index.html">
             <label>Apartment?</label>
-            <svg version="1.1" width="102" height="32" viewBox="0 0 102 32" class="siteheader__logo"
-                aria-labelledby="header-logo-id" role="img" focusable="false" tabindex="-1">
+            <svg version="1.1" width="102" height="32" viewBox="0 0 102 32" class="siteheader__logo" aria-labelledby="header-logo-id" role="img" focusable="false" tabindex="-1">
                 <title id="header-logo-id">
                     trivago
                 </title>
@@ -90,8 +89,7 @@
         </div>
 
         <!--Modal for logout fail-->
-        <div class="modal fade" id="ModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-            aria-hidden="true">
+        <div class="modal fade" id="ModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -143,8 +141,7 @@
                                 <td class="align-middle">Datumi (odlazak i dolazak):</td>
                                 <td colspan="3" class="align-middle">
                                     <div class="input-group input-daterange align-items-center">
-                                        <input name="dateFrom" type="text" class="form-control"
-                                            data-provide="datepicker">
+                                        <input name="dateFrom" type="text" class="form-control" data-provide="datepicker">
                                         <div class="input-group-addon mr-3 ml-3 align-middle"> - </div>
                                         <input name="dateTo" type="text" class="form-control" data-provide="datepicker">
                                     </div>
@@ -187,7 +184,7 @@
         </div>
     </div>
 
-    <div class="container-fluid" id="registration">
+    <div class="container-fluid">
         <div class="row">
             <div class="col">
                 <hr />
@@ -211,7 +208,9 @@
                     <div class="row justify-content-center" id="Results"></div>
                 </div>
             </div>
-            <div class="col-4" id="mapResults" style="width: 33%; height: 600px;"></div>
+            <div class="col-4" id="mapResults" style="width: 33%; height: 600px;">
+                <div id="popup"></div>
+            </div>
         </div>
     </div>
 
@@ -236,20 +235,15 @@
                     <table class="table">
                         <tr>
                             <td>Ime:</td>
-                            <td><input id="registerName" /><span class="alert alert-danger d-none ml-2" role="alert"
-                                    id="registerNameError">Ime nije uneto</span></td>
+                            <td><input id="registerName" /><span class="alert alert-danger d-none ml-2" role="alert" id="registerNameError">Ime nije uneto</span></td>
                             <td>Korisničko ime:</td>
-                            <td><input id="registerUsername"><span class="alert alert-danger d-none ml-2" role="alert"
-                                    id="registerUsernameError">Korisničko ime nije uneto</span></td>
+                            <td><input id="registerUsername"><span class="alert alert-danger d-none ml-2" role="alert" id="registerUsernameError">Korisničko ime nije uneto</span></td>
                         </tr>
                         <tr>
                             <td>Prezime:</td>
-                            <td><input id="registerSurname" /><span class="alert alert-danger d-none ml-2" role="alert"
-                                    id="registerSurnameError">Prezime nije uneto</span></td>
+                            <td><input id="registerSurname" /><span class="alert alert-danger d-none ml-2" role="alert" id="registerSurnameError">Prezime nije uneto</span></td>
                             <td>Lozinka:</td>
-                            <td><input type="password" id="registerPassword" /><span
-                                    class="alert alert-danger d-none ml-2" role="alert"
-                                    id="registerPasswordError">Lozinka nije uneta</span></td>
+                            <td><input type="password" id="registerPassword" /><span class="alert alert-danger d-none ml-2" role="alert" id="registerPasswordError">Lozinka nije uneta</span></td>
                         </tr>
                         <tr>
                             <td>Pol:</td>
@@ -259,9 +253,7 @@
                                     <option value="POTATO">POTATO</option>
                                 </select> </td>
                             <td>Ponovite lozinku:</td>
-                            <td><input type="password" id="registerRepeatedPassword" /><span
-                                    class="alert alert-danger d-none ml-2" role="alert"
-                                    id="registerRepeatedPasswordError"></span></td>
+                            <td><input type="password" id="registerRepeatedPassword" /><span class="alert alert-danger d-none ml-2" role="alert" id="registerRepeatedPasswordError"></span></td>
                         </tr>
                         <tr>
                             <td colspan="4" class="text-center align-middle">
