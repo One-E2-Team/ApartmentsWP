@@ -143,13 +143,6 @@ function getHTMLFileName() {
   return path.split("/").pop();
 }
 
-function getQueryParams() {
-  let fullPath = document.location.href;
-  let params = fullPath.split("?");
-  if (params.length == 1) return "";
-  return params[1];
-}
-
 function getSexType(sexSelectionString) {
   if (sexSelectionString == "M") return "MALE";
   else if (sexSelectionString == "Ž") return "FEMALE";
