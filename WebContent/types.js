@@ -84,3 +84,8 @@ function Reservation(id, apartmentId, startDate, stayNights, totalCost, message,
   this.guestId = guestId;
   this.status = status;
 }
+
+function ApartmentDeal(deal, apartment) {
+  this.deal = deal;
+  this.apartment = apartment;
+}

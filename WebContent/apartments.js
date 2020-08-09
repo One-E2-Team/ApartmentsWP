@@ -8,10 +8,16 @@ function initResults() {
 }
 
 function getDealMapSummary(latitude, longitude) {
-  return [1, 2, 3];
+  var obj = null;
+  for (var result in searchResult)
+    if (searchResult[result].location.latitude == latitude && searchResult[result].location.longitude == longitude) {
+      obj = result;
+      break;
+    }
+  return [toString(obj) + 'RSD', searchResult[obj].deal, 'apartment.html?id=' + searchResult[obj].apartment.id];
 }
 
-function addDeal(imageExists, imgsrc, appartmentIndex, nightCost, dealAvailable, dealPrice, appartmentId) {
+function addDeal(imageExists, imgsrc, apartmentIndex, nightCost, dealAvailable, dealPrice, apartmentId) {
   var element = document.getElementById("Results");
   var card = document.createElement('div');
   card.classList.add('card');
@@ -27,7 +33,7 @@ function addDeal(imageExists, imgsrc, appartmentIndex, nightCost, dealAvailable,
   head.classList.add('card-body');
   var header = document.createElement('h5');
   header.classList.add('card-title');
-  header.innerText = 'Ponuda ' + appartmentIndex;
+  header.innerText = 'Ponuda ' + apartmentIndex;
   head.append(header);
   card.append(head);
   var list = document.createElement('ul');
@@ -50,7 +56,7 @@ function addDeal(imageExists, imgsrc, appartmentIndex, nightCost, dealAvailable,
   appartemntLink.classList.add('btn');
   appartemntLink.classList.add('btn-primary');
   appartemntLink.innerText = 'Ponuda';
-  appartemntLink.href = 'apartment.html?id=' + appartmentId;
+  appartemntLink.href = 'apartment.html?id=' + apartmentId;
   appartemntLink.classList.add('mt-auto');
   links.append(appartemntLink);
   var mapLink = document.createElement('a');
@@ -59,7 +65,7 @@ function addDeal(imageExists, imgsrc, appartmentIndex, nightCost, dealAvailable,
   mapLink.classList.add('btn-link');
   mapLink.classList.add('ml-2');
   mapLink.classList.add('SHOWONMAPLINK');
-  mapLink.name = appartmentId.toString(10);
+  mapLink.name = apartmentId.toString(10);
   mapLink.href = 'javascript:void(0)';
   mapLink.classList.add('mt-auto');
   links.classList.add('d-flex');
@@ -87,13 +93,24 @@ function GETReqToJSObject() {
 
 var searchResult = null;
 
-if (location.search)
-  $.ajax({
-    type: "GET",
-    url: "rest/search/apartments" + location.search,
-    data: "",
-    dataType: "",
-    success: function(response) {
+function populateHTMLwithResults() {
+  for (var i in searchResult)
+    addDeal(searchResult[i].apartment.picturePaths.length == 0 ? false : true, searchResult[i].apartment.picturePaths.length != 0 ? searchResult[i].apartment.picturePaths[0] : null, i, searchResult[i].apartment.nightStayPrice, searchResult[i].deal, searchResult[i].deal, searchResult[i].apartment.id);
+}
 
-    }
-  });
+$(document).ready(function() {
+  if (location.search)
+    $.ajax({
+      type: "GET",
+      url: "rest/search/apartments" + location.search,
+      data: "",
+      dataType: "json",
+      complete: function(response) {
+        if (response.responseText && response.status == 200) {
+          searchResult = JSON.parse(response.responseText);
+          initResults();
+          populateHTMLwithResults();
+        }
+      }
+    });
+});
