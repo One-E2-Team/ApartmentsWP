@@ -133,6 +133,7 @@ $(document).ready(function() {
         validSession(responseJson);
         if (getHTMLFileName() == "profile.html") populateProfileData(responseJson);
         else if (getHTMLFileName() == "reservations.html") getProperReservations(responseJson);
+        else if (getHTMLFileName() == "users.html") getProperUsersList(responseJson);
       }
     },
   });

@@ -1,5 +1,9 @@
 package services;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -10,9 +14,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.Reservation;
 import beans.user.Administrator;
 import beans.user.Guest;
+import beans.user.Host;
+import beans.user.Role;
 import beans.user.User;
+import repository.ReservationRepository;
 import repository.UserRepository;
 
 @Path("/user")
@@ -80,6 +88,33 @@ public class UserService {
 		UserRepository.getInstance().update(user);
 		request.getSession(true).setAttribute("user", user);
 		return user;
+	}
+
+	@GET
+	@Path("/getAll")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<User> getAllUsers(@Context HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("user");
+		if (user == null || user.getRole() != Role.ADMINISTRATOR)
+			return null;
+		return UserRepository.getInstance().getAll();
+	}
+
+	@GET
+	@Path("/getAllByHost")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<User> getAllByHost(@Context HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("user");
+		if (user == null || user.getRole() != Role.HOST)
+			return null;
+		Collection<User> ret = new ArrayList<User>();
+		Collection<String> usernames = new HashSet<String>();
+		for (Reservation reservation : ReservationRepository.getInstance().getAll())
+			if (((Host) user).getRentableApartmentIds().contains(reservation.getApartmentId()))
+				usernames.add(reservation.getGuestId());
+		for (String username : usernames)
+			ret.add(UserRepository.getInstance().read(username));
+		return ret;
 	}
 
 }
