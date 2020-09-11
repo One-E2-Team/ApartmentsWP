@@ -157,3 +157,17 @@ function getSexSelectionString(sexType) {
   else if (sexType == "POTATO") return "POTATO";
   return null;
 }
+
+function getRoleType(roleSelectionString) {
+  if (roleSelectionString == "DOMAĆIN") return "HOST";
+  else if (roleSelectionString == "ADMINISTRATOR") return "ADMINISTRATOR";
+  else if (roleSelectionString == "GOST") return "GUEST";
+  return null;
+}
+
+function getRoleSelectionString(roleType) {
+  if (roleType == "HOST") return "DOMAĆIN";
+  else if (roleType == "ADMINISTRATOR") return "ADMINISTRATOR";
+  else if (roleType == "GUEST") return "GOST";
+  return null;
+}

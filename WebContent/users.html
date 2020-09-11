@@ -126,6 +126,66 @@
             </table>
         </form>
     </header>
+
+    <div class="container column">
+        <div class="row">
+            <table border="1" id="visibleUsers">
+                <tr>
+                    <th>Korisničko ime</th>
+                    <th>Ime</th>
+                    <th>Prezime</th>
+                    <th>Pol</th>
+                    <th>Uloga</th>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <form id="searchUserForm">
+                <table>
+                    <tr>
+                        <td>Korisničko ime</td>
+                        <td>Ime</td>
+                        <td>Prezime</td>
+                        <td>Pol</td>
+                        <td>Uloga</td>
+                    </tr>
+                    <tr>
+                        <td><input id="searchUsername" /></td>
+                        <td><input id="searchName" /></td>
+                        <td><input id="searchSurname" /></td>
+                        <td><select id="searchSex">
+                            <option value="-">-</option>
+                            <option value="M">M</option>
+                            <option value="Ž">Ž</option>
+                            <option value="POTATO">POTATO</option>
+                        </select></td>
+                        <td><select id="searchRole">
+                            <option value="-">-</option>
+                            <option value="GOST">GOST</option>
+                            <option value="DOMAĆIN">DOMAĆIN</option>
+                            <option value="ADMINISTRATOR">ADMINISTRATOR</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-center align-middle">
+                            <button type="submit" class="btn btn-primary">Pretraga</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="row">
+            <table border="1" id="searchResults">
+                <tr>
+                    <th>Korisničko ime</th>
+                    <th>Ime</th>
+                    <th>Prezime</th>
+                    <th>Pol</th>
+                    <th>Uloga</th>
+                </tr>
+            </table>
+        </div>
+    </div>
 </body>
 
 </html>
