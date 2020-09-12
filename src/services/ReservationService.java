@@ -73,7 +73,7 @@ public class ReservationService {
 		changeReservationStatus(id, ReservationStatus.ACCEPTED);
 		return true;
 	}
-	
+
 	@PUT
 	@Path("declineReservation")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -85,7 +85,7 @@ public class ReservationService {
 		changeReservationStatus(id, ReservationStatus.DECLINED);
 		return true;
 	}
-	
+
 	@PUT
 	@Path("withdrawReservation")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -97,7 +97,19 @@ public class ReservationService {
 		changeReservationStatus(id, ReservationStatus.WITHDRAWN);
 		return true;
 	}
-	
+
+	@PUT
+	@Path("completeReservation")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Boolean completeReservation(@Context HttpServletRequest request, int id) {
+		User user = (User) request.getSession().getAttribute("user");
+		if (user == null || user.getRole() != Role.HOST)
+			return null;
+		changeReservationStatus(id, ReservationStatus.COMPLETED);
+		return true;
+	}
+
 	private void changeReservationStatus(int reservationId, ReservationStatus newStatus) {
 		Reservation reservation = ReservationRepository.getInstance().read(reservationId);
 		reservation.setStatus(newStatus);

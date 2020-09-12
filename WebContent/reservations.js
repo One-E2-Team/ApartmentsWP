@@ -108,6 +108,18 @@ function showReservations() { //TODO: proper show information
       withdraw.append(withdrawButton);
       row.append(withdraw);
     }
+    let completedTime = new Date(parseInt(reservation.startDate));
+    completedTime.setDate(completedTime.getDate() + reservation.stayNights);
+    let currentTime = new Date();
+    if (user.role == "HOST" && reservation.status != "COMPLETED" && currentTime.getTime() >= completedTime.getTime()) {
+      let complete = document.createElement("td");
+      let completeButton = document.createElement("button");
+      completeButton.type = "submit";
+      completeButton.innerText = "Završi";
+      completeButton.id = "completeButton";
+      complete.append(completeButton);
+      row.append(complete);
+    }
     table.append(row);
   }
 }
@@ -169,6 +181,28 @@ $(document).on("click", "#withdrawButton", function() {
         for (let reservation of reservations) {
           if (reservation.id == registrationId) {
             reservation.status = "WITHDRAWN";
+            break;
+          }
+        }
+        showReservations();
+      } else if (status == "nocontent") alert("Nemate prava da menjate podatke!");
+    },
+  });
+});
+
+$(document).on("click", "#completeButton", function() {
+  let registrationId = $(this).parent().parent().attr("id");
+  $.ajax({
+    url: "rest/reservation/completeReservation",
+    type: "PUT",
+    data: registrationId,
+    contentType: "application/json",
+    dataType: "json",
+    complete: function(data, status) {
+      if (status == "success") {
+        for (let reservation of reservations) {
+          if (reservation.id == registrationId) {
+            reservation.status = "COMPLETED";
             break;
           }
         }
