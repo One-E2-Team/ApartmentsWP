@@ -90,6 +90,24 @@ function showReservations() { //TODO: proper show information
       accept.append(acceptButton);
       row.append(accept);
     }
+    if (user.role == "HOST" && (reservation.status == "CREATED" || reservation.status == "ACCEPTED")) {
+      let decline = document.createElement("td");
+      let declineButton = document.createElement("button");
+      declineButton.type = "submit";
+      declineButton.innerText = "Odbij";
+      declineButton.id = "declineButton";
+      decline.append(declineButton);
+      row.append(decline);
+    }
+    if (user.role == "GUEST" && (reservation.status == "CREATED" || reservation.status == "ACCEPTED")) {
+      let withdraw = document.createElement("td");
+      let withdrawButton = document.createElement("button");
+      withdrawButton.type = "submit";
+      withdrawButton.innerText = "Odustani";
+      withdrawButton.id = "withdrawButton";
+      withdraw.append(withdrawButton);
+      row.append(withdraw);
+    }
     table.append(row);
   }
 }
@@ -107,6 +125,50 @@ $(document).on("click", "#acceptButton", function() {
         for (let reservation of reservations) {
           if (reservation.id == registrationId) {
             reservation.status = "ACCEPTED";
+            break;
+          }
+        }
+        showReservations();
+      } else if (status == "nocontent") alert("Nemate prava da menjate podatke!");
+    },
+  });
+});
+
+$(document).on("click", "#declineButton", function() {
+  let registrationId = $(this).parent().parent().attr("id");
+  $.ajax({
+    url: "rest/reservation/declineReservation",
+    type: "PUT",
+    data: registrationId,
+    contentType: "application/json",
+    dataType: "json",
+    complete: function(data, status) {
+      if (status == "success") {
+        for (let reservation of reservations) {
+          if (reservation.id == registrationId) {
+            reservation.status = "DECLINED";
+            break;
+          }
+        }
+        showReservations();
+      } else if (status == "nocontent") alert("Nemate prava da menjate podatke!");
+    },
+  });
+});
+
+$(document).on("click", "#withdrawButton", function() {
+  let registrationId = $(this).parent().parent().attr("id");
+  $.ajax({
+    url: "rest/reservation/withdrawReservation",
+    type: "PUT",
+    data: registrationId,
+    contentType: "application/json",
+    dataType: "json",
+    complete: function(data, status) {
+      if (status == "success") {
+        for (let reservation of reservations) {
+          if (reservation.id == registrationId) {
+            reservation.status = "WITHDRAWN";
             break;
           }
         }

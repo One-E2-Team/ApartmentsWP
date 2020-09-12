@@ -70,10 +70,38 @@ public class ReservationService {
 		User user = (User) request.getSession().getAttribute("user");
 		if (user == null || user.getRole() != Role.HOST)
 			return null;
-		Reservation reservation = ReservationRepository.getInstance().read(id);
-		reservation.setStatus(ReservationStatus.ACCEPTED);
-		ReservationRepository.getInstance().update(reservation);
+		changeReservationStatus(id, ReservationStatus.ACCEPTED);
 		return true;
+	}
+	
+	@PUT
+	@Path("declineReservation")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Boolean declineReservation(@Context HttpServletRequest request, int id) {
+		User user = (User) request.getSession().getAttribute("user");
+		if (user == null || user.getRole() != Role.HOST)
+			return null;
+		changeReservationStatus(id, ReservationStatus.DECLINED);
+		return true;
+	}
+	
+	@PUT
+	@Path("withdrawReservation")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Boolean withdrawReservation(@Context HttpServletRequest request, int id) {
+		User user = (User) request.getSession().getAttribute("user");
+		if (user == null || user.getRole() != Role.GUEST)
+			return null;
+		changeReservationStatus(id, ReservationStatus.WITHDRAWN);
+		return true;
+	}
+	
+	private void changeReservationStatus(int reservationId, ReservationStatus newStatus) {
+		Reservation reservation = ReservationRepository.getInstance().read(reservationId);
+		reservation.setStatus(newStatus);
+		ReservationRepository.getInstance().update(reservation);
 	}
 
 }
