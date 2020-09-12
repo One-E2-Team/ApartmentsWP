@@ -1,11 +1,15 @@
+var user = null;
+var reservations = null;
+
 function getProperReservations(userResponse) {
   if (userResponse == null) {
     alert("Niste ulogovani!");
     return;
   }
-  if (userResponse.role == "ADMINISTRATOR") getAdminReservations();
-  else if (userResponse.role == "HOST") getHostReservations();
-  else if (userResponse.role == "GUEST") getGuestReservations();
+  user = userResponse;
+  if (user.role == "ADMINISTRATOR") getAdminReservations();
+  else if (user.role == "HOST") getHostReservations();
+  else if (user.role == "GUEST") getGuestReservations();
 }
 
 function getAdminReservations() {
@@ -17,7 +21,8 @@ function getAdminReservations() {
     dataType: "json",
     complete: function(data, status) {
       if (status == "success") {
-        showReservations(JSON.parse(data.responseText));
+        reservations = JSON.parse(data.responseText);
+        showReservations();
       }
     },
   });
@@ -32,7 +37,8 @@ function getHostReservations() {
     dataType: "json",
     complete: function(data, status) {
       if (status == "success") {
-        showReservations(JSON.parse(data.responseText));
+        reservations = JSON.parse(data.responseText);
+        showReservations();
       }
     },
   });
@@ -47,23 +53,65 @@ function getGuestReservations() {
     dataType: "json",
     complete: function(data, status) {
       if (status == "success") {
-        showReservations(JSON.parse(data.responseText));
+        reservations = JSON.parse(data.responseText);
+        showReservations();
       }
     },
   });
 }
 
-function showReservations(reservations) { //TODO: proper show information
+function showReservations() { //TODO: proper show information
   if (reservations.length == 0) {
     alert("Nemate rezervacija");
     return;
   }
+  let table = document.getElementById("reservations");
+  while (table.children.length > 1) {
+    table.removeChild(table.lastChild);
+  }
   for (let reservation of reservations) {
-    let table = document.getElementById("reservations");
     let row = document.createElement("tr");
-    let data = document.createElement("td");
-    data.innerText = reservation.id;
-    row.append(data);
+    row.id = reservation.id;
+    let appId = document.createElement("td");
+    appId.innerText = reservation.apartmentId;
+    row.append(appId);
+    let guest = document.createElement("td");
+    guest.innerText = reservation.guestId;
+    row.append(guest);
+    let status = document.createElement("td");
+    status.innerText = reservation.status;
+    row.append(status);
+    if (user.role == "HOST" && reservation.status == "CREATED") {
+      let accept = document.createElement("td");
+      let acceptButton = document.createElement("button");
+      acceptButton.type = "submit";
+      acceptButton.innerText = "Prihvati";
+      acceptButton.id = "acceptButton";
+      accept.append(acceptButton);
+      row.append(accept);
+    }
     table.append(row);
   }
 }
+
+$(document).on("click", "#acceptButton", function() {
+  let registrationId = $(this).parent().parent().attr("id");
+  $.ajax({
+    url: "rest/reservation/acceptReservation",
+    type: "PUT",
+    data: registrationId,
+    contentType: "application/json",
+    dataType: "json",
+    complete: function(data, status) {
+      if (status == "success") {
+        for (let reservation of reservations) {
+          if (reservation.id == registrationId) {
+            reservation.status = "ACCEPTED";
+            break;
+          }
+        }
+        showReservations();
+      } else if (status == "nocontent") alert("Nemate prava da menjate podatke!");
+    },
+  });
+});
