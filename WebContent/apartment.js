@@ -47,10 +47,10 @@ $(document).ready(function() {
     let commentText = $("#apartmentComment").val();
     let mark = $("#apartmentMark").val();
     let comment = new Comment(user.username, apartment.id, parseInt(mark, 10), commentText, "WAIT");
-    apartment.comments.push(comment);
-    let json = JSON.stringify(apartment);
+    let newApartment = new Apartment(apartment.id, "INACTIVE", false, "APARTMENT", 0, 0, null, "", [comment], 0, 0, 0, "PM", "AM", [], [], [], [], []);
+    let json = JSON.stringify(newApartment);
     $.ajax({
-      url: "rest/apartment/editApartment",
+      url: "rest/apartment/addComment",
       type: "PUT",
       data: json,
       contentType: "application/json",
@@ -66,28 +66,16 @@ $(document).ready(function() {
   });
 });
 
-function ajaxCallForComments(methodName) {
-  $.ajax({
-    url: "rest/apartment/" + methodName + location.search,
-    type: "GET",
-    data: "",
-    dataType: "",
-    complete: function(data, status) {
-      if (status == "success") {
-        showComments(JSON.parse(data.responseText));
-      }
-    },
-  });
-}
-
 function showComments(comments) {
   $("#commentList").removeClass("d-none");
   let table = document.getElementById("commentsTable");
   while (table.children.length > 1) {
     table.removeChild(table.lastChild);
   }
-  for (let comment of comments) {
+  for (let i = 0; i < comments.length; i++) {
+    let comment = comments[i];
     let row = document.createElement("tr");
+    row.id = i;
     let guest = document.createElement("td");
     guest.innerText = comment.guestId;
     row.append(guest);
@@ -100,6 +88,44 @@ function showComments(comments) {
     let status = document.createElement("td");
     status.innerText = comment.status;
     row.append(status);
+    if (user != null && user.role == "HOST" && user.rentableApartmentIds.includes(apartment.id)) {
+      if (comment.status == "WAIT") {
+        row.append(createButtonTd("approveButton", "Prikaži"));
+        row.append(createButtonTd("hideButton", "Sakrij"));
+      } else if (comment.status == "APPROVED")
+        row.append(createButtonTd("hideButton", "Sakrij"));
+      else if (comment.status == "HIDDEN")
+        row.append(createButtonTd("approveButton", "Prikaži"));
+    }
     table.append(row);
   }
+}
+
+$(document).on("click", "#approveButton", function() {
+  let i = $(this).parent().parent().attr("id");
+  apartment.comments[i].status = "APPROVED";
+  editComments();
+});
+
+$(document).on("click", "#hideButton", function() {
+  let i = $(this).parent().parent().attr("id");
+  apartment.comments[i].status = "HIDDEN";
+  editComments();
+});
+
+function editComments() {
+  let json = JSON.stringify(apartment);
+  $.ajax({
+    url: "rest/apartment/editComments",
+    type: "PUT",
+    data: json,
+    contentType: "application/json",
+    dataType: "json",
+    complete: function(data, status) {
+      if (status == "success") {
+        alert("Uspeh");
+        showComments(apartment.comments);
+      }
+    },
+  });
 }

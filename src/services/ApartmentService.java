@@ -91,12 +91,28 @@ public class ApartmentService {
 	}
 
 	@PUT
-	@Path("/editApartment")
+	@Path("/addComment")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Apartment editApartment(@Context HttpServletRequest request, Apartment apartment) {
+	public Apartment addComment(@Context HttpServletRequest request, Apartment apartment) {
 		User user = (User) request.getSession().getAttribute("user");
-		if (user == null)
+		if (user == null || user.getRole() != Role.GUEST)
+			return null;
+		Apartment newApartment = ApartmentRepository.getInstance().read(apartment.getId());
+		if (newApartment != null) {
+			newApartment.getComments().addAll(apartment.getComments());
+			ApartmentRepository.getInstance().update(newApartment);
+		}
+		return apartment;
+	}
+	
+	@PUT
+	@Path("/editComments")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Apartment editComments(@Context HttpServletRequest request, Apartment apartment) {
+		User user = (User) request.getSession().getAttribute("user");
+		if (user == null || user.getRole() != Role.HOST)
 			return null;
 		ApartmentRepository.getInstance().update(apartment);
 		return apartment;
