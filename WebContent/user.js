@@ -1,3 +1,5 @@
+var user = undefined;
+
 $(document).ready(function() {
   $("#login").submit(function(event) {
     var username = $("input[name=loginUsername]").val();
@@ -128,15 +130,14 @@ $(document).ready(function() {
     contentType: "application/json",
     dataType: "json",
     complete: function(data, status) {
-      let responseJson = null;
       if (status == "success") {
-        responseJson = JSON.parse(data.responseText);
-        validSession(responseJson);
-        if (getHTMLFileName() == "profile.html") populateProfileData(responseJson);
-        else if (getHTMLFileName() == "reservations.html") getProperReservations(responseJson);
-        else if (getHTMLFileName() == "users.html") getProperUsersList(responseJson);
+        user = JSON.parse(data.responseText);
+        validSession(user);
+        if (getHTMLFileName() == "profile.html") populateProfileData(user);
+        else if (getHTMLFileName() == "reservations.html") getProperReservations(user);
+        else if (getHTMLFileName() == "users.html") getProperUsersList(user);
       }
-      if (getHTMLFileName() == "apartment.html") showProperComments(responseJson);
+      document.dispatchEvent(new Event("gotUser"));
     },
   });
 });

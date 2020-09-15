@@ -1,7 +1,6 @@
-var user = null;
 var apartment = null;
 
-$(document).ready(function() {
+document.addEventListener("gotUser", function() {
   if (location.search) {
     getApartment();
   } else alert("Niste uneli argument putanje!");
@@ -9,7 +8,6 @@ $(document).ready(function() {
 
 function getApartment() {
   $.ajax({
-    async: false,
     url: "rest/apartment/getApartment" + location.search,
     type: "GET",
     data: "",
@@ -17,8 +15,9 @@ function getApartment() {
     complete: function(data, status) {
       if (status == "nocontent") {
         alert("Pogrešni argumenti putanje");
-      } else {
+      } else if (status == "success") {
         apartment = JSON.parse(data.responseText);
+        showProperComments();
       }
     },
   });
@@ -33,22 +32,13 @@ function checkReservations(reservationList) {
   }
 }
 
-function showProperComments(userResponse) {
-  user = userResponse;
+function showProperComments() {
   $("#commentList").addClass("d-none");
   $("#addingComment").addClass("d-none");
-  if (apartment.comments.length > 0) {
-    if (user == null)
-      ajaxCallForComments("getAllApprovedComments");
-    else if (user.role == "ADMINISTRATOR")
-      ajaxCallForComments("getAllComments");
-    else if (user.role == "HOST")
-      ajaxCallForComments("getAllCommentsByHost");
-    else if (user.role == "GUEST") {
-      ajaxCallForComments("getAllApprovedComments");
-      getGuestReservations();
-    }
-  }
+  if (user != null && user.role == "GUEST")
+    getGuestReservations();
+  if (apartment.comments.length > 0)
+    showComments(apartment.comments);
 }
 
 $(document).ready(function() {
@@ -91,8 +81,6 @@ function ajaxCallForComments(methodName) {
 }
 
 function showComments(comments) {
-  if (comments.length == 0)
-    return;
   $("#commentList").removeClass("d-none");
   let table = document.getElementById("commentsTable");
   while (table.children.length > 1) {

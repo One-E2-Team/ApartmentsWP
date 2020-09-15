@@ -61,8 +61,9 @@ public class ApartmentService {
 	@GET
 	@Path("/getApartment")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Apartment getApartment(@QueryParam("id") String id) {
+	public Apartment getApartment(@Context HttpServletRequest request, @QueryParam("id") String id) {
 		Integer apartmentId = null;
+		User user = (User) request.getSession().getAttribute("user");
 		try {
 			apartmentId = Integer.parseInt(id);
 		} catch (Exception e) {
@@ -70,8 +71,21 @@ public class ApartmentService {
 		}
 		if (apartmentId != null) {
 			Apartment ret = ApartmentRepository.getInstance().read(apartmentId);
-			if (ret != null)
+			if (ret != null) {
+				if (user != null && ((user.getRole() == Role.HOST
+						&& ((Host) user).getRentableApartmentIds().contains(ret.getId()))
+						|| user.getRole() == Role.ADMINISTRATOR)) {
+					return ret;
+				} else {
+					ArrayList<Comment> availableComments = new ArrayList<Comment>();
+					for (Comment comment : ret.getComments()) {
+						if (comment.getStatus() == CommentStatus.APPROVED)
+							availableComments.add(comment);
+					}
+					ret.setComments(availableComments);
+				}
 				return ret;
+			}
 		}
 		return null;
 	}
@@ -87,77 +101,4 @@ public class ApartmentService {
 		ApartmentRepository.getInstance().update(apartment);
 		return apartment;
 	}
-
-	@GET
-	@Path("/getAllComments")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Comment> getAllComments(@Context HttpServletRequest request, @QueryParam("id") String id) {
-		User user = (User) request.getSession().getAttribute("user");
-		if (user == null || user.getRole() != Role.ADMINISTRATOR)
-			return null;
-		Integer apartmentId = null;
-		try {
-			apartmentId = Integer.parseInt(id);
-		} catch (Exception e) {
-			return null;
-		}
-		if (apartmentId != null) {
-			Apartment apartment = ApartmentRepository.getInstance().read(apartmentId);
-			if (apartment != null) {
-				return apartment.getComments();
-			}
-		}
-		return null;
-	}
-
-	@GET
-	@Path("/getAllCommentsByHost")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Comment> getAllCommentsByHost(@Context HttpServletRequest request, @QueryParam("id") String id) {
-		User user = (User) request.getSession().getAttribute("user");
-		if (user == null || user.getRole() != Role.HOST)
-			return null;
-		Integer apartmentId = null;
-		try {
-			apartmentId = Integer.parseInt(id);
-		} catch (Exception e) {
-			return null;
-		}
-		if (apartmentId != null) {
-			Apartment apartment = ApartmentRepository.getInstance().read(apartmentId);
-			if (apartment != null) {
-				Collection<Comment> ret = new ArrayList<Comment>();
-				if (((Host) user).getRentableApartmentIds().contains(apartment.getId())) {
-					ret.addAll(apartment.getComments());
-					return ret;
-				}
-			}
-		}
-		return null;
-	}
-	
-	@GET
-	@Path("/getAllApprovedComments")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Comment> getAllApprovedComments(@QueryParam("id") String id) {
-		Integer apartmentId = null;
-		try {
-			apartmentId = Integer.parseInt(id);
-		} catch (Exception e) {
-			return null;
-		}
-		if (apartmentId != null) {
-			Apartment apartment = ApartmentRepository.getInstance().read(apartmentId);
-			if (apartment != null) {
-				Collection<Comment> ret = new ArrayList<Comment>();
-				for (Comment comment : apartment.getComments()) {
-					if(comment.getStatus() == CommentStatus.APPROVED)
-						ret.add(comment);
-				}
-				return ret;
-			}
-		}
-		return null;
-	}
-
 }
