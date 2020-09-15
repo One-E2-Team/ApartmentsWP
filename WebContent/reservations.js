@@ -54,7 +54,9 @@ function getGuestReservations() {
     complete: function(data, status) {
       if (status == "success") {
         reservations = JSON.parse(data.responseText);
-        showReservations();
+        if (getHTMLFileName() == "apartment.html")
+          checkReservations(reservations);
+        else showReservations();
       }
     },
   });
@@ -81,6 +83,9 @@ function showReservations() { //TODO: proper show information
     let status = document.createElement("td");
     status.innerText = reservation.status;
     row.append(status);
+    let price = document.createElement("td");
+    price.innerText = reservation.totalCost;
+    row.append(price);
     if (user.role == "HOST" && reservation.status == "CREATED")
       row.append(createButtonTd("acceptButton", "Prihvati"));
     if (user.role == "HOST" && (reservation.status == "CREATED" || reservation.status == "ACCEPTED"))

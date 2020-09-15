@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -71,6 +72,18 @@ public class ApartmentService {
 				return ret;
 		}
 		return null;
+	}
+	
+	@PUT
+	@Path("/editApartment")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Apartment editApartment(@Context HttpServletRequest request, Apartment apartment) {
+		User user = (User) request.getSession().getAttribute("user");
+		if (user == null)
+			return null;
+		ApartmentRepository.getInstance().update(apartment);
+		return apartment;
 	}
 
 }

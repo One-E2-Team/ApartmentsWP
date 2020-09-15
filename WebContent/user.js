@@ -134,6 +134,7 @@ $(document).ready(function() {
         if (getHTMLFileName() == "profile.html") populateProfileData(responseJson);
         else if (getHTMLFileName() == "reservations.html") getProperReservations(responseJson);
         else if (getHTMLFileName() == "users.html") getProperUsersList(responseJson);
+        else if (getHTMLFileName() == "apartment.html") showProperComments(responseJson);
       }
     },
   });
