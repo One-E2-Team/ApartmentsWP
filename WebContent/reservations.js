@@ -81,47 +81,31 @@ function showReservations() { //TODO: proper show information
     let status = document.createElement("td");
     status.innerText = reservation.status;
     row.append(status);
-    if (user.role == "HOST" && reservation.status == "CREATED") {
-      let accept = document.createElement("td");
-      let acceptButton = document.createElement("button");
-      acceptButton.type = "submit";
-      acceptButton.innerText = "Prihvati";
-      acceptButton.id = "acceptButton";
-      accept.append(acceptButton);
-      row.append(accept);
-    }
-    if (user.role == "HOST" && (reservation.status == "CREATED" || reservation.status == "ACCEPTED")) {
-      let decline = document.createElement("td");
-      let declineButton = document.createElement("button");
-      declineButton.type = "submit";
-      declineButton.innerText = "Odbij";
-      declineButton.id = "declineButton";
-      decline.append(declineButton);
-      row.append(decline);
-    }
-    if (user.role == "GUEST" && (reservation.status == "CREATED" || reservation.status == "ACCEPTED")) {
-      let withdraw = document.createElement("td");
-      let withdrawButton = document.createElement("button");
-      withdrawButton.type = "submit";
-      withdrawButton.innerText = "Odustani";
-      withdrawButton.id = "withdrawButton";
-      withdraw.append(withdrawButton);
-      row.append(withdraw);
-    }
+    if (user.role == "HOST" && reservation.status == "CREATED")
+      row.append(createButtonTd("acceptButton", "Prihvati"));
+    if (user.role == "HOST" && (reservation.status == "CREATED" || reservation.status == "ACCEPTED"))
+      row.append(createButtonTd("declineButton", "Odbij"));
+    if (user.role == "GUEST" && (reservation.status == "CREATED" || reservation.status == "ACCEPTED"))
+      row.append(createButtonTd("withdrawButton", "Odustani"));
     let completedTime = new Date(parseInt(reservation.startDate));
     completedTime.setDate(completedTime.getDate() + reservation.stayNights);
     let currentTime = new Date();
-    if (user.role == "HOST" && reservation.status != "COMPLETED" && currentTime.getTime() >= completedTime.getTime()) {
-      let complete = document.createElement("td");
-      let completeButton = document.createElement("button");
-      completeButton.type = "submit";
-      completeButton.innerText = "Završi";
-      completeButton.id = "completeButton";
-      complete.append(completeButton);
-      row.append(complete);
-    }
+    if (user.role == "HOST" && reservation.status != "COMPLETED" && currentTime.getTime() >= completedTime.getTime())
+      row.append(createButtonTd("completeButton", "Završi"));
     table.append(row);
   }
+}
+
+function createButtonTd(id, text) {
+  let data = document.createElement("td");
+  let button = document.createElement("button");
+  button.type = "submit";
+  button.id = id;
+  button.innerText = text;
+  button.classList.add("btn");
+  button.classList.add("btn-primary");
+  data.append(button);
+  return data;
 }
 
 $(document).on("click", "#acceptButton", function() {
