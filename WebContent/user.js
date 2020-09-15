@@ -128,14 +128,15 @@ $(document).ready(function() {
     contentType: "application/json",
     dataType: "json",
     complete: function(data, status) {
+      let responseJson = null;
       if (status == "success") {
-        let responseJson = JSON.parse(data.responseText);
+        responseJson = JSON.parse(data.responseText);
         validSession(responseJson);
         if (getHTMLFileName() == "profile.html") populateProfileData(responseJson);
         else if (getHTMLFileName() == "reservations.html") getProperReservations(responseJson);
         else if (getHTMLFileName() == "users.html") getProperUsersList(responseJson);
-        else if (getHTMLFileName() == "apartment.html") showProperComments(responseJson);
       }
+      if (getHTMLFileName() == "apartment.html") showProperComments(responseJson);
     },
   });
 });
