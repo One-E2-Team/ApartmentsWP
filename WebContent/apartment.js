@@ -2,27 +2,26 @@ var user = null;
 var apartment = null;
 
 $(document).ready(function() {
-  apartment = null;
   if (location.search) {
     getApartment();
   } else alert("Niste uneli argument putanje!");
 });
 
 function getApartment() {
-  if (apartment == null)
-    $.ajax({
-      url: "rest/apartment/getApartment" + location.search,
-      type: "GET",
-      data: "",
-      dataType: "",
-      complete: function(data, status) {
-        if (status == "nocontent") {
-          alert("Pogrešni argumenti putanje");
-        } else {
-          apartment = JSON.parse(data.responseText);
-        }
-      },
-    });
+  $.ajax({
+    async: false,
+    url: "rest/apartment/getApartment" + location.search,
+    type: "GET",
+    data: "",
+    dataType: "",
+    complete: function(data, status) {
+      if (status == "nocontent") {
+        alert("Pogrešni argumenti putanje");
+      } else {
+        apartment = JSON.parse(data.responseText);
+      }
+    },
+  });
 }
 
 function checkReservations(reservationList) {
@@ -35,11 +34,9 @@ function checkReservations(reservationList) {
 }
 
 function showProperComments(userResponse) {
-  getApartment();
   user = userResponse;
   $("#commentList").addClass("d-none");
   $("#addingComment").addClass("d-none");
-  alert(apartment.comments.length);
   if (apartment.comments.length > 0) {
     if (user == null)
       ajaxCallForComments("getAllApprovedComments");
