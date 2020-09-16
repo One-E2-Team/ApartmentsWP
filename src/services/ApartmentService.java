@@ -105,7 +105,7 @@ public class ApartmentService {
 		}
 		return apartment;
 	}
-	
+
 	@PUT
 	@Path("/editComments")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -116,5 +116,40 @@ public class ApartmentService {
 			return null;
 		ApartmentRepository.getInstance().update(apartment);
 		return apartment;
+	}
+
+	@PUT
+	@Path("/deleteAmenity")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Amenity deleteAmenity(@Context HttpServletRequest request, int id) {
+		User user = (User) request.getSession().getAttribute("user");
+		if (user == null || user.getRole() != Role.ADMINISTRATOR)
+			return null;
+		AmenityRepository.getInstance().delete(id);
+		return AmenityRepository.getInstance().read(id);
+	}
+	
+	@PUT
+	@Path("/editAmenity")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Amenity editAmenity(@Context HttpServletRequest request, Amenity amenity) {
+		User user = (User) request.getSession().getAttribute("user");
+		if (user == null || user.getRole() != Role.ADMINISTRATOR)
+			return null;
+		AmenityRepository.getInstance().update(amenity);
+		return amenity;
+	}
+	
+	@POST
+	@Path("/addAmenity")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Amenity addAmenity(@Context HttpServletRequest request, Amenity amenity) {
+		User user = (User) request.getSession().getAttribute("user");
+		if (user == null || user.getRole() != Role.ADMINISTRATOR)
+			return null;
+		return AmenityRepository.getInstance().create(amenity);
 	}
 }
