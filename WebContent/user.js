@@ -171,3 +171,21 @@ function getRoleSelectionString(roleType) {
   else if (roleType == "GUEST") return "GOST";
   return null;
 }
+
+function getReservationStatus(reservationSelectionString) {
+  if (reservationSelectionString == "KREIRANO") return "CREATED";
+  else if (reservationSelectionString == "ODBIJENO") return "DECLINED";
+  else if (reservationSelectionString == "ODUSTANAK") return "WITHDRAWN";
+  else if (reservationSelectionString == "PRIHVAĆENO") return "ACCEPTED";
+  else if (reservationSelectionString == "ZAVRŠENO") return "COMPLETED";
+  return null;
+}
+
+function getReservationSelectionString(reservationStatus) {
+  if (reservationStatus == "CREATED") return "KREIRANO";
+  else if (reservationStatus == "DECLINED") return "ODBIJENO";
+  else if (reservationStatus == "WITHDRAWN") return "ODUSTANAK";
+  else if (reservationStatus == "ACCEPTED") return "PRIHVAĆENO";
+  else if (reservationStatus == "COMPLETED") return "ZAVRŠENO";
+  return null;
+}

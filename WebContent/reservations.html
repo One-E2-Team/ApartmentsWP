@@ -131,8 +131,8 @@
         </form>
     </header>
 
-    <div class="container column">
-        <div class="mb-3">
+    <div class="container column d-none" id="reservationsDiv">
+        <div class="row mb-3">
             <button class="btn btn-info" id="ascending">Sortirati u rastućem poretku</button>
             <button class="btn btn-info ml-2" id="descending">Sortirati u opadajućem poretku</button>
         </div>
@@ -145,6 +145,38 @@
                     <th>Cena</th>
                 </tr>
             </table>
+        </div>
+        <div class="row mt-2 mb-2 d-none" id="filtering">
+            <form id="filterReservationsForm">
+                <table>
+                    <tr>
+                        <td>Odaberite status:</td>
+                        <td><select id="filterStatus">
+                            <option value="KREIRANO">KREIRANO</option>
+                            <option value="ODBIJENO">ODBIJENO</option>
+                            <option value="ODUSTANAK">ODUSTANAK</option>
+                            <option value="PRIHVAĆENO">PRIHVAĆENO</option>
+                            <option value="ZAVRŠENO">ZAVRŠENO</option>
+                        </select></td>
+                        <td class="text-center">
+                            <button type="submit" class="btn btn-primary">Filtriraj</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="row d-none" id="results">
+            <table border="1" id="searchReservations">
+                <tr>
+                    <th>Apartman</th>
+                    <th>Gost</th>
+                    <th>Status</th>
+                    <th>Cena</th>
+                </tr>
+            </table>
+        </div>
+        <div id="noResults" class="d-none">
+            <p>Nema rezultata!</p>
         </div>
     </div>
 </body>

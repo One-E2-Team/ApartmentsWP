@@ -3,9 +3,13 @@ document.addEventListener("gotUser", getProperReservations);
 
 function getProperReservations() {
   if (user != undefined) {
-    if (user.role == "ADMINISTRATOR") getAdminReservations();
-    else if (user.role == "HOST") getHostReservations();
-    else if (user.role == "GUEST") getGuestReservations();
+    if (user.role == "ADMINISTRATOR") {
+      getAdminReservations();
+      $("#filtering").removeClass("d-none");
+    } else if (user.role == "HOST") {
+      getHostReservations();
+      $("#filtering").removeClass("d-none");
+    } else if (user.role == "GUEST") getGuestReservations();
   }
 }
 
@@ -59,16 +63,18 @@ function getGuestReservations() {
   });
 }
 
-function showReservations() { //TODO: proper show information
-  if (reservations.length == 0) {
+function showReservations(reservalitonList = reservations, emptyTable = "reservations") {
+  if (reservalitonList.length == reservations.length && reservalitonList.length == 0) {
+    $("#reservationsDiv").addClass("d-none");
     alert("Nemate rezervacija");
     return;
   }
-  let table = document.getElementById("reservations");
+  $("#reservationsDiv").removeClass("d-none");
+  let table = document.getElementById(emptyTable);
   while (table.children.length > 1) {
     table.removeChild(table.lastChild);
   }
-  for (let reservation of reservations) {
+  for (let reservation of reservalitonList) {
     let row = document.createElement("tr");
     row.id = reservation.id;
     let appId = document.createElement("td");
@@ -78,7 +84,7 @@ function showReservations() { //TODO: proper show information
     guest.innerText = reservation.guestId;
     row.append(guest);
     let status = document.createElement("td");
-    status.innerText = reservation.status;
+    status.innerText = getReservationSelectionString(reservation.status);
     row.append(status);
     let price = document.createElement("td");
     price.innerText = reservation.totalCost;
@@ -217,4 +223,24 @@ $(document).ready(function() {
     sortResults(false);
     showReservations();
   });
+});
+
+$(document).ready(function() {
+  $("#filterReservationsForm").submit(function(event) {
+    event.preventDefault();
+    let status = getReservationStatus($("#filterStatus").val());
+    let filterResults = [];
+    for (let reservation of reservations) {
+      if (reservation.status == status)
+        filterResults.push(reservation);
+    }
+    if (filterResults.length > 0) {
+      $("#results").removeClass("d-none");
+      $("#noResults").addClass("d-none");
+      showReservations(filterResults, "searchReservations");
+    } else {
+      $("#noResults").removeClass("d-none");
+      $("#results").addClass("d-none");
+    }
+  })
 });
