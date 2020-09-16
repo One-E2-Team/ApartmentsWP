@@ -1,15 +1,16 @@
 var visibleUsers = null;
+document.addEventListener("gotUser", getProperUsersList);
 
-function getProperUsersList(userResponse) {
-  if (userResponse == null) {
+function getProperUsersList() {
+  if (user == undefined) {
     alert("Niste ulogovani!");
     return;
   }
-  if (userResponse.role == "GUEST") {
+  if (user.role == "GUEST") {
     alert("Nemate prava da vidite stranicu!");
     return;
-  } else if (userResponse.role == "ADMINISTRATOR") getAllUsers();
-  else if (userResponse.role == "HOST") getAllByHost();
+  } else if (user.role == "ADMINISTRATOR") getAllUsers();
+  else if (user.role == "HOST") getAllByHost();
 }
 
 function getAllUsers() {
