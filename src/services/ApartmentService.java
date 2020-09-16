@@ -1,5 +1,6 @@
 package services;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -9,6 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -152,4 +154,17 @@ public class ApartmentService {
 			return null;
 		return AmenityRepository.getInstance().create(amenity);
 	}
+	/*
+	@POST
+	@Path("/{id}/addPicture")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String addPicture(@Context HttpServletRequest request, @PathParam("id") int id, @FormParam("img") InputStream uploadedInputStream) {
+		ArrayList<String> l = ApartmentRepository.getInstance().read(id).getPicturePaths();
+		int num = 0;
+		if(l.size()!=0) {
+			int last = Integer.parseInt(l.get(l.size()-1).split("-")[1].split("\\.")[0]);
+			
+		}
+		return null;
+	}*/
 }
