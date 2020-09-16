@@ -133,9 +133,6 @@ $(document).ready(function() {
       if (status == "success") {
         user = JSON.parse(data.responseText);
         validSession(user);
-        if (getHTMLFileName() == "profile.html") populateProfileData(user);
-        else if (getHTMLFileName() == "reservations.html") getProperReservations(user);
-        else if (getHTMLFileName() == "users.html") getProperUsersList(user);
       }
       document.dispatchEvent(new Event("gotUser"));
     },

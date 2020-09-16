@@ -35,7 +35,7 @@ function checkReservations(reservationList) {
 function showProperComments() {
   $("#commentList").addClass("d-none");
   $("#addingComment").addClass("d-none");
-  if (user != null && user.role == "GUEST")
+  if (user != undefined && user.role == "GUEST")
     getGuestReservations();
   if (apartment.comments.length > 0)
     showComments(apartment.comments);

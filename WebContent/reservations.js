@@ -1,15 +1,12 @@
-var user = null;
 var reservations = null;
+document.addEventListener("gotUser", getProperReservations);
 
-function getProperReservations(userResponse) {
-  if (userResponse == null) {
-    alert("Niste ulogovani!");
-    return;
+function getProperReservations() {
+  if (user != undefined) {
+    if (user.role == "ADMINISTRATOR") getAdminReservations();
+    else if (user.role == "HOST") getHostReservations();
+    else if (user.role == "GUEST") getGuestReservations();
   }
-  user = userResponse;
-  if (user.role == "ADMINISTRATOR") getAdminReservations();
-  else if (user.role == "HOST") getHostReservations();
-  else if (user.role == "GUEST") getGuestReservations();
 }
 
 function getAdminReservations() {

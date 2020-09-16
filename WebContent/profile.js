@@ -1,11 +1,12 @@
-var user = null;
+document.addEventListener("gotUser", populateProfileData);
 
-function populateProfileData(userResponse) {
-  user = userResponse;
-  $("#profileUsername").val(user.username);
-  $("#profileName").val(user.name);
-  $("#profileSurname").val(user.surname);
-  $("#profileSex").val(getSexSelectionString(user.sex));
+function populateProfileData() {
+  if (user != undefined) {
+    $("#profileUsername").val(user.username);
+    $("#profileName").val(user.name);
+    $("#profileSurname").val(user.surname);
+    $("#profileSex").val(getSexSelectionString(user.sex));
+  }
 }
 
 $(document).ready(function() {
