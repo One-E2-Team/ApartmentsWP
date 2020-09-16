@@ -129,3 +129,27 @@ function editComments() {
     },
   });
 }
+/*$(document).ready(function() {
+  $("#addPicture").submit(function(e) {
+    e.preventDefault();
+    if ($("#img").val()) {
+      //var formData = new FormData();
+      //formData.append('file', $("#img").get(0).files[0]);
+      $("#img").simpleUpload("rest/apartment/" + apartment.id + "/addPicture", {
+        success: function(response) {
+          alert(response.responseText);
+        }
+      });
+      let kurac = $("#img").get(0).files[0];
+      $.ajax({
+        type: "POST",
+        url: "rest/apartment/" + apartment.id + "/addPicture",
+        data: $("#img").get(0).files[0],
+        dataType: "json",
+        complete: function(response) {
+          alert(response.responseText);
+        }
+      });
+    }
+  });
+}); * /

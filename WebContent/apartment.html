@@ -11,7 +11,7 @@
     <script src="popper.min.js" type='text/javascript'></script>
     <link rel="stylesheet" href="bootstrap-4.5.0-dist/css/bootstrap.min.css" type='text/css' />
     <script src="bootstrap-4.5.0-dist/js/bootstrap.min.js" type='text/javascript'></script>
-
+    <script src="simpleUpload.min.js" type='text/javascript'></script>
     <!---->
 
     <!-- datepicker (requires bootstrap, jquery, popper) -->
@@ -131,6 +131,14 @@
             </table>
         </form>
     </header>
+
+    <div class="d-none">
+        <form id="addPicture">
+            <label for="img">Dodaj slike apartmana:</label>
+            <input type="file" id="img" name="img" accept="image/jpeg">
+            <input type="submit">
+        </form>
+    </div>
 
     <div class="container column">
         <div id="commentSection">
