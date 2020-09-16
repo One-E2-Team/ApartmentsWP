@@ -200,3 +200,24 @@ $(document).on("click", "#completeButton", function() {
     },
   });
 });
+
+function sortResults(asc) {
+  reservations.sort(function(a, b) {
+    let ret;
+    ret = a.totalCost == b.totalCost ? 0 : a.totalCost > b.totalCost ? 1 : -1;
+    return asc ? ret : -1 * ret;
+  });
+}
+
+$(document).ready(function() {
+  $("#ascending").click(function(e) {
+    e.preventDefault();
+    sortResults(true);
+    showReservations();
+  });
+  $("#descending").click(function(e) {
+    e.preventDefault();
+    sortResults(false);
+    showReservations();
+  });
+});
