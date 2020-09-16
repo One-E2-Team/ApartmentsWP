@@ -141,11 +141,11 @@
     </div>
 
     <div class="container mt-3 mb-4">
-        <form method="GET" class="align-items-center" action="apartments.html">
+        <form id="reservation" lass="align-items-center">
             <table class="table align-items-center align-middle text-center">
                 <tr>
                     <td class="align-middle">
-                        <b>Rezerviši: </b>
+                        <b>Rezervacija (datumi): </b>
                     </td>
                     <td colspan="3" class="align-middle">
                         <div class="input-group input-daterange align-items-center">
@@ -154,7 +154,18 @@
                             <input name="dateTo" type="text" class="form-control">
                         </div>
                     </td>
-                    <td class="align-middle"><input type="submit" class="btn btn-primary" value="Rezerviši"></td>
+                </tr>
+                <tr>
+                    <td class="align-middle">Poruka domaćinu: </td>
+                    <td colspan="3" class="align-middle">
+                        <input type="text" class="form-control">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="align-middle" colspan="4">
+                        <input id="reservationSubmitBtn" type="submit" class="btn btn-primary" value="0 RSD" style="font-weight: bold;">
+                        <span id="reservationError" class="alert alert-danger ml-4 mt-2 d-none" role="alert">Nije moguće napraviti rezervaciju za izabrane dane ili dani nisu izabrani.</span>
+                    </td>
                 </tr>
             </table>
         </form>

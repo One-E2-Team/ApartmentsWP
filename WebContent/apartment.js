@@ -153,8 +153,21 @@ function editComments() {
     }
   });
 }); */
-$(document).ready(function() {
+
+function setUpDatePicker(disabledDates) {
   $(".input-daterange input").each(function() {
-    $(this).datepicker("clearDates");
+    $(this).datepicker({
+      startDate: "+0d",
+      endDate: new Date((new Date()).getFullYear(), 11, 31),
+      datesDisabled: disabledDates
+    });
+  });
+}
+
+$(document).ready(function() {
+  setUpDatePicker(["9/20/2020"]);
+  $("#registration").submit(function(e) {
+    e.preventDefault();
+
   });
 });
