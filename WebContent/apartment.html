@@ -140,7 +140,7 @@
         </form>
     </div>
 
-    <div class="container mt-3 mb-4">
+    <div class="container mt-3 mb-4 d-none GUEST">
         <form id="reservation" lass="align-items-center">
             <table class="table align-items-center align-middle text-center">
                 <tr>
@@ -169,6 +169,58 @@
                 </tr>
             </table>
         </form>
+    </div>
+
+    <div class="container" id="registration">
+        <div class="row">
+            <div class="col">
+                <hr />
+            </div>
+            <div class="col-auto">
+                <b class="h4 ">Za pravljenje rezervacije, neophodno je da imate nalog. Registrujte se:</b>
+            </div>
+            <div class="col">
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-auto">
+                <form id="registrationForm">
+                    <table class="table">
+                        <tr>
+                            <td>Ime:</td>
+                            <td><input id="registerName" /><span class="alert alert-danger d-none ml-2" role="alert" id="registerNameError">Ime nije uneto</span></td>
+                            <td>Korisničko ime:</td>
+                            <td>
+                                <input id="registerUsername"><span class=" alert alert-danger d-none ml-2 " role="alert " id="registerUsernameError ">Korisničko ime nije uneto</span></td>
+                        </tr>
+                        <tr>
+                            <td>Prezime:</td>
+                            <td><input id="registerSurname " /><span class="alert alert-danger d-none ml-2 " role="alert " id="registerSurnameError ">Prezime nije uneto</span></td>
+                            <td>Lozinka:</td>
+                            <td><input type="password " id="registerPassword " /><span class="alert alert-danger d-none ml-2 " role="alert " id="registerPasswordError ">Lozinka nije uneta</span></td>
+                        </tr>
+                        <tr>
+                            <td>Pol:</td>
+                            <td><select id="registerSex ">
+                                    <option value="M ">M</option>
+                                    <option value="Ž ">Ž</option>
+                                    <option value="POTATO ">POTATO</option>
+                                </select> </td>
+                            <td>Ponovite lozinku:</td>
+                            <td><input type="password " id="registerRepeatedPassword " /><span class="alert alert-danger d-none ml-2 " role="alert " id="registerRepeatedPasswordError "></span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4 " class="text-center align-middle ">
+                                <button type="submit " class="btn btn-primary ">Registracija</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="col "></div>
+        </div>
     </div>
 
     <div class="container column">
