@@ -196,10 +196,12 @@ function DatePicker(disabledDates) {
     dataType: "json",
     complete: function(response) {
       $(".input-daterange input").each(function() {
+        let dates = [];
+        JSON.parse(response.responseText).forEach(element => dates.push(new Date(parseInt(element))));
         $(this).datepicker({
           startDate: "+0d",
           endDate: new Date((new Date()).getFullYear(), 11, 31),
-          datesDisabled: JSON.parse(response.responseText)
+          datesDisabled: dates
         });
       });
     }
@@ -210,13 +212,14 @@ $(document).ready(function() {
   $("#reservation").submit(function(e) {
     $("#reservationError").removeClass("d-none");
     e.preventDefault();
-    let dat = JSON.stringify(new Reservation(0, apartment.id, (new Date($("input[name=dateFrom]").val())).getTime()), Math.floor(Math.abs(((new Date($("input[name=dateTo]").val())) - (new Date($("input[name=dateFrom]").val()))) / 1000 / 60 / 60 / 24)), 0, $("#messageForHost").val(), "", "CREATED");
+    let stay = Math.floor(Math.abs(((new Date($("input[name=dateTo]").val())) - (new Date($("input[name=dateFrom]").val()))) / 1000 / 60 / 60 / 24));
+    //let dat = JSON.stringify(new Reservation(0, apartment.id, (new Date($("input[name=dateFrom]").val())).getTime(), stay, parseFloat("0.0"), $("#messageForHost").val(), "", "CREATED"));
     $.ajax({
       type: "POST",
-      url: "rest/apartment/makeReservation",
-      data: dat,
+      url: "rest/apartment/" + apartment.id + "/makeReservation/" + (new Date($("input[name=dateFrom]").val())).getTime() + "/" + stay + "/" + $("#messageForHost").val(),
       dataType: "json",
       complete: function(response) {
+        window.location.href = "reservations.html"
         $("#reservationError").addClass("d-none");
       }
     });
@@ -237,11 +240,11 @@ $(document).ready(function() {
 function getDeal() {
   $("#reservationSubmitBtn").val("0 RSD");
   if (isNaN(new Date($("input[name=dateFrom]").val()).getTime()) || isNaN(new Date($("input[name=dateTo]").val()).getTime())) return;
-  let dat = JSON.stringify(new Reservation(0, apartment.id, (new Date($("input[name=dateFrom]").val())).getTime(), Math.floor((Math.abs((new Date($("input[name=dateTo]").val())) - (new Date($("input[name=dateFrom]").val())) / 1000 / 60 / 60 / 24))), 0, "", "", "CREATED"));
+  let stay = Math.floor(Math.abs(((new Date($("input[name=dateTo]").val())) - (new Date($("input[name=dateFrom]").val()))) / 1000 / 60 / 60 / 24));
+  //let dat = JSON.stringify(new Reservation(0, apartment.id, (new Date($("input[name=dateFrom]").val())).getTime(), stay, parseFloat("0.1"), "", "", "CREATED"));
   $.ajax({
-    type: "POST",
-    url: "rest/apartment/getDeal",
-    data: dat,
+    type: "GET",
+    url: "rest/apartment/" + apartment.id + "/getDeal/" + (new Date($("input[name=dateFrom]").val())).getTime() + "/" + stay,
     dataType: "json",
     complete: function(response) {
       let apartmentDeal = JSON.parse(response.responseText);

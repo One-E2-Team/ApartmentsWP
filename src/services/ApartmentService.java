@@ -158,11 +158,14 @@ public class ApartmentService {
 		return AmenityRepository.getInstance().create(amenity);
 	}
 	
-	@POST
-	@Path("/getDeal")
+	@GET
+	@Path("/{id}/getDeal/{dateFrom}/{nights}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public ApartmentDeal getDeal(Reservation reservation) {
+	public ApartmentDeal getDeal(@PathParam("id") int id, @PathParam("dateFrom") long dateFrom, @PathParam("nights") int nights) {
+		Reservation reservation = new Reservation();
+		reservation.setApartmentId(id);
+		reservation.setStartDate(new Date(dateFrom));
+		reservation.setStayNights(nights);
 		ApartmentDeal ad = new ApartmentDeal();
 		ad.setApartment(ApartmentRepository.getInstance().read(reservation.getApartmentId()));
 		ad.setDeal(0.0);
@@ -173,16 +176,23 @@ public class ApartmentService {
 	}
 	
 	@POST
-	@Path("/makeReservation")
+	@Path("/{id}/makeReservation/{dateFrom}/{nights}/{message}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Reservation makeReservation(@Context HttpServletRequest request, Reservation reservation) {
+	public Reservation makeReservation(@Context HttpServletRequest request, @PathParam("id") int id, @PathParam("dateFrom") long dateFrom, @PathParam("nights") int nights, @PathParam("message") String message) {
+		Reservation reservation = new Reservation();
+		reservation.setApartmentId(id);
+		reservation.setStartDate(new Date(dateFrom));
+		reservation.setStayNights(nights);
+		reservation.setMessage(message);
 		Date toDate = new Date(reservation.getStartDate().getTime() + reservation.getStayNights() * 60 * 60 * 24 * 1000);
 		if(SearchService.apartmentFreeForDateSpan(ApartmentRepository.getInstance().read(reservation.getApartmentId()), reservation.getStartDate(), toDate)) {
 			reservation.setTotalCost(SearchService.getCostFactorForDates(reservation.getStartDate(), toDate) * ApartmentRepository.getInstance().read(reservation.getApartmentId()).getNightStayPrice());
 			reservation.setStatus(ReservationStatus.CREATED);
 			reservation.setGuestId(((User)request.getSession().getAttribute("user")).getUsername());
+			Apartment a = ApartmentRepository.getInstance().read(id);
 			reservation = ReservationRepository.getInstance().create(reservation);
+			a.getReservationIds().add(reservation.getId());
+			ApartmentRepository.getInstance().update(a);
 			return reservation;
 		}
 		return null;
