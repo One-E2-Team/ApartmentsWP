@@ -24,6 +24,7 @@ function getApartment() {
         apartment = JSON.parse(data.responseText);
         DatePicker();
         showApartmentDetails();
+        document.dispatchEvent(new Event("gotApartment"));
         showProperComments();
       }
     },

@@ -2,7 +2,11 @@ var reservations = null;
 var searchResults = [];
 var filterStatus = null;
 var guestUsername = null;
-document.addEventListener("gotUser", getProperReservations);
+document.addEventListener("gotUser", function() {
+  if (getHTMLFileName() != "apartment.html")
+    getProperReservations();
+});
+document.addEventListener("gotApartment", getProperReservations);
 
 function getProperReservations() {
   if (user != undefined) {

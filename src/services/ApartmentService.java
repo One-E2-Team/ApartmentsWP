@@ -40,9 +40,6 @@ public class ApartmentService {
 	@Path("/getAllVisibleAmenities")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Amenity> getAllVisibleAmenities(@Context HttpServletRequest request) {
-		User user = (User) request.getSession().getAttribute("user");
-		if (user == null || user.getRole() == Role.GUEST)
-			return null;
 		Collection<Amenity> ret = new ArrayList<Amenity>();
 		for (Amenity amenity : AmenityRepository.getInstance().getAll()) {
 			if (!amenity.isDeleted())
