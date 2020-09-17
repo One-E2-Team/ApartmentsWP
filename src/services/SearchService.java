@@ -4,15 +4,21 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.ApartmentDeal;
 import beans.Reservation;
 import beans.apartment.Apartment;
+import beans.apartment.ApartmentStatus;
+import beans.user.Role;
+import beans.user.User;
 import repository.ApartmentRepository;
 import repository.NonWorkingDaysRepository;
 import repository.ReservationRepository;
@@ -24,12 +30,16 @@ public class SearchService {
 	@GET
 	@Path("/apartments")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<ApartmentDeal> searchApartments(@QueryParam("dateFrom") String dateF,
-			@QueryParam("dateTo") String dateT, @QueryParam("location") String loc,
-			@QueryParam("latitude") String latMap, @QueryParam("longitude") String longMap,
-			@QueryParam("priceFrom") String priceF, @QueryParam("priceTo") String priceT,
-			@QueryParam("roomsFrom") String roomsF, @QueryParam("roomsTo") String roomsT,
-			@QueryParam("personsFrom") String personsF, @QueryParam("personsTo") String personsT) {
+	public Collection<ApartmentDeal> searchApartments(@Context HttpServletRequest request,
+			@QueryParam("dateFrom") String dateF, @QueryParam("dateTo") String dateT,
+			@QueryParam("location") String loc, @QueryParam("latitude") String latMap,
+			@QueryParam("longitude") String longMap, @QueryParam("priceFrom") String priceF,
+			@QueryParam("priceTo") String priceT, @QueryParam("roomsFrom") String roomsF,
+			@QueryParam("roomsTo") String roomsT, @QueryParam("personsFrom") String personsF,
+			@QueryParam("personsTo") String personsT) {
+		Object obj = request.getSession().getAttribute("user");
+		Role role = obj == null ? Role.GUEST : ((User) obj).getRole();
+		User user = (User) obj;
 		Date fromDate = null;
 		Date toDate = null;
 		String locationString = null;
@@ -98,7 +108,10 @@ public class SearchService {
 			}
 		else {
 			for (Apartment apartment : allApartments) {
-				if ((personsMin == null || apartment.getGuestNum() >= personsMin)
+				if (((role.equals(Role.GUEST) && apartment.getStatus().equals(ApartmentStatus.ACTIVE))
+						|| (role.equals(Role.HOST) && apartment.getHostId().equals(user.getUsername()))
+						|| role.equals(Role.ADMINISTRATOR))
+						&& (personsMin == null || apartment.getGuestNum() >= personsMin)
 						&& (personsMax == null || apartment.getGuestNum() <= personsMax)
 						&& (roomsMin == null || apartment.getRoomNum() >= roomsMin)
 						&& (roomsMax == null || apartment.getRoomNum() <= roomsMax)
@@ -147,7 +160,7 @@ public class SearchService {
 		return deals.size() == 0 ? null : deals;
 	}
 
-	private boolean apartmentFreeForDateSpan(Apartment apartment, Date from, Date to) {
+	public boolean apartmentFreeForDateSpan(Apartment apartment, Date from, Date to) {
 		for (int resId : apartment.getReservationIds()) {
 			Reservation reservation = ReservationRepository.getInstance().read(resId);
 			if (!(to.before(reservation.getStartDate()) || (from.after(reservation.getStartDate())

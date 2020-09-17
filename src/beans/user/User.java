@@ -1,6 +1,6 @@
 package beans.user;
 
-public abstract class User {
+public class User {
 
 	private String username;
 	private String hashedPassword;
