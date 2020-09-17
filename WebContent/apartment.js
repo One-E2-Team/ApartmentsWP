@@ -166,7 +166,7 @@ function setUpDatePicker(disabledDates) {
 
 $(document).ready(function() {
   setUpDatePicker(getUnavailableDates());
-  $("#registration").submit(function(e) {
+  $("#reservation").submit(function(e) {
     $("#reservationError").removeClass("d-none");
     e.preventDefault();
     $.ajax({

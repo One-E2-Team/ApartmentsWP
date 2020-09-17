@@ -132,35 +132,39 @@ public class SearchService {
 			}
 		}
 		if (fromDate != null && toDate != null) {
-			int duration = (int) ((toDate.getTime() - fromDate.getTime()) / (60 * 60 * 24 * 1000));
-			double costFactor = 0;
-			LinkedList<Date> nwd = NonWorkingDaysRepository.get(Calendar.getInstance().get(Calendar.YEAR)); // TODO
-			for (int i = 0; i < duration; i++) {
-				Date date = new Date(fromDate.getTime() + i * 60 * 60 * 24 * 1000);
-				boolean foundHoliday = false;
-				for (Date d : nwd) {
-					if (d.getTime() == date.getTime()) {
-						foundHoliday = true;
-						break;
-					}
-				}
-				if (foundHoliday)
-					costFactor += 1.05;
-				else
-					costFactor += 1;
-			}
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(fromDate);
-			if (costFactor == (double) duration && duration >= 2 && duration <= 3
-					&& cal.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY)
-				costFactor *= 0.9;
 			for (ApartmentDeal ad : deals)
-				ad.setDeal(costFactor * ad.getApartment().getNightStayPrice());
+				ad.setDeal(getCostFactorForDates(fromDate, toDate) * ad.getApartment().getNightStayPrice());
 		}
 		return deals.size() == 0 ? null : deals;
 	}
 
-	public boolean apartmentFreeForDateSpan(Apartment apartment, Date from, Date to) {
+	public static double getCostFactorForDates(Date fromDate, Date toDate) {
+		int duration = (int) ((toDate.getTime() - fromDate.getTime()) / (60 * 60 * 24 * 1000));
+		double costFactor = 0;
+		LinkedList<Date> nwd = NonWorkingDaysRepository.get(Calendar.getInstance().get(Calendar.YEAR)); // TODO
+		for (int i = 0; i < duration; i++) {
+			Date date = new Date(fromDate.getTime() + i * 60 * 60 * 24 * 1000);
+			boolean foundHoliday = false;
+			for (Date d : nwd) {
+				if (d.getTime() == date.getTime()) {
+					foundHoliday = true;
+					break;
+				}
+			}
+			if (foundHoliday)
+				costFactor += 1.05;
+			else
+				costFactor += 1;
+		}
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(fromDate);
+		if (costFactor == (double) duration && duration >= 2 && duration <= 3
+				&& cal.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY)
+			costFactor *= 0.9;
+		return costFactor;
+	}
+
+	public static boolean apartmentFreeForDateSpan(Apartment apartment, Date from, Date to) {
 		for (int resId : apartment.getReservationIds()) {
 			Reservation reservation = ReservationRepository.getInstance().read(resId);
 			if (!(to.before(reservation.getStartDate()) || (from.after(reservation.getStartDate())
