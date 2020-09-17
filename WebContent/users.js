@@ -23,7 +23,7 @@ function getAllUsers() {
     complete: function(data, status) {
       if (status == "success") {
         visibleUsers = JSON.parse(data.responseText);
-        showUsers(visibleUsers, "visibleUsers");
+        showUsers();
       }
     },
   });
@@ -39,34 +39,43 @@ function getAllByHost() {
     complete: function(data, status) {
       if (status == "success") {
         visibleUsers = JSON.parse(data.responseText);
-        showUsers(visibleUsers, "visibleUsers");
+        showUsers();
       }
     },
   });
 }
 
-function showUsers(users, emptyTable) {
+function showUsers(users = visibleUsers, emptyTable = "visibleUsers") {
   let table = document.getElementById(emptyTable);
   while (table.children.length > 1) {
     table.removeChild(table.lastChild);
   }
-  for (let user of users) {
+  for (let userObject of users) {
     let row = document.createElement("tr");
+    row.id = userObject.username;
     let username = document.createElement("td");
-    username.innerText = user.username;
+    username.innerText = userObject.username;
     row.append(username);
     let name = document.createElement("td");
-    name.innerText = user.name;
+    name.innerText = userObject.name;
     row.append(name);
     let surname = document.createElement("td");
-    surname.innerText = user.surname;
+    surname.innerText = userObject.surname;
     row.append(surname);
     let sex = document.createElement("td");
-    sex.innerText = getSexSelectionString(user.sex);
+    sex.innerText = getSexSelectionString(userObject.sex);
     row.append(sex);
     let role = document.createElement("td");
-    role.innerText = getRoleSelectionString(user.role);
+    role.innerText = getRoleSelectionString(userObject.role);
     row.append(role);
+    if (user.role == "ADMINISTRATOR" && userObject.role != "ADMINISTRATOR") {
+      if (userObject.blocked) {
+        let block = document.createElement("td");
+        block.innerText = "Blokiran";
+        row.append(block);
+      } else
+        row.append(createButtonTd("banButton", "Blokiraj"));
+    }
     table.append(row);
   }
 }
@@ -87,5 +96,28 @@ $(document).ready(function() {
         result.push(user);
     }
     showUsers(result, "searchResults");
+  });
+});
+
+$(document).on("click", "#banButton", function() {
+  let username = $(this).parent().parent().attr("id");
+  $.ajax({
+    url: "rest/user/ban",
+    type: "PUT",
+    data: username,
+    contentType: "application/json",
+    dataType: "json",
+    complete: function(data, status) {
+      if (status == "success") {
+        for (let i = 0; i < visibleUsers.length; i++) {
+          let u = visibleUsers[i];
+          if (u.username == username) {
+            u.blocked = true;
+            break;
+          }
+        }
+        showUsers();
+      }
+    },
   });
 });

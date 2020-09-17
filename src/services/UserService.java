@@ -34,7 +34,7 @@ public class UserService {
 		if ((User) request.getSession().getAttribute("user") != null)
 			request.getSession().invalidate();
 		User ret = UserRepository.getInstance().read(userReq.getUsername());
-		if (ret != null && ret.getHashedPassword().equals(userReq.getHashedPassword()))
+		if (ret != null && ret.getHashedPassword().equals(userReq.getHashedPassword()) && !ret.isBlocked())
 			request.getSession(true).setAttribute("user", ret);
 		else
 			ret = null;
@@ -114,6 +114,20 @@ public class UserService {
 				usernames.add(reservation.getGuestId());
 		for (String username : usernames)
 			ret.add(UserRepository.getInstance().read(username));
+		return ret;
+	}
+	
+	@PUT
+	@Path("/ban")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public User ban(@Context HttpServletRequest request, String username) {
+		User user = (User) request.getSession().getAttribute("user");
+		if (user == null || user.getRole() != Role.ADMINISTRATOR)
+			return null;
+		User ret = UserRepository.getInstance().read(username);
+		ret.setBlocked(true);
+		UserRepository.getInstance().update(ret);
 		return ret;
 	}
 
