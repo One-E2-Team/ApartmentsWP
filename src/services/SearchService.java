@@ -108,8 +108,8 @@ public class SearchService {
 			}
 		else {
 			for (Apartment apartment : allApartments) {
-				if (((role.equals(Role.GUEST) && apartment.getStatus().equals(ApartmentStatus.ACTIVE))
-						|| (role.equals(Role.HOST) && apartment.getHostId().equals(user.getUsername()))
+				if (((role.equals(Role.GUEST) && apartment.getStatus().equals(ApartmentStatus.ACTIVE) && !apartment.isDeleted())
+						|| (role.equals(Role.HOST) && apartment.getHostId().equals(user.getUsername()) && !apartment.isDeleted())
 						|| role.equals(Role.ADMINISTRATOR))
 						&& (personsMin == null || apartment.getGuestNum() >= personsMin)
 						&& (personsMax == null || apartment.getGuestNum() <= personsMax)

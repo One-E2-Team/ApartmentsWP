@@ -264,7 +264,7 @@ $(document).ready(function() {
       type: "POST",
       url: "rest/apartment/" + apartment.id + "/makeReservation/" + (new Date($("input[name=dateFrom]").val())).getTime() + "/" + stay + "/" + $("#messageForHost").val(),
       dataType: "json",
-      complete: function(response) {
+      success: function(response) {
         window.location.href = "reservations.html"
         $("#reservationError").addClass("d-none");
       }
