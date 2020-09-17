@@ -148,28 +148,28 @@ function getSexType(sexSelectionString) {
   if (sexSelectionString == "M") return "MALE";
   else if (sexSelectionString == "Ž") return "FEMALE";
   else if (sexSelectionString == "POTATO") return "POTATO";
-  return null;
+  return sexSelectionString;
 }
 
 function getSexSelectionString(sexType) {
   if (sexType == "MALE") return "M";
   else if (sexType == "FEMALE") return "Ž";
   else if (sexType == "POTATO") return "POTATO";
-  return null;
+  return sexType;
 }
 
 function getRoleType(roleSelectionString) {
   if (roleSelectionString == "DOMAĆIN") return "HOST";
   else if (roleSelectionString == "ADMINISTRATOR") return "ADMINISTRATOR";
   else if (roleSelectionString == "GOST") return "GUEST";
-  return null;
+  return roleSelectionString;
 }
 
 function getRoleSelectionString(roleType) {
   if (roleType == "HOST") return "DOMAĆIN";
   else if (roleType == "ADMINISTRATOR") return "ADMINISTRATOR";
   else if (roleType == "GUEST") return "GOST";
-  return null;
+  return roleType;
 }
 
 function getReservationStatus(reservationSelectionString) {
@@ -178,7 +178,7 @@ function getReservationStatus(reservationSelectionString) {
   else if (reservationSelectionString == "ODUSTANAK") return "WITHDRAWN";
   else if (reservationSelectionString == "PRIHVAĆENO") return "ACCEPTED";
   else if (reservationSelectionString == "ZAVRŠENO") return "COMPLETED";
-  return null;
+  return reservationSelectionString;
 }
 
 function getReservationSelectionString(reservationStatus) {
@@ -187,5 +187,5 @@ function getReservationSelectionString(reservationStatus) {
   else if (reservationStatus == "WITHDRAWN") return "ODUSTANAK";
   else if (reservationStatus == "ACCEPTED") return "PRIHVAĆENO";
   else if (reservationStatus == "COMPLETED") return "ZAVRŠENO";
-  return null;
+  return reservationStatus;
 }
