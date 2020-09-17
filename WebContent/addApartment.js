@@ -1,7 +1,9 @@
 var amenities = null;
 const maxInt = 2147483647;
 
-$(document).ready(function() {
+document.addEventListener("gotUser", getAllVisibleAmenities);
+
+function getAllVisibleAmenities() {
   $.ajax({
     url: "rest/apartment/getAllVisibleAmenities",
     type: "GET",
@@ -11,13 +13,17 @@ $(document).ready(function() {
     complete: function(data, status) {
       if (status == "success") {
         amenities = JSON.parse(data.responseText);
-        populateAmenities();
+        if (getHTMLFileName() == "addApartment.html")
+          populateAmenitiesForAdd();
+        else if (getHTMLFileName() == "apartment.html") {
+          document.dispatchEvent(new Event("gotAmenities"));
+        }
       }
     },
   });
-});
+}
 
-function populateAmenities() {
+function populateAmenitiesForAdd() {
   let amenitySelection = document.getElementById("amenities");
   for (let amenity of amenities) {
     let option = document.createElement("option");
