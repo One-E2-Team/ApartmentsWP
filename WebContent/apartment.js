@@ -165,9 +165,47 @@ function setUpDatePicker(disabledDates) {
 }
 
 $(document).ready(function() {
-  setUpDatePicker(["9/20/2020"]);
+  setUpDatePicker(getUnavailableDates());
   $("#registration").submit(function(e) {
+    $("#reservationError").removeClass("d-none");
     e.preventDefault();
-
+    $.ajax({
+      type: "POST",
+      url: "rest/",
+      data: "data",
+      dataType: "json",
+      complete: function(response) {
+        $("#reservationError").addClass("d-none");
+      }
+    });
   });
 });
+
+function getUnavailableDates() {
+  return [];
+}
+
+$(document).ready(function() {
+  $("input[name=dateFrom]").change(function(e) {
+    e.preventDefault();
+    getDeal();
+  });
+  $("input[name=dateTo]").change(function(e) {
+    e.preventDefault();
+    getDeal();
+  });
+});
+
+function getDeal() {
+  $("#reservationSubmitBtn").val("0 RSD");
+  if (isNaN(new Date($("input[name=dateFrom]").val()).getTime()) || isNaN(new Date($("input[name=dateTo]").val()).getTime())) return;
+  $.ajax({
+    type: "POST",
+    url: "rest/",
+    data: "data",
+    dataType: "json",
+    complete: function(response) {
+
+    }
+  });
+}
