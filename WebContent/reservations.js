@@ -1,6 +1,7 @@
 var reservations = null;
+var searchResults = [];
 var filterStatus = null;
-var guestUsername = null;;
+var guestUsername = null;
 document.addEventListener("gotUser", getProperReservations);
 
 function getProperReservations() {
@@ -208,14 +209,17 @@ $(document).on("click", "#completeButton", function() {
 
 function updateData() {
   showReservations();
-  filterReservations();
+  filterByStatus();
   searchByUsername();
 }
 
 function sortResults(asc) {
   reservations.sort(function(a, b) {
-    let ret;
-    ret = a.totalCost == b.totalCost ? 0 : a.totalCost > b.totalCost ? 1 : -1;
+    let ret = a.totalCost == b.totalCost ? 0 : a.totalCost > b.totalCost ? 1 : -1;
+    return asc ? ret : -1 * ret;
+  });
+  searchResults.sort(function(a, b) {
+    let ret = a.totalCost == b.totalCost ? 0 : a.totalCost > b.totalCost ? 1 : -1;
     return asc ? ret : -1 * ret;
   });
 }
@@ -225,11 +229,13 @@ $(document).ready(function() {
     e.preventDefault();
     sortResults(true);
     showReservations();
+    showReservations(searchResults, "searchReservations");
   });
   $("#descending").click(function(e) {
     e.preventDefault();
     sortResults(false);
     showReservations();
+    showReservations(searchResults, "searchReservations");
   });
 });
 
@@ -239,11 +245,11 @@ $(document).ready(function() {
     filterStatus = getReservationStatus($("#filterStatus").val());
     guestUsername = null;
     $("#guestUsername").val("");
-    filterReservations();
+    filterByStatus();
   })
 });
 
-function filterReservations() {
+function filterByStatus() {
   if (filterStatus != null) {
     let filterResults = [];
     for (let reservation of reservations) {
@@ -266,7 +272,7 @@ $(document).ready(function() {
 
 function searchByUsername() {
   if (guestUsername != null) {
-    let searchResults = [];
+    searchResults = [];
     for (let reservation of reservations) {
       if (reservation.guestId.includes(guestUsername))
         searchResults.push(reservation);
