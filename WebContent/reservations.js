@@ -85,9 +85,12 @@ function showReservations(reservalitonList = reservations, emptyTable = "reserva
   for (let reservation of reservalitonList) {
     let row = document.createElement("tr");
     row.id = reservation.id;
-    let appId = document.createElement("td");
-    appId.innerText = reservation.apartmentId;
-    row.append(appId);
+    let appTd = document.createElement("td");
+    let appLink = document.createElement("a");
+    appLink.innerText = "Pogledaj";
+    appLink.href = "apartment.html?id=" + reservation.apartmentId;
+    appTd.append(appLink);
+    row.append(appTd);
     let guest = document.createElement("td");
     guest.innerText = reservation.guestId;
     row.append(guest);
