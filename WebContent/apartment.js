@@ -1,6 +1,11 @@
 var apartment = null;
 
-document.addEventListener("gotUser", function() {
+// document.addEventListener("gotUser", function() {
+//   if (location.search) {
+//     getApartment();
+//   } else alert("Niste uneli argument putanje!");
+// });
+document.addEventListener("gotAmenities", function() {
   if (location.search) {
     getApartment();
   } else alert("Niste uneli argument putanje!");
@@ -17,10 +22,38 @@ function getApartment() {
         alert("Pogrešni argumenti putanje");
       } else if (status == "success") {
         apartment = JSON.parse(data.responseText);
+        showApartmentDetails();
         showProperComments();
       }
     },
   });
+}
+
+function showApartmentDetails() {
+  $("#apartmentType").val(getAppSelectionString(apartment.type));
+  $("#pricePerNight").val(apartment.nightStayPrice);
+  $("#zipcode").val(apartment.location.address.zipcode);
+  $("#city").val(getAppSelectionString(apartment.location.address.city));
+  $("#latitude").val(getAppSelectionString(apartment.location.latitude));
+  $("#longitude").val(getAppSelectionString(apartment.location.longitude));
+  $("#roomNum").val(getAppSelectionString(apartment.roomNum));
+  $("#guestNum").val(getAppSelectionString(apartment.guestNum));
+  $("#street").val(getAppSelectionString(apartment.location.address.street));
+  $("#streetNum").val(getAppSelectionString(apartment.location.address.number));
+  $("#country").val(getAppSelectionString(apartment.location.address.country));
+  populateAmenitiesForView();
+}
+
+function populateAmenitiesForView() {
+  let amenitySelection = document.getElementById("amenities");
+  for (let amenity of amenities) {
+    if (apartment.amenityIds.includes(amenity.id)) {
+      let option = document.createElement("option");
+      option.text = amenity.name;
+      option.value = amenity.id;
+      amenitySelection.add(option);
+    }
+  }
 }
 
 function checkReservations(reservationList) {
@@ -208,4 +241,16 @@ function getDeal() {
 
     }
   });
+}
+
+function getAppType(appSelectionString) {
+  if (appSelectionString == "APARTMAN") return "APARTMENT";
+  else if (appSelectionString == "SOBA") return "ROOM";
+  return appSelectionString;
+}
+
+function getAppSelectionString(appType) {
+  if (appType == "APARTMENT") return "APARTMAN";
+  else if (appType == "ROOM") return "SOBA";
+  return appType;
 }

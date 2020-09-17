@@ -26,7 +26,8 @@ function getAdminReservations() {
     complete: function(data, status) {
       if (status == "success") {
         reservations = JSON.parse(data.responseText);
-        showReservations();
+        if (getHTMLFileName() != "apartment.html")
+          showReservations();
       }
     },
   });
@@ -42,7 +43,8 @@ function getHostReservations() {
     complete: function(data, status) {
       if (status == "success") {
         reservations = JSON.parse(data.responseText);
-        showReservations();
+        if (getHTMLFileName() != "apartment.html")
+          showReservations();
       }
     },
   });

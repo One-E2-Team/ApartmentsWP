@@ -36,6 +36,7 @@
     <script src="types.js" type="text/javascript"></script>
     <script src="user.js" type="text/javascript"></script>
     <script src="apartment.js" type="text/javascript"></script>
+    <script src="addApartment.js" type="text/javascript"></script>
     <script src="reservations.js" type="text/javascript"></script>
 
 </head>
@@ -224,6 +225,59 @@
     </div>
 
     <div class="container column">
+        <div>
+            <form id="apartmentDetails">
+                <table class="table">
+                    <tr>
+                        <td>Tip apartmana:</td>
+                        <td><select id="apartmentType" disabled>
+                                <option value="APARTMAN">APARTMAN</option>
+                                <option value="SOBA">SOBA</option>
+                            </select> </td>
+                        <td>Cena noćenja (RSD):</td>
+                        <td><input type="number" min="0" id="pricePerNight" disabled /></td>
+                    </tr>
+                    <tr>
+                        <td>Zipcode:</td>
+                        <td><input type="number" min="0" id="zipcode" disabled/></td>
+                        <td>Grad:</td>
+                        <td><input id="city" disabled/></td>
+                    </tr>
+                    <tr>
+                        <td>Geografska dužina:</td>
+                        <td><input id="latitude" disabled/></td>
+                        <td>Geografska širina:</td>
+                        <td><input id="longitude" disabled/></td>
+                    </tr>
+                    <tr>
+                        <td>Broj soba:</td>
+                        <td><input type="number" min="0" id="roomNum" disabled/></td>
+                        <td>Broj gostiju:</td>
+                        <td><input type="number" min="0" id="guestNum" disabled/></td>
+                    </tr>
+                    <tr>
+                        <td>Ulica:</td>
+                        <td><input id="street" disabled/></td>
+                        <td>Broj:</td>
+                        <td><input type="number" min="0" id="streetNum" disabled/></td>
+                    </tr>
+                    <tr>
+                        <td>Država:</td>
+                        <td><input id="country" disabled/></td>
+                        <td>Oprema:</td>
+                        <td><select id="amenities" multiple size="5" disabled></select></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-center align-middle">
+                            <button type="submit" class="btn btn-primary d-none" id="editButton">Sačuvaj</button>
+                            <span class="alert alert-danger d-none ml-2" role="alert" id="addApartmentError">Nisu
+                                uneti ispravni podaci!
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
         <div id="commentSection">
             <div class="d-none row" id="commentList">
                 <table id="commentsTable">
