@@ -107,18 +107,6 @@ function showReservations(reservalitonList = reservations, emptyTable = "reserva
   }
 }
 
-function createButtonTd(id, text) {
-  let data = document.createElement("td");
-  let button = document.createElement("button");
-  button.type = "submit";
-  button.id = id;
-  button.innerText = text;
-  button.classList.add("btn");
-  button.classList.add("btn-primary");
-  data.append(button);
-  return data;
-}
-
 $(document).on("click", "#acceptButton", function() {
   let registrationId = $(this).parent().parent().attr("id");
   $.ajax({
