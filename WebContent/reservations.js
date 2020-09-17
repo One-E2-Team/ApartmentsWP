@@ -20,7 +20,6 @@ function getAdminReservations() {
   $.ajax({
     url: "rest/reservation/getAll",
     type: "GET",
-    data: "",
     contentType: "application/json",
     dataType: "json",
     complete: function(data, status) {

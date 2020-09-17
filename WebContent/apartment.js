@@ -22,6 +22,7 @@ function getApartment() {
         alert("Pogrešni argumenti putanje");
       } else if (status == "success") {
         apartment = JSON.parse(data.responseText);
+        DatePicker();
         showApartmentDetails();
         showProperComments();
       }
@@ -187,25 +188,32 @@ function editComments() {
   });
 }); */
 
-function setUpDatePicker(disabledDates) {
-  $(".input-daterange input").each(function() {
-    $(this).datepicker({
-      startDate: "+0d",
-      endDate: new Date((new Date()).getFullYear(), 11, 31),
-      datesDisabled: disabledDates
-    });
+function DatePicker(disabledDates) {
+  $.ajax({
+    type: "GET",
+    url: "rest/apartment/" + apartment.id + "/getUnavailabeDates",
+    dataType: "json",
+    complete: function(response) {
+      $(".input-daterange input").each(function() {
+        $(this).datepicker({
+          startDate: "+0d",
+          endDate: new Date((new Date()).getFullYear(), 11, 31),
+          datesDisabled: JSON.parse(response.responseText)
+        });
+      });
+    }
   });
 }
 
 $(document).ready(function() {
-  setUpDatePicker(getUnavailableDates());
   $("#reservation").submit(function(e) {
     $("#reservationError").removeClass("d-none");
     e.preventDefault();
+    let dat = JSON.stringify(new Reservation(0, apartment.id, (new Date($("input[name=dateFrom]").val())).getTime()), Math.floor(Math.abs(((new Date($("input[name=dateTo]").val())) - (new Date($("input[name=dateFrom]").val()))) / 1000 / 60 / 60 / 24)), 0, $("#messageForHost").val(), "", "CREATED");
     $.ajax({
       type: "POST",
-      url: "rest/",
-      data: "data",
+      url: "rest/apartment/makeReservation",
+      data: dat,
       dataType: "json",
       complete: function(response) {
         $("#reservationError").addClass("d-none");
@@ -213,10 +221,6 @@ $(document).ready(function() {
     });
   });
 });
-
-function getUnavailableDates() {
-  return [];
-}
 
 $(document).ready(function() {
   $("input[name=dateFrom]").change(function(e) {
@@ -232,13 +236,15 @@ $(document).ready(function() {
 function getDeal() {
   $("#reservationSubmitBtn").val("0 RSD");
   if (isNaN(new Date($("input[name=dateFrom]").val()).getTime()) || isNaN(new Date($("input[name=dateTo]").val()).getTime())) return;
+  let dat = JSON.stringify(new Reservation(0, apartment.id, (new Date($("input[name=dateFrom]").val())).getTime(), Math.floor((Math.abs((new Date($("input[name=dateTo]").val())) - (new Date($("input[name=dateFrom]").val())) / 1000 / 60 / 60 / 24))), 0, "", "", "CREATED"));
   $.ajax({
     type: "POST",
-    url: "rest/",
-    data: "data",
+    url: "rest/apartment/getDeal",
+    data: dat,
     dataType: "json",
     complete: function(response) {
-
+      let apartmentDeal = JSON.parse(response.responseText);
+      $("#reservationSubmitBtn").val(apartmentDeal.deal + " RSD");
     }
   });
 }
