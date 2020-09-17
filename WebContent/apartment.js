@@ -32,6 +32,8 @@ function getApartment() {
 }
 
 function showApartmentDetails() {
+  if (user != undefined && (user.role == "ADMINISTRATOR" || user.role == "HOST"))
+    enableEdit();
   $("#apartmentType").val(getAppSelectionString(apartment.type));
   $("#pricePerNight").val(apartment.nightStayPrice);
   $("#zipcode").val(apartment.location.address.zipcode);
@@ -57,6 +59,50 @@ function populateAmenitiesForView() {
     }
   }
 }
+
+function enableEdit() {
+  $("#apartmentType").prop("disabled", false);
+  $("#pricePerNight").prop("disabled", false);
+  $("#zipcode").prop("disabled", false);
+  $("#city").prop("disabled", false);
+  $("#latitude").prop("disabled", false);
+  $("#longitude").prop("disabled", false);
+  $("#roomNum").prop("disabled", false);
+  $("#guestNum").prop("disabled", false);
+  $("#street").prop("disabled", false);
+  $("#streetNum").prop("disabled", false);
+  $("#country").prop("disabled", false);
+  $("#editButton").removeClass("d-none");
+}
+
+$(document).ready(function() {
+  $("#apartmentDetails").submit(function(event) {
+    event.preventDefault();
+    let apart = getApartmentFromForm();
+    if (apart != null) {
+      apart.id = apartment.id;
+      apart.comments = apartment.comments;
+      apart.amenityIds = apartment.amenityIds;
+      apart.reservationIds = apartment.reservationIds;
+      apart.picturePaths = apartment.picturePaths;
+      apart.rentableDates = apartment.rentableDates;
+      apart.availableDates = apartment.availableDates;
+      let json = JSON.stringify(apart);
+      $.ajax({
+        url: "rest/apartment/editApartment",
+        type: "PUT",
+        data: json,
+        contentType: "application/json",
+        dataType: "json",
+        complete: function(data, status) {
+          if (status == "success") {
+            alert("Uspeh");
+          }
+        },
+      });
+    }
+  });
+});
 
 function checkReservations(reservationList) {
   for (let reservation of reservationList) {

@@ -1,6 +1,5 @@
 package services;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -61,6 +60,19 @@ public class ApartmentService {
 		((Host) user).getRentableApartmentIds().add(ret.getId());
 		UserRepository.getInstance().update(user);
 		return ret;
+	}
+
+	@PUT
+	@Path("editApartment")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Apartment editApartment(@Context HttpServletRequest request, Apartment apartment) {
+		User user = (User) request.getSession().getAttribute("user");
+		if (user == null || user.getRole() == Role.GUEST)
+			return null;
+		apartment.setHostId(user.getUsername());
+		ApartmentRepository.getInstance().update(apartment);
+		return apartment;
 	}
 
 	@GET
@@ -134,7 +146,7 @@ public class ApartmentService {
 		AmenityRepository.getInstance().delete(id);
 		return AmenityRepository.getInstance().read(id);
 	}
-	
+
 	@PUT
 	@Path("/editAmenity")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -146,7 +158,7 @@ public class ApartmentService {
 		AmenityRepository.getInstance().update(amenity);
 		return amenity;
 	}
-	
+
 	@POST
 	@Path("/addAmenity")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -157,7 +169,7 @@ public class ApartmentService {
 			return null;
 		return AmenityRepository.getInstance().create(amenity);
 	}
-	
+
 	@GET
 	@Path("/{id}/getDeal/{dateFrom}/{nights}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -169,12 +181,14 @@ public class ApartmentService {
 		ApartmentDeal ad = new ApartmentDeal();
 		ad.setApartment(ApartmentRepository.getInstance().read(reservation.getApartmentId()));
 		ad.setDeal(0.0);
-		Date toDate = new Date(reservation.getStartDate().getTime() + reservation.getStayNights() * 60 * 60 * 24 * 1000);
-		if(SearchService.apartmentFreeForDateSpan(ad.getApartment(), reservation.getStartDate(), toDate))
-			ad.setDeal(SearchService.getCostFactorForDates(reservation.getStartDate(), toDate) * ad.getApartment().getNightStayPrice());
+		Date toDate = new Date(
+				reservation.getStartDate().getTime() + reservation.getStayNights() * 60 * 60 * 24 * 1000);
+		if (SearchService.apartmentFreeForDateSpan(ad.getApartment(), reservation.getStartDate(), toDate))
+			ad.setDeal(SearchService.getCostFactorForDates(reservation.getStartDate(), toDate)
+					* ad.getApartment().getNightStayPrice());
 		return ad;
 	}
-	
+
 	@POST
 	@Path("/{id}/makeReservation/{dateFrom}/{nights}/{message}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -197,30 +211,33 @@ public class ApartmentService {
 		}
 		return null;
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@GET
 	@Path("/{id}/getUnavailabeDates")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Date> getUnavailabeDates(@PathParam("id") int id){
+	public Collection<Date> getUnavailabeDates(@PathParam("id") int id) {
 		ArrayList<Date> ret = new ArrayList<Date>();
-		for(Date date = new Date();date.before(new Date(Calendar.getInstance().get(Calendar.YEAR), 1, 1));date=new Date(date.getTime()+60 * 60 * 24 * 1000)) {
-			if(!SearchService.apartmentFreeForDateSpan(ApartmentRepository.getInstance().read(id), date, new Date(date.getTime()+60 * 60 * 24 * 1000)))
+		for (Date date = new Date(); date.before(new Date(Calendar.getInstance().get(Calendar.YEAR), 1,
+				1)); date = new Date(date.getTime() + 60 * 60 * 24 * 1000)) {
+			if (!SearchService.apartmentFreeForDateSpan(ApartmentRepository.getInstance().read(id), date,
+					new Date(date.getTime() + 60 * 60 * 24 * 1000)))
 				ret.add(date);
 		}
 		return ret;
 	}
 	/*
-	@POST
-	@Path("/{id}/addPicture")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String addPicture(@Context HttpServletRequest request, @PathParam("id") int id, @FormParam("img") InputStream uploadedInputStream) {
-		ArrayList<String> l = ApartmentRepository.getInstance().read(id).getPicturePaths();
-		int num = 0;
-		if(l.size()!=0) {
-			int last = Integer.parseInt(l.get(l.size()-1).split("-")[1].split("\\.")[0]);
-			
-		}
-		return null;
-	}*/
+	 * @POST
+	 * 
+	 * @Path("/{id}/addPicture")
+	 * 
+	 * @Produces(MediaType.APPLICATION_JSON) public String addPicture(@Context
+	 * HttpServletRequest request, @PathParam("id") int id, @FormParam("img")
+	 * InputStream uploadedInputStream) { ArrayList<String> l =
+	 * ApartmentRepository.getInstance().read(id).getPicturePaths(); int num = 0;
+	 * if(l.size()!=0) { int last =
+	 * Integer.parseInt(l.get(l.size()-1).split("-")[1].split("\\.")[0]);
+	 * 
+	 * } return null; }
+	 */
 }
