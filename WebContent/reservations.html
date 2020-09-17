@@ -147,11 +147,12 @@
             </table>
         </div>
         <div class="row mt-2 mb-2 d-none" id="filtering">
-            <form id="filterReservationsForm">
+            <form id="filterReservationsForm" class="mr-2">
                 <table>
                     <tr>
                         <td>Odaberite status:</td>
                         <td><select id="filterStatus">
+                            <option value="-">-</option>
                             <option value="KREIRANO">KREIRANO</option>
                             <option value="ODBIJENO">ODBIJENO</option>
                             <option value="ODUSTANAK">ODUSTANAK</option>
@@ -161,6 +162,15 @@
                         <td class="text-center">
                             <button type="submit" class="btn btn-primary">Filtriraj</button>
                         </td>
+                    </tr>
+                </table>
+            </form>
+            <form id="searchByUsernameForm">
+                <table>
+                    <tr>
+                        <td>ili pretražite goste:</td>
+                        <td><input type="text" id="guestUsername"></td>
+                        <td><button type="submit" class="btn btn-primary">Pretraži</button></td>
                     </tr>
                 </table>
             </form>

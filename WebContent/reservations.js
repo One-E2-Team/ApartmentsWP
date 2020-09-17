@@ -1,4 +1,7 @@
 var reservations = null;
+var searchResults = [];
+var filterStatus = null;
+var guestUsername = null;
 document.addEventListener("gotUser", getProperReservations);
 
 function getProperReservations() {
@@ -132,7 +135,7 @@ $(document).on("click", "#acceptButton", function() {
             break;
           }
         }
-        showReservations();
+        updateData();
       } else if (status == "nocontent") alert("Nemate prava da menjate podatke!");
     },
   });
@@ -154,7 +157,7 @@ $(document).on("click", "#declineButton", function() {
             break;
           }
         }
-        showReservations();
+        updateData();
       } else if (status == "nocontent") alert("Nemate prava da menjate podatke!");
     },
   });
@@ -176,7 +179,7 @@ $(document).on("click", "#withdrawButton", function() {
             break;
           }
         }
-        showReservations();
+        updateData();
       } else if (status == "nocontent") alert("Nemate prava da menjate podatke!");
     },
   });
@@ -198,16 +201,25 @@ $(document).on("click", "#completeButton", function() {
             break;
           }
         }
-        showReservations();
+        updateData();
       } else if (status == "nocontent") alert("Nemate prava da menjate podatke!");
     },
   });
 });
 
+function updateData() {
+  showReservations();
+  filterByStatus();
+  searchByUsername();
+}
+
 function sortResults(asc) {
   reservations.sort(function(a, b) {
-    let ret;
-    ret = a.totalCost == b.totalCost ? 0 : a.totalCost > b.totalCost ? 1 : -1;
+    let ret = a.totalCost == b.totalCost ? 0 : a.totalCost > b.totalCost ? 1 : -1;
+    return asc ? ret : -1 * ret;
+  });
+  searchResults.sort(function(a, b) {
+    let ret = a.totalCost == b.totalCost ? 0 : a.totalCost > b.totalCost ? 1 : -1;
     return asc ? ret : -1 * ret;
   });
 }
@@ -217,30 +229,65 @@ $(document).ready(function() {
     e.preventDefault();
     sortResults(true);
     showReservations();
+    showReservations(searchResults, "searchReservations");
   });
   $("#descending").click(function(e) {
     e.preventDefault();
     sortResults(false);
     showReservations();
+    showReservations(searchResults, "searchReservations");
   });
 });
 
 $(document).ready(function() {
   $("#filterReservationsForm").submit(function(event) {
     event.preventDefault();
-    let status = getReservationStatus($("#filterStatus").val());
-    let filterResults = [];
-    for (let reservation of reservations) {
-      if (reservation.status == status)
-        filterResults.push(reservation);
-    }
-    if (filterResults.length > 0) {
-      $("#results").removeClass("d-none");
-      $("#noResults").addClass("d-none");
-      showReservations(filterResults, "searchReservations");
-    } else {
-      $("#noResults").removeClass("d-none");
-      $("#results").addClass("d-none");
-    }
+    filterStatus = getReservationStatus($("#filterStatus").val());
+    guestUsername = null;
+    $("#guestUsername").val("");
+    filterByStatus();
   })
 });
+
+function filterByStatus() {
+  if (filterStatus != null) {
+    let filterResults = [];
+    for (let reservation of reservations) {
+      if (reservation.status == filterStatus)
+        filterResults.push(reservation);
+    }
+    showSearchResults(filterResults);
+  }
+}
+
+$(document).ready(function() {
+  $("#searchByUsernameForm").submit(function(event) {
+    event.preventDefault();
+    filterStatus = null;
+    $("#filterStatus").val("-");
+    guestUsername = getReservationStatus($("#guestUsername").val());
+    searchByUsername();
+  })
+});
+
+function searchByUsername() {
+  if (guestUsername != null) {
+    searchResults = [];
+    for (let reservation of reservations) {
+      if (reservation.guestId.includes(guestUsername))
+        searchResults.push(reservation);
+    }
+    showSearchResults(searchResults);
+  }
+}
+
+function showSearchResults(results) {
+  if (results.length > 0) {
+    $("#results").removeClass("d-none");
+    $("#noResults").addClass("d-none");
+    showReservations(results, "searchReservations");
+  } else {
+    $("#noResults").removeClass("d-none");
+    $("#results").addClass("d-none");
+  }
+}
