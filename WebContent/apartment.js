@@ -86,6 +86,7 @@ function enableEdit() {
   $("#amenities").prop("disabled", false);
   $("#editButton").removeClass("d-none");
   $("#statusData").removeClass("d-none");
+  $("#deleteApartment").removeClass("d-none");
   if (apartment.status == "ACTIVE")
     $("#apartmentStatus").val("AKTIVAN");
   else $("#apartmentStatus").val("NEAKTIVAN");
@@ -199,6 +200,24 @@ function showComments(comments) {
     table.append(row);
   }
 }
+
+$(document).on("click", "#deleteApartment", function() {
+  apartment.deleted = true;
+  let json = JSON.stringify(apartment);
+  $.ajax({
+    url: "rest/apartment/editApartment",
+    type: "PUT",
+    data: json,
+    contentType: "application/json",
+    dataType: "json",
+    complete: function(data, status) {
+      if (status == "success") {
+        alert("Uspeh");
+        window.location.href = "index.html";
+      }
+    },
+  });
+});
 
 $(document).on("click", "#approveButton", function() {
   let i = $(this).parent().parent().attr("id");
