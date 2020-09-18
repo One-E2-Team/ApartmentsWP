@@ -32,7 +32,7 @@ function getApartment() {
 }
 
 function showApartmentDetails() {
-  if (user != undefined && (user.role == "ADMINISTRATOR" || user.role == "HOST"))
+  if (user != undefined && (user.role == "ADMINISTRATOR" || (user.role == "HOST" && apartment.hostId == user.username)))
     enableEdit();
   $("#apartmentType").val(getAppSelectionString(apartment.type));
   $("#pricePerNight").val(apartment.nightStayPrice);
@@ -50,11 +50,22 @@ function showApartmentDetails() {
 
 function populateAmenitiesForView() {
   let amenitySelection = document.getElementById("amenities");
-  for (let amenity of amenities) {
-    if (apartment.amenityIds.includes(amenity.id)) {
+  if (user == undefined || user.role == "GUEST") {
+    for (let amenity of amenities) {
+      if (apartment.amenityIds.includes(amenity.id)) {
+        let option = document.createElement("option");
+        option.text = amenity.name;
+        option.value = amenity.id;
+        amenitySelection.add(option);
+      }
+    }
+  } else if (user != undefined && ((user.role == "HOST" && apartment.hostId == user.username) || user.role == "ADMINISTRATOR")) {
+    for (let amenity of amenities) {
       let option = document.createElement("option");
       option.text = amenity.name;
       option.value = amenity.id;
+      if (apartment.amenityIds.includes(amenity.id))
+        option.selected = true;
       amenitySelection.add(option);
     }
   }
@@ -72,7 +83,12 @@ function enableEdit() {
   $("#street").prop("disabled", false);
   $("#streetNum").prop("disabled", false);
   $("#country").prop("disabled", false);
+  $("#amenities").prop("disabled", false);
   $("#editButton").removeClass("d-none");
+  $("#statusData").removeClass("d-none");
+  if (apartment.status == "ACTIVE")
+    $("#apartmentStatus").val("AKTIVAN");
+  else $("#apartmentStatus").val("NEAKTIVAN");
 }
 
 $(document).ready(function() {
@@ -80,9 +96,11 @@ $(document).ready(function() {
     event.preventDefault();
     let apart = getApartmentFromForm();
     if (apart != null) {
+      apart.status = "ACTIVE";
+      if ($("#apartmentStatus").val() == "NEAKTIVAN")
+        apart.status = "INACTIVE";
       apart.id = apartment.id;
       apart.comments = apartment.comments;
-      apart.amenityIds = apartment.amenityIds;
       apart.reservationIds = apartment.reservationIds;
       apart.picturePaths = apartment.picturePaths;
       apart.rentableDates = apartment.rentableDates;
