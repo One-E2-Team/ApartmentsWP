@@ -1,13 +1,16 @@
 package services;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -38,7 +41,10 @@ public class ApartmentService {
 	@GET
 	@Path("/getAllVisibleAmenities")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Amenity> getAllVisibleAmenities(@Context HttpServletRequest request) {
+	public Collection<Amenity> getAllVisibleAmenities(@Context HttpServletRequest request, @Context HttpServletResponse response, @HeaderParam("Referer") String referer) throws IOException {
+		Object obj = request.getSession().getAttribute("user");
+		if(referer.contains("addApartment.html") && (obj==null || !((User) obj).getRole().equals(Role.HOST)))
+			response.sendError(403, "{\"message\":\"ZABRANJENO JE RADOSE!\"}");
 		Collection<Amenity> ret = new ArrayList<Amenity>();
 		for (Amenity amenity : AmenityRepository.getInstance().getAll()) {
 			if (!amenity.isDeleted())
