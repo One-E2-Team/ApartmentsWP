@@ -1,2 +1,2 @@
 # ApartmentsWP
-WP E2 2020
+A project developed as part of Web Programming - an Applied Computer Science subject on Faculty of Technical Sciences.
